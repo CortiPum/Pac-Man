@@ -2,15 +2,25 @@ package Test;
 
 import MapaBuscador.*;
 import Personaje.*;
+import Util.ListaDeObjetos;
 import MapaN.*;
 import Estaticos.*;
+
+import java.awt.Graphics;
+
+import javax.swing.JFrame;
+
 import Estados.*;
 
 
 
  //solo para probar algunas cosas, no es entregable
-public class TestPacman {
+public class TestPacman extends JFrame{
 
+	public boolean inGame;
+	
+	public ListaDeObjetos listaDeObjetos;
+	
 	public TestPacman() {
 		// TODO Auto-generated method stub
 		
@@ -27,7 +37,7 @@ public class TestPacman {
 			int y1 = 1;  // bolita de poder
 		 
 			//creo pacman (crea el camino en el constructor)
-			Pacman pac = new Pacman(x, y, x1,y1);
+			Pacman pac = new Pacman(x, y);
 			
 			//creo fantasmas
 			Blinky blin = new Blinky();
@@ -40,9 +50,9 @@ public class TestPacman {
 			// devuelve 2170 (217 bolitas, falta ver puntos bola de poder)System.out.println(mapa.getPuntajeTotal());
 			
 			//movimiento Pacman
-			int longcam = pac.getcamino().getLength();
 			Position actual = new Position (1,1); //creo una posicion
 			
+			/*
 			for (int i =0; i <= longcam -1 ;i++){
 			
 				//mueve el pacman
@@ -50,6 +60,7 @@ public class TestPacman {
 				actual=pac.movimiento();  
 				
 				//mover fantasmas
+				
 				
 				System.out.println("-----Turno Blinky-----");
 				blin.mover(pac, mapaCol, blin); 
@@ -122,10 +133,38 @@ public class TestPacman {
 					}
 				
 			}
+			*/
 	}
+	
+	public void bucleDelJuego(){
+		long milisegundos = System.currentTimeMillis();
+		long diferencia;
+		while (inGame)
+		{
+			diferencia = System.currentTimeMillis() - milisegundos;
+			milisegundos = System.currentTimeMillis();
+			Graphics g = null;
+			refresh();
 			
+		}
+	}
+	
+	
+	public void cerrarJuego(){
+		inGame = false;
+	}
+	
 					
-				}
+	private void refresh(){
+		listaDeObjetos.refresh();
+	}
+	
+	@Override
+	public void paint(Graphics g){
+		listaDeObjetos.draw(g);
+	}
+	
+}
 	
 
 

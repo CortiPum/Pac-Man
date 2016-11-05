@@ -11,11 +11,11 @@ public class Map {
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, //0   //Este mapa me va a servir para instanciar el Mapra general con objetos, no fue dado por la catedra.
 		{1,3,3,3,3,3,3,3,3,3,3,3,3,1,1,3,3,3,3,3,3,3,3,3,3,3,3,1}, //1  //1 pared (colision)
 		{1,3,1,1,1,1,3,1,1,1,1,1,3,1,1,3,1,1,1,1,1,3,1,1,1,1,3,1}, //2  //0 vacio (no colision)
-		{1,4,1,0,0,1,3,1,0,0,0,1,3,1,1,3,1,0,0,0,1,3,1,1,1,1,4,1}, //3  //3 bola (no colision
+		{1,4,1,0,0,1,3,1,0,0,0,1,3,1,1,3,1,0,0,0,1,3,1,0,0,1,4,1}, //3  //3 bola (no colision
 		{1,3,1,1,1,1,3,1,1,1,1,1,3,1,1,3,1,1,1,1,1,3,1,1,1,1,3,1}, //4  //4 PowerUp (no colision)
 		{1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1}, //5  //5 Tunel (no colision)
 		{1,3,1,1,1,1,3,1,1,3,1,1,1,1,1,1,1,1,3,1,1,3,1,1,1,1,3,1}, //6
-		{1,3,1,1,1,1,3,1,1,3,3,3,3,1,1,3,3,3,3,1,1,3,1,1,1,1,3,1}, //7  //preguntar si el mapa esta bien hecho en esta fila (ver figura del enunciado) Segun el mapa dado por la catedra, donde va 6 iria un espacio en blanco, segun el mapa dado en el enunciado donde va el 6 iria una pared
+		{1,3,1,1,1,1,3,1,1,3,1,1,1,1,1,1,1,1,3,1,1,3,1,1,1,1,3,1}, //7  //preguntar si el mapa esta bien hecho en esta fila (ver figura del enunciado) Segun el mapa dado por la catedra, donde va 6 iria un espacio en blanco, segun el mapa dado en el enunciado donde va el 6 iria una pared
 		{1,3,3,3,3,3,3,1,1,3,3,3,3,1,1,3,3,3,3,1,1,3,3,3,3,3,3,1}, //8
 		{1,1,1,1,1,1,3,1,1,1,1,1,0,1,1,0,1,1,1,1,1,3,1,1,1,1,1,1}, //9
 		{1,0,0,0,0,1,3,1,1,1,1,1,0,1,1,0,1,1,1,1,1,3,1,0,0,0,0,1}, //10
@@ -27,7 +27,7 @@ public class Map {
 		{1,0,0,0,0,1,3,1,1,0,1,1,1,1,1,1,1,1,0,1,1,3,1,0,0,0,0,1}, //16
 		{1,0,0,0,0,1,3,1,1,0,0,0,0,0,0,0,0,0,0,1,1,3,1,0,0,0,0,1}, //17
 		{1,0,0,0,0,1,3,1,1,0,1,1,1,1,1,1,1,1,0,1,1,3,1,0,0,0,0,1}, //18
-		{1,1,1,1,1,1,3,1,1,0,1,1,1,1,1,1,1,1,0,0,1,3,1,1,1,1,1,1}, //19
+		{1,1,1,1,1,1,3,1,1,0,1,1,1,1,1,1,1,1,0,1,1,3,1,1,1,1,1,1}, //19
 		{1,3,3,3,3,3,3,3,3,3,3,3,3,1,1,3,3,3,3,3,3,3,3,3,3,3,3,1}, //20
 		{1,3,1,1,1,1,3,1,1,1,1,1,3,1,1,3,1,1,1,1,1,3,1,1,1,1,3,1}, //21
 		{1,3,1,1,1,1,3,1,1,1,1,1,3,1,1,3,1,1,1,1,1,3,1,1,1,1,3,1}, //22
@@ -146,11 +146,13 @@ public class Map {
 		int fil= r.nextInt(30);			//si el numero random para la fila no es 1 o 29, seguira pidiendo numeros
 		Random r2 = new Random();		//si el numero random para la columna no es 1 o 26 seguira pidiendo numeros
 		int col=r.nextInt(27);			//el metodo devuelve entonces una de las siguientes combinaciones:
-		while ((fil != 29)||(fil!=1)){	// (1,1) (1,26), (29,1),(29,26) que corresponden a las esquinas
+		while ((fil != 29)&&(fil!=1)){	// (1,1) (1,26), (29,1),(29,26) que corresponden a las esquinas
 			fil = r.nextInt(30);
+			System.out.println(fil);
 		}
-		while ((col != 26)||(col != 1)){
-			col = r2.nextInt(27);
+		while ((col != 26)&&(col != 1)){
+			col = r2.nextInt(col);
+			System.out.println(col);
 		}
 		Position esqRandom = new Position (fil, col);
 		return esqRandom;

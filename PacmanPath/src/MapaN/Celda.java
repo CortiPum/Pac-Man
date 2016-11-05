@@ -9,9 +9,13 @@ public class Celda {
 
 	private Position pos;
 	private Personaje contenido;
+	private int alto;
+	private int ancho;
 	
 	
 public Celda(Position pos, Personaje contenido){
+	this.alto=23;
+	this.ancho=23;
 	this.pos=pos;
 	this.contenido=contenido;
 }
@@ -74,8 +78,9 @@ public boolean hayFantasmaClyde(){
 	return (contenido.getID()==Id.CLYDE);
 }
 
+//genera vacio cuando el pacman come una pelotita de poder o un powerpellet
 public void generoVacio(){
-	Vacio vac = new Vacio();
+	Vacio vac = new Vacio(this.pos.getX(), this.pos.getY());
 	this.setContenido(vac);
 }
 

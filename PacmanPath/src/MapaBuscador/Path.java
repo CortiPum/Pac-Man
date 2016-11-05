@@ -38,12 +38,14 @@ public class Path {
 	}
 	
 	//metodo agregado por mi
+	public ArrayList<Step> getSteps(){
+		return steps;
+	}
 	
 	public Step removeStep(int i){
 		return (steps.remove(i));
 	
 	}
-	//
 	
 	public class Step {
 		private int x;

@@ -17,6 +17,14 @@ public class Position { //clase de posicion
 		positionX = x;
 		positionY = y;
 	}
+	
+	public void setPositionX(int x){
+		this.positionX = x;
+	}
+	
+	public void setPositionY(int y){
+		this.positionY = y;
+	}
 
 	@Override
 	public boolean equals(Object pos){

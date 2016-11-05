@@ -6,5 +6,6 @@ public class Juego {
 	
 	public static void main (String[] args){
 		TestPacman juego = new TestPacman();
+		juego.bucleDelJuego();
 	}
 }

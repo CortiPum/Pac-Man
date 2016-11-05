@@ -1,44 +1,56 @@
 package Personaje;
 
+import java.awt.Graphics;
+import java.awt.Image;
+
 import Estados.*;
 import MapaBuscador.*;
-
+import Util.CargaImagen;
 import Util.Fantasma;
 import Util.Id;
 
 public class Clyde extends Fantasma {
-
+	
 	//color
 	
 	//heredan getters y setters de fantasma
 	
 public Clyde(){
 	this.ID =Id.CLYDE;
+	this.iconos = new Image[8];
+	this.inicializarImagen();
+	this.iconoActual= iconos[0];
 	this.nombre ="Clyde";
 	this.modo=Mode.INACTIVO;  //esta inactivo hasta que el pacman coma 3/4 del mapa
 	this.pos = new Position (14,16); 
 }
 	
 
+public void inicializarImagen(){
+CargaImagen car = new CargaImagen();
+	
+	this.iconos[0] = car.carga("ZImagenes/orange1.gif");
+	this.iconos[1] = car.carga("ZImagenes/orange2.gif");
+	this.iconos[2] = car.carga("ZImagenes/orange3.gif");
+	this.iconos[3] = car.carga("ZImagenes/orange4.gif");
+	this.iconos[4] = car.carga("ZImagenes/orange5.gif");
+	this.iconos[5] = car.carga("ZImagenes/orange6.gif");
+	this.iconos[6] = car.carga("ZImagenes/orange7.gif");
+	this.iconos[7] = car.carga("ZImagenes/orange8.gif");
+}
 
 //mismo codigo de Blinky, va a entrar solo si esta a mas de 8 casilleros 
-public void estaPersecucion(Pacman pac, Blinky blin){
+public void estaPersecucion(Pacman pac, Fantasma blin){
 		int xpac = pac.getPos().getX();
 		int ypac =pac.getPos().getY();
+		System.out.println(xpac); System.out.println(ypac);
 		int xpos=this.pos.getX();
 		int ypos=this.pos.getY();
 		Path caminoB = PathFinder.findPath(xpos,ypos, xpac, ypac);
-		if (caminoB == null){
-			System.out.println("No hay camino posible");
-			}
-				else 
-						System.out.print("Posicion actual:");
-						System.out.println("(" + caminoB.getStep(0).getX() + ","+ caminoB.getStep(0).getY() + ")");
-						this.setPos(new Position (caminoB.getStep(1).getX(), caminoB.getStep(1).getY())); //actualiza la posicion del fantasma a su posicion siguiente en el arreglo
-						
-				
-						
-	}
+		this.moverDis(caminoB);
+
+	}			
+	
 
 public void estaDispercion(){
 	Path caminoA = null;
@@ -59,8 +71,8 @@ public void estaDispercion(){
 				if ((this.pos.getX() <= 28)&&(this.pos.getX() > 23) && (this.pos.getY() <= 12) &&(this.pos.getY() >7) ){
 					caminoD = PathFinder.findPath(this.pos.getX(), this.pos.getY(), 23, 7);
 					this.moverDis(caminoD);
-				}else
-					if ((this.pos.getX() != 23) &&(this.pos.getY() != 7)){ 
+				}else{
+					//if ((this.pos.getX() != 23) &&(this.pos.getY() != 7)){ 
 						caminoA = PathFinder.findPath(this.pos.getX(), this.pos.getY(), 23 ,7 );
 						this.moverDis(caminoA);
 						}
@@ -79,7 +91,7 @@ private void moverDis(Path camino){
 }
 
 public void setPosInicial(){
-	this.pos = new Position (14,16); 
+	this.pos = new Position (16,15); 
 }
 
 
@@ -102,5 +114,18 @@ public void cambioEstado(boolean asus, Pacman pac, Map mapaCol) {
 		}
 	}
 	}
+
+
+
+@Override
+public void draw(Graphics g) {
+	g.drawImage(this.iconoActual, this.pos.getY()*23+8, this.pos.getX()*23+30,null);
+	
+}
+
+
+
+
+
 	
 }

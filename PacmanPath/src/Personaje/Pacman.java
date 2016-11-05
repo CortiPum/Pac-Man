@@ -3,14 +3,28 @@ package Personaje;
 
 import MapaBuscador.*;
 import MapaN.*;
+import Util.CargaImagen;
 import Util.Dinamico;
 import Util.Direccion;
 import Util.Fantasma;
 import Util.Id;
+
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
+import Controlador.Teclado;
 import Estados.*;
 
 public class Pacman extends Dinamico {
-
 	
 	private int puntaje;
 	private int vidas;
@@ -18,18 +32,37 @@ public class Pacman extends Dinamico {
 	private Mode estado;
 	private Path camino;  //esto solo para la primera entrega.
 	
+	private Teclado teclado;
 	
+public Pacman(int x, int y){
+	teclado = new Teclado();
 	
-public Pacman(int x, int y, int x1, int y1){
+	 
+	
 	this.ID=Id.PACMAN;
+	this.iconos = new Image[8];
+	this.inicializarImagenes();
+	this.iconoActual=iconos[0];
 	this.puntaje=0;
 	this.dir = Direccion.Oeste; //se utilizara en la segunda entrega
 	this.estado = Mode.NORMAL; //setea modo.
 	this.vidas=3;
-	this.crearPath(x, y, x1, y1);
 	this.pos = new Position (x, y); //valores iniciales.
 }
 	
+
+private void inicializarImagenes(){
+	CargaImagen car = new CargaImagen();
+	
+	this.iconos[0] = car.carga("ZImagenes/pacman_aba_cerrado.gif");
+	this.iconos[1] = car.carga("ZImagenes/pacman_abajo_abierto.gif");
+	this.iconos[2] = car.carga("ZImagenes/pacman_arr_cerrado.gif");
+	this.iconos[3] = car.carga("ZImagenes/pacman_arr_abierto.gif");
+	this.iconos[4] = car.carga("ZImagenes/pacman_der_cerrado.gif");
+	this.iconos[5] = car.carga("ZImagenes/pacman_der_abierto.gif");
+	this.iconos[6] = car.carga("ZImagenes/pacman_izq_cerrado.gif");
+	this.iconos[7] = car.carga("ZImagenes/pacman_izq_abierto.gif");
+}
 
 //getters y setters
 public int getPuntaje() {
@@ -145,6 +178,51 @@ public void cambioEstado (boolean poder){
 		this.estado = Mode.NORMAL;
 	}
 }
+
+public void nuevoMover(){
+	
+}
+
+
+public void paint(Graphics g) {
+	
+}
+
+@Override
+public void draw (Graphics g){
+	
+	g.drawImage(iconoActual ,  8+23*this.getPos().getY(),30+ this.getPos().getX()*23, null);
+}
+
+public void refresh() {
+	if (Teclado.abajo){
+		int dy = 23;
+		iconoActual = iconos[0];
+		this.pos.setPositionY(pos.getY() + dy);
+		System.out.println(pos.getY());
+		this.dir = Direccion.Sur;
+	}
+	if (Teclado.arriba){
+		int dy =23;
+		iconoActual = iconos[2];
+		this.pos.setPositionY(pos.getY()-dy);
+		this.dir = Direccion.Norte;
+	}
+	if (Teclado.izquierda){
+		int dx = 23;
+		iconoActual = iconos[4];
+		this.pos.setPositionX(pos.getX()-dx);
+		this.dir = Direccion.Este;
+	}
+	if (Teclado.derecha){
+		int dx = 23;
+		iconoActual = iconos[6];
+		this.pos.setPositionX(pos.getX()+dx);
+		this.dir = Direccion.Oeste;
+	}
+}
+
+
 
 }
 
