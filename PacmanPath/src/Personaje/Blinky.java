@@ -2,9 +2,6 @@ package Personaje;
 
 import java.awt.Graphics;
 import java.awt.Image;
-
-import javax.swing.ImageIcon;
-
 import Estados.*;
 import MapaBuscador.*;
 import Util.CargaImagen;
@@ -56,9 +53,6 @@ public void estaDispercion(){
 	Path caminoB = null;
 	Path caminoC = null;
 	Path caminoD = null;
-	
-
-	
 		if (((this.pos.getX() < 5) && (this.pos.getY() < 24) && (this.pos.getY() >= 21)) ){
 			caminoB = PathFinder.findPath(this.pos.getX(), this.pos.getY(), 1, 24);
 			this.moverDis(caminoB);
@@ -84,8 +78,8 @@ private void moverDis(Path camino){
 		System.out.println("No hay camino posible");
 		}
 	else{
-					System.out.print("Posicion actual:");
-					System.out.println("(" + camino.getStep(0).getX() + ","+ camino.getStep(0).getY() + ")");
+					//System.out.print("Posicion actual:");
+					//System.out.println("(" + camino.getStep(0).getX() + ","+ camino.getStep(0).getY() + ")");
 					this.setPos(new Position (camino.getStep(1).getX(), camino.getStep(1).getY()));
 }
 }

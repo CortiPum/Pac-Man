@@ -124,8 +124,8 @@ private void moverDis(Path camino){
 		System.out.println("No hay camino posible");
 		}
 	else{
-					System.out.print("Posicion actual:");
-					System.out.println("(" + camino.getStep(0).getX() + ","+ camino.getStep(0).getY() + ")");
+					//System.out.print("Posicion actual:");
+					//System.out.println("(" + camino.getStep(0).getX() + ","+ camino.getStep(0).getY() + ")");
 					this.setPos(new Position (camino.getStep(1).getX(), camino.getStep(1).getY()));
 }
 }

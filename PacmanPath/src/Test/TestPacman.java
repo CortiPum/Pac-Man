@@ -135,36 +135,8 @@ public class TestPacman extends JFrame{
 			}
 			*/
 	}
-	
-	public void bucleDelJuego(){
-		long milisegundos = System.currentTimeMillis();
-		long diferencia;
-		while (inGame)
-		{
-			diferencia = System.currentTimeMillis() - milisegundos;
-			milisegundos = System.currentTimeMillis();
-			Graphics g = null;
-			refresh();
-			
-		}
-	}
-	
-	
-	public void cerrarJuego(){
-		inGame = false;
-	}
-	
-					
-	private void refresh(){
-		listaDeObjetos.refresh();
-	}
-	
-	@Override
-	public void paint(Graphics g){
-		listaDeObjetos.draw(g);
-	}
-	
 }
+
 	
 
 

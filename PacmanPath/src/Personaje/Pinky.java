@@ -23,7 +23,7 @@ public Pinky(){
 	this.iconoActual = iconos[0];
 	this.nombre= "Pinky";
 	this.modo=Mode.PERSECUCION;
-	this.pos = new Position (12,14); 
+	this.pos = new Position (14,12); 
 }
 	
 //metodo mover se encuentra en fantasma
@@ -115,8 +115,8 @@ private void moverDis(Path camino){
 		System.out.println("No hay camino posible");
 		}
 	else{
-					System.out.print("Posicion actual:");
-					System.out.println("(" + camino.getStep(0).getX() + ","+ camino.getStep(0).getY() + ")");
+					//System.out.print("Posicion actual:");
+					//System.out.println("(" + camino.getStep(0).getX() + ","+ camino.getStep(0).getY() + ")");
 					this.setPos(new Position (camino.getStep(1).getX(), camino.getStep(1).getY()));
 }
 }

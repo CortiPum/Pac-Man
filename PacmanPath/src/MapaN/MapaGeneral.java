@@ -52,38 +52,38 @@ public class MapaGeneral {
 		
 	}
 	
-	public void inicializarImagen(){  //carga las imagenes en un booleano de imagenes (llama a la clase carga imagen)
-		CargaImagen car = new CargaImagen();
+public void inicializarImagen(){  //carga las imagenes en un booleano de imagenes (llama a la clase carga imagen)
+	CargaImagen car = new CargaImagen();
 		
-		this.iconos[0] = car.carga("ZImagenes/wall.gif");
-		this.iconos[1] = car.carga("ZImagenes/pacdot.gif");
-		this.iconos[2] = car.carga("ZImagenes/black.gif");
-		this.iconos[3] = car.carga("ZImagenes/powerpellet.gif");
-		this.iconos[4] = car.carga("ZImagenes/azul.gif");
-	}
+	this.iconos[0] = car.carga("ZImagenes/wall.gif");
+	this.iconos[1] = car.carga("ZImagenes/pacdot.gif");
+	this.iconos[2] = car.carga("ZImagenes/black.gif");
+	this.iconos[3] = car.carga("ZImagenes/powerpellet.gif");
+	this.iconos[4] = car.carga("ZImagenes/azul.gif");
+}
 	
 
-	public Celda[][] getTablero() {
-		return tablero;
-	}
+public Celda[][] getTablero() {
+	return tablero;
+}
 
-	public void setTablero(Celda[][] tablero) {
-		this.tablero = tablero;
-	}
+public void setTablero(Celda[][] tablero) {
+	this.tablero = tablero;
+}
 	
-	public Celda getCelda(Position pos){
-		int x = pos.getX();
-		int y = pos.getY();
-		return tablero[x][y];
-	}
+public Celda getCelda(Position pos){
+	int x = pos.getX();
+	int y = pos.getY();
+	return tablero[x][y];
+}
 	
-	public int getPuntajeTotal(){ //devuelve la cantidad de puntos que puede ganar un jugador en el mapa.
-		Map mapa = new Map();
-		int total=0;
-		for (int i =0; i< mapa.getHeight();i++){
-			for (int j=0; j<mapa.getWidth();j++){
-				if (mapa.getObjectMap(i, j) == 3)
-					total=total+10;	//pacdots
+public int getPuntajeTotal(){ //devuelve la cantidad de puntos que puede ganar un jugador en el mapa.
+	Map mapa = new Map();
+	int total=0;
+	for (int i =0; i< mapa.getHeight();i++){
+		for (int j=0; j<mapa.getWidth();j++){
+			if (mapa.getObjectMap(i, j) == 3)
+				total=total+10;	//pacdots
 				if (mapa.getObjectMap(i, j)== 4)
 					total = total+50 ;//powerball
 				}
@@ -91,14 +91,14 @@ public class MapaGeneral {
 		return total;
 }	
 	
-	public void draw (Graphics g){ //ver abajo
-		Map map = new Map();
-		for (int x = 0; x < map.getWidth(); x++){
-    		for (int y = 0; y < map.getHeight(); y++){
-    			Position pos = new Position (x,y);
-    			this.getCelda(pos).getContenido().draw(g);
+public void draw (Graphics g){ //ver abajo
+	Map map = new Map();
+	for (int x = 0; x < map.getWidth(); x++){
+    	for (int y = 0; y < map.getHeight(); y++){
+    		Position pos = new Position (x,y);
+    		this.getCelda(pos).getContenido().draw(g);
+    }
     	}
-    		}
 	}
 
 }

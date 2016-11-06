@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 public class CargaImagen {
 
 public Image carga(String nombreImg){
+	
 	String imgFileName = nombreImg;
 	Image image=null;
     URL imgUrl = getClass().getClassLoader().getResource(imgFileName);

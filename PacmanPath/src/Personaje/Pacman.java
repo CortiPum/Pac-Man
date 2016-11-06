@@ -28,10 +28,9 @@ public class Pacman extends Dinamico {
 	
 	private int puntaje;
 	private int vidas;
-	private Direccion dir;  //esto ser� para la segunda entrega
+	private Direccion dir;  
 	private Mode estado;
-	private Path camino;  //esto solo para la primera entrega.
-	
+	private Path camino;  
 	private Teclado teclado;
 	
 public Pacman(int x, int y){
@@ -42,9 +41,9 @@ public Pacman(int x, int y){
 	this.ID=Id.PACMAN;
 	this.iconos = new Image[8];
 	this.inicializarImagenes();
-	this.iconoActual=iconos[0];
+	this.iconoActual=iconos[7];
 	this.puntaje=0;
-	this.dir = Direccion.Oeste; //se utilizara en la segunda entrega
+	this.dir = Direccion.Oeste; 
 	this.estado = Mode.NORMAL; //setea modo.
 	this.vidas=3;
 	this.pos = new Position (x, y); //valores iniciales.
