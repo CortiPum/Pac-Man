@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import Estados.*;
 import MapaBuscador.*;
+import MapaN.MapaGeneral;
 import Util.CargaImagen;
 import Util.Fantasma;
 import Util.Id;
@@ -18,7 +19,7 @@ public Blinky(){
 	this.inicializarImagen();
 	this.iconoActual = iconos[0];
 	this.nombre="Blinky"; 
-	this.modo= Mode.PERSECUCION;
+	this.modo= Mode.DISPERCION;
 	this.pos = new Position (11 , 13); 	
 }
 
@@ -101,7 +102,22 @@ public void cambioEstado(boolean asus, Map mapaCol) {//el metodo de comer powerb
 @Override
 public void draw(Graphics g) {
 	g.drawImage(iconoActual, this.pos.getY()*23+8, this.pos.getX()*23+30, null);
-	
+}
+
+public void refresh(Pacman pac, Map mapaCol){
+	this.mover(pac, this);
+	int contadorPasos=0;
+	if (pac.getEstado() == Mode.ESTADOPODER){
+		this.cambioEstado(true, mapaCol);
+		contadorPasos++;
+	}
+	if (contadorPasos == 20){
+		this.cambioEstado(false, mapaCol);
+		contadorPasos = 0;
+	}
+	if ((System.currentTimeMillis() % 7000) == 0){ //arreglar
+		this.setModo(Mode.PERSECUCION);
+	}
 }
 
 	

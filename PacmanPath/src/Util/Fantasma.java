@@ -7,7 +7,6 @@ import Personaje.*;
 
 public abstract class Fantasma extends Dinamico {
 
-	
 	protected Mode  modo;
 	protected String nombre;
 	protected Path caminoAsus;

@@ -52,7 +52,7 @@ public void run() {
 		superficie.refresh();
 		superficie.draw();
 		try {
-			thread.sleep(60);
+			thread.sleep(70);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
