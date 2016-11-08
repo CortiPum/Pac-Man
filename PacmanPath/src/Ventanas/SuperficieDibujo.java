@@ -70,12 +70,12 @@ public void draw(){
 }
 
 public void refresh(){
-	teclado.refresh();
+	
 	blinky.estaDispercion();
 	inky.estaDispercion();
 	clyde.estaDispercion();
 	pinky.estaDispercion();
-	
+	teclado.refresh();
 	pacman.refresh(map, mapa,blinky, inky, clyde, pinky);
 }
 }

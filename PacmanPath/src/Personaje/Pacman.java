@@ -200,6 +200,39 @@ public void draw (Graphics g){
 
 public void refresh(Map mapa, MapaGeneral mapG, Blinky blin, Inky ink, Clyde cly, Pinky pin) {
 	
+	if(mapG.getCelda(this.pos).hayBola()){
+		this.comer(this.pos, mapG);
+	}
+	if (mapG.getCelda(this.pos).hayPowerBall()){
+		this.comerPoder(mapG, this.pos);
+	}
+	if ((this.pos.equals(blin.getPos())) || (this.pos.equals(ink.getPos()))|| (this.pos.equals(cly.getPos())) || (this.pos.equals(pin.getPos()))){
+		if (this.getEstado() == Mode.NORMAL){
+			this.morir(ink, pin, cly, blin);
+		}
+	}
+	if (this.getEstado() == Mode.ESTADOPODER){
+		
+		contadorPasos++;
+		if (this.pos.equals(blin.getPos()))
+			this.comerFantasma(blin, 1);
+		if (this.pos.equals(pin.getPos()))
+			this.comerFantasma(pin, 1);
+		if (this.pos.equals(ink.getPos()))
+			this.comerFantasma(ink, 1);
+		if (this.pos.equals(cly.getPos()))
+			this.comerFantasma(cly, 1);
+		}
+		if (contadorPasos == 20){
+			this.cambioEstado(false);
+			contadorPasos=0;
+		}
+		if (mapG.getCelda(this.pos).hayTunel()){
+			Tunel tun = new Tunel(this.pos.getX(), this.pos.getY());
+			tun.teletransporte(this, this.pos);
+			
+			
+		}
 	
 	if ((Teclado.abajo) &&(mapa.canMove(this.pos.getX()+1, this.pos.getY()))){
 		this.dir = Direccion.Sur;
@@ -245,8 +278,6 @@ public void refresh(Map mapa, MapaGeneral mapG, Blinky blin, Inky ink, Clyde cly
 			break;
 	}
 	
-	
-
 	if(mapG.getCelda(this.pos).hayBola()){
 		this.comer(this.pos, mapG);
 	}
@@ -270,16 +301,13 @@ public void refresh(Map mapa, MapaGeneral mapG, Blinky blin, Inky ink, Clyde cly
 		if (this.pos.equals(cly.getPos()))
 			this.comerFantasma(cly, 1);
 		}
-		if (contadorPasos == 20){
+		if (contadorPasos == 40){
 			this.cambioEstado(false);
 			contadorPasos=0;
 		}
-		if (mapG.getCelda(this.pos).hayTunel()){
-			Tunel tun = new Tunel(this.pos.getX(), this.pos.getY());
-			tun.teletransporte(this, this.pos);
-			
-			
-		}
+	
+
+	
 	}
 }
 
