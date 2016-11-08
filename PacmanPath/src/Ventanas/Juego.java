@@ -54,7 +54,7 @@ public void run() {
 		superficie.refresh();
 		superficie.draw();
 		try {
-			thread.sleep(100);
+			thread.sleep(95);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

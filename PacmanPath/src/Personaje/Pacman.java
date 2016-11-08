@@ -42,7 +42,7 @@ public Pacman(int x, int y){
 	this.inicializarImagenes();
 	this.iconoActual=iconos[7];
 	this.puntaje=0;
-	this.dir = Direccion.Oeste; 
+	this.dir = Direccion.Este; 
 	this.estado = Mode.NORMAL; //setea modo.
 	this.vidas=3;
 	this.pos = new Position (x, y); //valores iniciales.
@@ -135,6 +135,7 @@ public void comer (Position actual, MapaGeneral mapa){
 //entrara solo si colisiona con un fantasma y no esta en el estado poder.
 public void morir (Inky ink, Pinky pin, Clyde cly, Blinky blin){
 	this.setVidas(this.vidas-1);
+	this.dir = Direccion.Este;
 	Position pos = new Position (23,13); 
 	this.setPos(pos); //posicion donde comienza
 	ink.setPosInicial();
@@ -199,34 +200,53 @@ public void draw (Graphics g){
 
 public void refresh(Map mapa, MapaGeneral mapG, Blinky blin, Inky ink, Clyde cly, Pinky pin) {
 	
-	if (Teclado.abajo){
-		iconoActual = iconos[0];
-		if (mapa.canMove(this.pos.getX()+1, this.pos.getY())){
-			this.pos.setPositionX(pos.getX() + 1 );
-			this.dir = Direccion.Sur;
+	
+	if ((Teclado.abajo) &&(mapa.canMove(this.pos.getX()+1, this.pos.getY()))){
+		this.dir = Direccion.Sur;
 		}
-	}
-	if (Teclado.arriba){
-		iconoActual = iconos[2];
-		if (mapa.canMove(this.pos.getX()-1, this.pos.getY())){
-			this.pos.setPositionX(pos.getX()-1);
-			this.dir = Direccion.Norte;
+	
+	if ((Teclado.arriba) && (mapa.canMove(this.pos.getX()-1, this.pos.getY()))){
+		this.dir = Direccion.Norte;
 		}
-	}
-	if (Teclado.izquierda){
-		iconoActual = iconos[6];
-		if (mapa.canMove(this.pos.getX(), this.pos.getY()-1)){
-			this.pos.setPositionY(pos.getY()-1);
-			this.dir = Direccion.Este;
+	
+	if ((Teclado.izquierda) && (mapa.canMove(this.pos.getX(), this.pos.getY()-1))){
+		this.dir = Direccion.Este;
 		}
+	
+	if ((Teclado.derecha) && (mapa.canMove(this.pos.getX(), this.pos.getY()+1))){
+		this.dir = Direccion.Oeste;
 	}
-	if (Teclado.derecha){
-		iconoActual = iconos[4];
-		if (mapa.canMove(this.pos.getX(), this.pos.getY()+1)){
-			this.pos.setPositionY(pos.getY()+1);
-			this.dir = Direccion.Oeste;
-		}
+	
+	switch (this.dir){
+	
+		case Oeste :
+			if (mapa.canMove(this.pos.getX(), this.pos.getY()+1)){
+				iconoActual = iconos[4];
+				this.pos.setPositionY(pos.getY()+1);
+			}
+			break;
+		case Este : 
+			if(mapa.canMove(this.pos.getX(), this.pos.getY()-1)){
+				iconoActual = iconos[6];
+				this.pos.setPositionY(pos.getY()-1);
+			}
+			break;
+		case Sur : 
+			if (mapa.canMove(this.pos.getX()+1, this.pos.getY())) {
+				iconoActual = iconos[0];
+				this.pos.setPositionX(pos.getX() + 1 );
+			}
+			break;
+		case Norte: 
+			if (mapa.canMove(this.pos.getX()-1, this.pos.getY())){
+				iconoActual = iconos[2];
+				this.pos.setPositionX(pos.getX()-1);
+			}
+			break;
 	}
+	
+	
+
 	if(mapG.getCelda(this.pos).hayBola()){
 		this.comer(this.pos, mapG);
 	}
@@ -239,6 +259,7 @@ public void refresh(Map mapa, MapaGeneral mapG, Blinky blin, Inky ink, Clyde cly
 		}
 	}
 	if (this.getEstado() == Mode.ESTADOPODER){
+		
 		contadorPasos++;
 		if (this.pos.equals(blin.getPos()))
 			this.comerFantasma(blin, 1);
