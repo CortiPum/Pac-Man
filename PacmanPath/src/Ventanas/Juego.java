@@ -21,6 +21,7 @@ public class Juego implements Runnable {
 	private Thread thread;
 	private Ventana ventana;
     private SuperficieDibujo superficie;
+    private long time;
     
     //private TestPacman testPacman;
  
@@ -49,10 +50,11 @@ public void start(){
 public void run() {
 	Graphics g = ventana.getGraphics();
 	while (jugando){
+		time = System.currentTimeMillis();
 		superficie.refresh();
 		superficie.draw();
 		try {
-			thread.sleep(70);
+			thread.sleep(100);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

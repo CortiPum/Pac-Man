@@ -5,9 +5,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JPanel;
+
+import Controlador.Teclado;
 import Personaje.*;
 
 import MapaBuscador.Map;
@@ -21,16 +24,21 @@ public class SuperficieDibujo extends Canvas{
 	private Inky inky;
 	private Clyde clyde;
 	
-	Map map = new Map();
-	MapaGeneral mapa = new MapaGeneral();
+	private Teclado teclado;
+	
+	private Map map = new Map();
+	private MapaGeneral mapa = new MapaGeneral();
 	
 
 public SuperficieDibujo(){
+	teclado = new Teclado();
+	this.addKeyListener(teclado);
+	this.setFocusable(true);
+	
 	blinky = new Blinky();
     clyde = new Clyde();
     inky = new Inky();
     pinky = new Pinky();
-    
     pacman = new Pacman(23, 13);
     this.setIgnoreRepaint(false);
 }
@@ -62,10 +70,13 @@ public void draw(){
 }
 
 public void refresh(){
+	teclado.refresh();
 	blinky.estaDispercion();
 	inky.estaDispercion();
 	clyde.estaDispercion();
 	pinky.estaDispercion();
+	
+	pacman.refresh(map, mapa,blinky, inky, clyde, pinky);
 }
 }
 

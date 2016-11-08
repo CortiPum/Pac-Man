@@ -35,7 +35,7 @@ public class ListaDeObjetos {
 			}
 			if (obj.get(i) instanceof Pacman){
 				Pacman pacman = (Pacman)obj.get(i);
-				pacman.refresh();
+				//pacman.refresh();
 			}
 		}
 	}

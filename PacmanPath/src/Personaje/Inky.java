@@ -131,7 +131,7 @@ private void moverDis(Path camino){
 }
 
 public void setPosInicial(){
-	this.pos = new Position (15,15); 
+	this.pos = new Position (14,15); 
 }
 
 @Override

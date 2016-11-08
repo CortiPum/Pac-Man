@@ -91,7 +91,7 @@ private void moverDis(Path camino){
 }
 
 public void setPosInicial(){
-	this.pos = new Position (16,15); 
+	this.pos = new Position (14,16); 
 }
 
 

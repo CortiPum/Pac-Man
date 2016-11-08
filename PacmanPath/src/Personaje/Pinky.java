@@ -124,7 +124,7 @@ private void moverDis(Path camino){
 
 
 public void setPosInicial(){
-	this.pos = new Position (12,14); //ubicar bien a Pinky
+	this.pos = new Position (14,12); //ubicar bien a Pinky
 }
 
 public void cambioEstado(boolean asus, Map mapaCol) {

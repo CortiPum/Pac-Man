@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 
 import Controlador.Teclado;
 import Estados.*;
+import Estaticos.Tunel;
 
 public class Pacman extends Dinamico {
 	
@@ -31,14 +32,12 @@ public class Pacman extends Dinamico {
 	private Direccion dir;  
 	private Mode estado;
 	private Path camino;  
-	private Teclado teclado;
+	private int contadorPasos;
 	
 public Pacman(int x, int y){
-	teclado = new Teclado();
-	
-	 
 	
 	this.ID=Id.PACMAN;
+	this.contadorPasos=0;
 	this.iconos = new Image[8];
 	this.inicializarImagenes();
 	this.iconoActual=iconos[7];
@@ -47,6 +46,7 @@ public Pacman(int x, int y){
 	this.estado = Mode.NORMAL; //setea modo.
 	this.vidas=3;
 	this.pos = new Position (x, y); //valores iniciales.
+	
 }
 	
 
@@ -128,14 +128,14 @@ public Position movimiento (){
 //Lo que hace es sumarle 10 puntos y poner el mapa de objetos un vacio en esa ubicación
 public void comer (Position actual, MapaGeneral mapa){
 	this.puntaje= this.puntaje+10;
-	System.out.println("Puntaje actual:"+this.puntaje);
+	//System.out.println("Puntaje actual:"+this.puntaje);
 	mapa.getCelda(actual).generoVacio();
 }
 
 //entrara solo si colisiona con un fantasma y no esta en el estado poder.
 public void morir (Inky ink, Pinky pin, Clyde cly, Blinky blin){
 	this.setVidas(this.vidas-1);
-	Position pos = new Position (23,11); 
+	Position pos = new Position (23,13); 
 	this.setPos(pos); //posicion donde comienza
 	ink.setPosInicial();
 	pin.setPosInicial();
@@ -153,8 +153,8 @@ public boolean puedeJugar(){
 
 //este metodo es llamado por un metodo en la clase Tunel, dependiendo a que tunel entro, saldra por el siguiente
 public void transport (Position pos){
-	Position pos1 = new Position(0,14);
-	Position pos2 = new Position(27,14);
+	Position pos1 = new Position(14,0);
+	Position pos2 = new Position(14,27);
 	if (pos.equals(pos1))
 		this.setPos(pos2);
 		else 
@@ -169,13 +169,17 @@ public void comerFantasma(Fantasma fan, int x){ //reveer (x es el multiplicador)
 
 public void cambioEstado (boolean poder){
 	if (poder == true) {
-		this.puntaje = this.puntaje+50;
-		System.out.println("Comio powerball, puntaje actual: "+this.getPuntaje());
 		this.estado= Mode.ESTADOPODER;
 	}
 	if (poder == false){
 		this.estado = Mode.NORMAL;
 	}
+}
+public void comerPoder (MapaGeneral mapG, Position actual){
+	this.puntaje = this.puntaje+50;
+	this.contadorPasos=0;
+	mapG.getCelda(actual).generoVacio();
+	this.cambioEstado(true);
 }
 
 public void nuevoMover(){
@@ -193,36 +197,70 @@ public void draw (Graphics g){
 	g.drawImage(iconoActual ,  8+23*this.getPos().getY(),30+ this.getPos().getX()*23, null);
 }
 
-public void refresh() {
+public void refresh(Map mapa, MapaGeneral mapG, Blinky blin, Inky ink, Clyde cly, Pinky pin) {
+	
 	if (Teclado.abajo){
-		int dy = 23;
 		iconoActual = iconos[0];
-		this.pos.setPositionY(pos.getY() + dy);
-		System.out.println(pos.getY());
-		this.dir = Direccion.Sur;
+		if (mapa.canMove(this.pos.getX()+1, this.pos.getY())){
+			this.pos.setPositionX(pos.getX() + 1 );
+			this.dir = Direccion.Sur;
+		}
 	}
 	if (Teclado.arriba){
-		int dy =23;
 		iconoActual = iconos[2];
-		this.pos.setPositionY(pos.getY()-dy);
-		this.dir = Direccion.Norte;
+		if (mapa.canMove(this.pos.getX()-1, this.pos.getY())){
+			this.pos.setPositionX(pos.getX()-1);
+			this.dir = Direccion.Norte;
+		}
 	}
 	if (Teclado.izquierda){
-		int dx = 23;
-		iconoActual = iconos[4];
-		this.pos.setPositionX(pos.getX()-dx);
-		this.dir = Direccion.Este;
+		iconoActual = iconos[6];
+		if (mapa.canMove(this.pos.getX(), this.pos.getY()-1)){
+			this.pos.setPositionY(pos.getY()-1);
+			this.dir = Direccion.Este;
+		}
 	}
 	if (Teclado.derecha){
-		int dx = 23;
-		iconoActual = iconos[6];
-		this.pos.setPositionX(pos.getX()+dx);
-		this.dir = Direccion.Oeste;
+		iconoActual = iconos[4];
+		if (mapa.canMove(this.pos.getX(), this.pos.getY()+1)){
+			this.pos.setPositionY(pos.getY()+1);
+			this.dir = Direccion.Oeste;
+		}
+	}
+	if(mapG.getCelda(this.pos).hayBola()){
+		this.comer(this.pos, mapG);
+	}
+	if (mapG.getCelda(this.pos).hayPowerBall()){
+		this.comerPoder(mapG, this.pos);
+	}
+	if ((this.pos.equals(blin.getPos())) || (this.pos.equals(ink.getPos()))|| (this.pos.equals(cly.getPos())) || (this.pos.equals(pin.getPos()))){
+		if (this.getEstado() == Mode.NORMAL){
+			this.morir(ink, pin, cly, blin);
+		}
+	}
+	if (this.getEstado() == Mode.ESTADOPODER){
+		contadorPasos++;
+		if (this.pos.equals(blin.getPos()))
+			this.comerFantasma(blin, 1);
+		if (this.pos.equals(pin.getPos()))
+			this.comerFantasma(pin, 1);
+		if (this.pos.equals(ink.getPos()))
+			this.comerFantasma(ink, 1);
+		if (this.pos.equals(cly.getPos()))
+			this.comerFantasma(cly, 1);
+		}
+		if (contadorPasos == 20){
+			this.cambioEstado(false);
+			contadorPasos=0;
+		}
+		if (mapG.getCelda(this.pos).hayTunel()){
+			Tunel tun = new Tunel(this.pos.getX(), this.pos.getY());
+			tun.teletransporte(this, this.pos);
+			
+			
+		}
 	}
 }
 
-
-
-}
 
 

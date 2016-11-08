@@ -86,7 +86,7 @@ private void moverDis(Path camino){
 }
 
 public void setPosInicial(){
-	this.pos = new Position (13,14); //Cuando muere Blinky se lo vuelve a ubicar en su posicion que sera dentro de la casa a la izquierda
+	this.pos = new Position (11,13); //Cuando muere Blinky se lo vuelve a ubicar en su posicion que sera dentro de la casa a la izquierda
 }
 
 public void cambioEstado(boolean asus, Map mapaCol) {//el metodo de comer powerball devuelve un booleano, cqso contrario se pasara un false
