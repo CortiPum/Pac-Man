@@ -29,10 +29,6 @@ public int getPuntos (){
 	return PUNTOS;
 }
 
-@Override
-public void refresh() {
-	// TODO Auto-generated method stub
-	}
 
 @Override
 public void draw(Graphics g) {

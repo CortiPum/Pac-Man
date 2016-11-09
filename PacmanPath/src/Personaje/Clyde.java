@@ -11,8 +11,6 @@ import Util.Id;
 
 public class Clyde extends Fantasma {
 	
-	//color
-	
 	//heredan getters y setters de fantasma
 	
 public Clyde(){
@@ -80,7 +78,7 @@ public void estaDispercion(){
 
 private void moverDis(Path camino){
 	if (camino == null){
-		System.out.println("No hay camino posible");
+		//System.out.println("No hay camino posible");
 		}
 	else{
 					//System.out.print("Posicion actual:");

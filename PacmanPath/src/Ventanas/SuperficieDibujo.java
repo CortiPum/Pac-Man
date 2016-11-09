@@ -73,7 +73,7 @@ public void draw(){
 
 public void refresh(){
 	
-	
+	if (pacman.puedeJugar()){
 	
 	//clyde.estaPersecucion(pacman, blinky);
 	//blinky.estaPersecucion(pacman, blinky);
@@ -85,6 +85,7 @@ public void refresh(){
 	//pinky.estaDispercion();
 	teclado.refresh();
 	pacman.refresh(map, mapa,blinky, inky, clyde, pinky);
+	}
 }
 }
 

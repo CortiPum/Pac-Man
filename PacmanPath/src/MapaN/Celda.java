@@ -9,13 +9,9 @@ public class Celda {
 
 	private Position pos;
 	private Personaje contenido;
-	private int alto;
-	private int ancho;
 	
 	
 public Celda(Position pos, Personaje contenido){
-	this.alto=23;
-	this.ancho=23;
 	this.pos=pos;
 	this.contenido=contenido;
 }
@@ -58,25 +54,6 @@ public boolean hayTunel(){
 	return (contenido.getID()==Id.TUNEL);
 }
 
-public boolean hayFantasma(){
-	return ((contenido.getID()==Id.BLINKY) ||(contenido.getID()==Id.CLYDE)||(contenido.getID()==Id.INKY)||(contenido.getID()==Id.PINKY));
-}
-
-public boolean hayFantasmaBlinky(){
-	return (contenido.getID()==Id.BLINKY); 
-}
-
-public boolean hayFantasmaInky(){
-	return (contenido.getID()==Id.INKY);
-}
-
-public boolean hayFantasmaPinky(){
-	return (contenido.getID()== Id.PINKY);
-}
-
-public boolean hayFantasmaClyde(){
-	return (contenido.getID()==Id.CLYDE);
-}
 
 //genera vacio cuando el pacman come una pelotita de poder o un powerpellet
 public void generoVacio(){

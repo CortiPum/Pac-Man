@@ -13,7 +13,6 @@ import Util.Id;
 
 public class Inky extends Fantasma {
 
-	//color
 	//heredan getters y setters de Fantasma
 
 	

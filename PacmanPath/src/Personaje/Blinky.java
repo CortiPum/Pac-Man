@@ -11,7 +11,7 @@ import Util.Id;
 
 public class Blinky extends Fantasma { 
 
-	
+	//hereda setters y getters de fantasma
 	
 public Blinky(){
 	this.ID=Id.BLINKY;
@@ -74,7 +74,7 @@ public void estaDispercion(){
 
 private void moverDis(Path camino){
 	if (camino == null){
-		System.out.println("No hay camino posible");
+		//System.out.println("No hay camino posible");
 		}
 	else{
 					//System.out.print("Posicion actual:");
@@ -89,7 +89,6 @@ public void setPosInicial(){
 
 public void cambioEstado(boolean asus, Map mapaCol) {//el metodo de comer powerball devuelve un booleano, cqso contrario se pasara un false
 		if (asus) {
-			//this.modo = Mode.DISPERCION; (para prueba)
 			this.modo= Mode.ASUSTADO;
 			this.caminoAsus(mapaCol);
 		}

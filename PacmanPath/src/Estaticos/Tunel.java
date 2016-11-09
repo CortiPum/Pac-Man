@@ -33,13 +33,6 @@ public void teletransporte(Pacman pac, Position pos){ //llamar a un metodo del p
 
 
 @Override
-public void refresh() {
-	// TODO Auto-generated method stub
-	
-}
-
-
-@Override
 public void draw(Graphics g) {
 	g.drawImage(this.imagen, this.pos.getX()*23+8, this.pos.getY()*23+30, null);
 	

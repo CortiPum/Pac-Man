@@ -13,7 +13,6 @@ import Util.Id;
 
 public class Pinky extends Fantasma{
 	
-	//color
 	//heredan getters y setters de fantasma
 
 	
@@ -105,7 +104,6 @@ public void estaDispercion(){
 					caminoD = PathFinder.findPath(this.pos.getX(), this.pos.getY(), 5, 6);
 					this.moverDis(caminoD);
 				}else{
-					//if ((this.pos.getX() != 5) &&(this.pos.getY() != 6)){ 
 						caminoA = PathFinder.findPath(this.pos.getX(), this.pos.getY(), 4 ,6 );
 						this.moverDis(caminoA);
 						}
@@ -125,7 +123,7 @@ private void moverDis(Path camino){
 
 
 public void setPosInicial(){
-	this.pos = new Position (14,12); //ubicar bien a Pinky
+	this.pos = new Position (14,12); 
 }
 
 public void cambioEstado(boolean asus, Map mapaCol) {

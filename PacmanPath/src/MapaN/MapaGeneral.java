@@ -13,7 +13,6 @@ public class MapaGeneral {
 	
 	private Celda tablero[][]; 
 	protected Image[] iconos;
-	protected Image iconoActual;
 	
 
 	public MapaGeneral(){

@@ -23,11 +23,6 @@ public void inicializarImagen(){
 	this.imagen = car.carga("ZImagenes/black.gif");
 }
 	
-@Override
-public void refresh() {
-	// TODO Auto-generated method stub
-		
-}
 
 @Override
 public void draw(Graphics g) {

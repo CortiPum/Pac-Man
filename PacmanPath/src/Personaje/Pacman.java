@@ -31,7 +31,6 @@ public class Pacman extends Dinamico {
 	private int vidas;
 	private Direccion dir;  
 	private Mode estado;
-	private Path camino;  
 	private int contadorPasos;
 	
 public Pacman(int x, int y){
@@ -109,34 +108,6 @@ public int getContador(){
 public void setContador(int x){
 	this.contadorPasos = x;
 }
-
-public Path getcamino(){ 
-	return this.camino;
-}
-
-
-private void crearPath(int x, int y, int x1, int y1){ 
-	
-	this.camino=PathFinder.findPath(x, y, x1 , y1);
-				
-	}
-
-
-// Este metodo utiliza el Path (arreglo de Steps), imprimiendo el primer valor del arreglo, y luego lo borra.
-public Position movimiento (){
-	if (this.camino == null){
-		System.out.println("No hay camino posible");
-		return null;
-		}
-			else 
-					System.out.print("Posicion actual:");
-					System.out.println("(" + camino.getStep(0).getX() + ","+ camino.getStep(0).getY() + ")");
-					Position pos1= new Position(camino.getStep(0).getX(), camino.getStep(0).getY());
-					this.camino.removeStep(0);
-					return pos1;
-
-}
-
 
 //el siguiente metodo solo sucede cuando el pacman entra a una celda donde hay una bolita
 //Lo que hace es sumarle 10 puntos y poner el mapa de objetos un vacio en esa ubicación
@@ -229,10 +200,7 @@ public void refresh(Map mapa, MapaGeneral mapG, Blinky blin, Inky ink, Clyde cly
 		if (this.pos.equals(cly.getPos()))
 			this.comerFantasma(cly, 1);
 		}
-		if (contadorPasos == 20){
-			this.cambioEstado(false);
-			contadorPasos=0;
-		}
+
 		if (mapG.getCelda(this.pos).hayTunel()){
 			Tunel tun = new Tunel(this.pos.getX(), this.pos.getY());
 			tun.teletransporte(this, this.pos);
