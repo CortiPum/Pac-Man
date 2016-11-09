@@ -43,7 +43,6 @@ CargaImagen car = new CargaImagen();
 public void estaPersecucion(Pacman pac, Fantasma blin){
 		int xpac = pac.getPos().getX();
 		int ypac =pac.getPos().getY();
-		System.out.println(xpac); System.out.println(ypac);
 		int xpos=this.pos.getX();
 		int ypos=this.pos.getY();
 		Path caminoB = PathFinder.findPath(xpos,ypos, xpac, ypac);

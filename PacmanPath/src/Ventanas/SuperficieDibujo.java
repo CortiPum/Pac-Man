@@ -41,6 +41,8 @@ public SuperficieDibujo(){
     pinky = new Pinky();
     pacman = new Pacman(23, 13);
     this.setIgnoreRepaint(false);
+    
+   
 }
 	
 public void draw(){
@@ -71,10 +73,16 @@ public void draw(){
 
 public void refresh(){
 	
-	blinky.estaDispercion();
-	inky.estaDispercion();
-	clyde.estaDispercion();
-	pinky.estaDispercion();
+	
+	
+	//clyde.estaPersecucion(pacman, blinky);
+	//blinky.estaPersecucion(pacman, blinky);
+	//pinky.estaPersecucion(pacman, blinky);
+	//inky.estaPersecucion(pacman, blinky);
+	//blinky.estaDispercion();
+	//inky.estaDispercion();
+	//clyde.estaDispercion();
+	//pinky.estaDispercion();
 	teclado.refresh();
 	pacman.refresh(map, mapa,blinky, inky, clyde, pinky);
 }

@@ -7,6 +7,7 @@ import Estados.*;
 
 import MapaBuscador.*;
 import Util.CargaImagen;
+import Util.Direccion;
 import Util.Fantasma;
 import Util.Id;
 
@@ -55,41 +56,49 @@ public void cambioEstado(boolean asus, Map mapaBuscador){ //el metodo de comer p
  * copiar este de abajo
  */
 public void estaPersecucion(Pacman pac, Fantasma blin){
-	Path pacCam= pac.getcamino();
-	if(pacCam.getLength()!=0){ //ver abajo de todo
-		int ypaso; int xpaso;
-		if(pacCam.getLength()>=2){
-			xpaso =pacCam.getStep(1).getX();
-			ypaso =pacCam.getStep(1).getY();
-		}else{
-			xpaso = pacCam.getStep(pacCam.getLength()-1).getX();
-			ypaso = pacCam.getStep(pacCam.getLength()-1).getY();
-		}
-			int xblin = blin.getPos().getX();
-			int yblin = blin.getPos().getY();
-			int xvec = (xpaso-xblin);
-			int yvec = (ypaso-yblin);
-			Position vectorD = new Position ((2*xvec),(2*yvec));
-			Path vector = PathFinder.findPath(this.pos.getY(), this.pos.getX(), this.pos.getY()+vectorD.getY(), this.pos.getX()+vectorD.getX());
-			if (vector == null){
-				//System.out.println("No hay camino posible");
-				System.out.print("Posicion actual:");
-				Path cam2 = PathFinder.findPath(this.getPos().getY(), this.getPos().getX(), xpaso, ypaso);
-				System.out.println("(" + cam2.getStep(0).getX() + ","+ cam2.getStep(0).getY() + ")");
-				this.setPos(new Position (cam2.getStep(1).getX(), cam2.getStep(1).getY())); 
+	int ypaso=1; int xpaso=1;
+	Direccion dir = pac.getDir();
+	switch (dir){
+		
+		case Oeste:
+			ypaso =pac.getPos().getY()+2;
+			xpaso =pac.getPos().getX();
+			break;
+		
+		case Este:
+			ypaso =pac.getPos().getY()-2;
+			xpaso =pac.getPos().getX();
+			break;
+			
+		case Sur:
+			ypaso =pac.getPos().getY();
+			xpaso =pac.getPos().getX()+2;
+			break;
+		
+		case Norte:
+			ypaso =pac.getPos().getY();
+			xpaso =pac.getPos().getX()-2;
+			break;
+	}
+		int xblin = blin.getPos().getX();
+		int yblin = blin.getPos().getY();
+		int xvec = Math.abs(xpaso-xblin);
+		int yvec = Math.abs(ypaso-yblin);
+		Position vectorD = new Position ((2*xvec),(2*yvec));
+		Path vector = PathFinder.findPath(this.pos.getX(), this.pos.getY(),vectorD.getX(),vectorD.getY());
+		int distanciaX = Math.abs(this.pos.getX()-pac.getPos().getX());
+		int distanciaY = Math.abs(this.pos.getY()-pac.getPos().getY());
+		int distancia = distanciaX+distanciaY;
+			if ((vector != null)&&(distancia>3)){
+				if(vector.getLength()!=0){
+					this.moverDis(vector);
+				}
 			}else{
-			System.out.print("Posicion actual:");
-			System.out.println("(" + vector.getStep(0).getX() + ","+ vector.getStep(0).getY() + ")");
-			this.setPos(new Position (vector.getStep(1).getY(), vector.getStep(1).getX())); //actualiza la posicion del fantasma a su posicion siguiente en el arreglo
+				Path cam2 = PathFinder.findPath(this.getPos().getX(), this.getPos().getY(), pac.getPos().getX(), pac.getPos().getY());
+				this.moverDis(cam2); 
 			}	
 	}
-	if (pacCam.getLength()==0){
-		Path caminoPi2= PathFinder.findPath(pac.getPos().getX(),pac.getPos().getY(),this.pos.getX(),this.pos.getY());
-		System.out.print("Posicion actual:");
-		System.out.println("(" + caminoPi2.getStep(0).getX() + ","+ caminoPi2.getStep(0).getY() + ")");
-		this.setPos(new Position (caminoPi2.getStep(1).getX(), caminoPi2.getStep(1).getY())); //actualiza la posicion del fantasma a su posicion siguiente en el arreglo
-	}
-}
+
 
 
 public void estaDispercion(){
@@ -121,7 +130,7 @@ public void estaDispercion(){
 
 private void moverDis(Path camino){
 	if (camino == null){
-		System.out.println("No hay camino posible");
+		//System.out.println("No hay camino posible");
 		}
 	else{
 					//System.out.print("Posicion actual:");

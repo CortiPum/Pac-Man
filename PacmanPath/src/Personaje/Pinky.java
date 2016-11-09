@@ -6,6 +6,7 @@ import java.awt.Image;
 import Estados.*;
 import MapaBuscador.*;
 import Util.CargaImagen;
+import Util.Direccion;
 import Util.Fantasma;
 import Util.Id;
 
@@ -22,7 +23,7 @@ public Pinky(){
 	this.inicializarImagen();
 	this.iconoActual = iconos[0];
 	this.nombre= "Pinky";
-	this.modo=Mode.PERSECUCION;
+	this.modo=Mode.DISPERCION;
 	this.pos = new Position (14,12); 
 }
 	
@@ -40,47 +41,47 @@ CargaImagen car = new CargaImagen();
 	this.iconos[6] = car.carga("ZImagenes/pink7.gif");
 	this.iconos[7] = car.carga("ZImagenes/pink8.gif");
 }
+
 public void estaPersecucion(Pacman pac, Fantasma blin){
 	// Se mueve a al cuarto paso pr�ximo del recorrido del Pacman.
-		Path caminoP = pac.getcamino();
-		if(caminoP.getLength()!=0){ //ver abajo de todo
-			int ypaso; int xpaso;
-			if(caminoP.getLength()>=4){
-				xpaso =caminoP.getStep(3).getX();
-				ypaso =caminoP.getStep(3).getY();
-			}else{
-				xpaso = caminoP.getStep(caminoP.getLength()-1).getX();
-				ypaso = caminoP.getStep(caminoP.getLength()-1).getY();
-			}
-				Path caminoPi = PathFinder.findPath(this.pos.getX(), this.pos.getY(), xpaso, ypaso);
-				if (caminoPi == null){
-					System.out.println("No hay camino posible");
-				}
-					else {
-						System.out.print("Posicion actual:");
-						System.out.println("(" + caminoPi.getStep(0).getX() + ","+ caminoPi.getStep(0).getY() + ")");
-						this.setPos(new Position (caminoPi.getStep(1).getX(), caminoPi.getStep(1).getY())); //actualiza la posicion del fantasma a su posicion siguiente en el arreglo
-					}
-		}if (caminoP.getLength()==0){
-			Path caminoPi2= PathFinder.findPath(this.pos.getY(),this.pos.getX(),pac.getPos().getY(),pac.getPos().getX());
-			System.out.print("Posicion actual:");
-			System.out.println("(" + caminoPi2.getStep(0).getX() + ","+ caminoPi2.getStep(0).getY() + ")");
-			this.setPos(new Position (caminoPi2.getStep(1).getX(), caminoPi2.getStep(1).getY())); //actualiza la posicion del fantasma a su posicion siguiente en el arreglo
+	int ypaso=1; int xpaso=1;
+	Direccion dir = pac.getDir();
+	switch (dir){
+		
+		case Oeste:
+			ypaso =pac.getPos().getY()+4;
+			xpaso =pac.getPos().getX();
+			break;
+		
+		case Este:
+			ypaso =pac.getPos().getY()-4;
+			xpaso =pac.getPos().getX();
+			break;
+			
+		case Sur:
+			ypaso =pac.getPos().getY();
+			xpaso =pac.getPos().getX()+4;
+			break;
+		
+		case Norte:
+			ypaso =pac.getPos().getY();
+			xpaso =pac.getPos().getX()-4;
+			break;
+	}
+		Path caminoPinky = PathFinder.findPath(this.pos.getX(), this.pos.getY(), xpaso, ypaso);
+		int distanciaX = Math.abs(pac.getPos().getX()-this.pos.getX());
+		int distanciaY = Math.abs(pac.getPos().getY()-this.pos.getY());
+		int distanciaNeta = distanciaX+distanciaY;
+		if ((caminoPinky != null) && (distanciaNeta>5)){
+			this.moverDis(caminoPinky);
+			
+		}else{
+			Path caminoPinky2 = PathFinder.findPath(this.pos.getX(), this.pos.getY(), pac.getPos().getX(), pac.getPos().getY());
+			this.moverDis(caminoPinky2);
+		
 		}
-		int xpac = pac.getPos().getX();
-		int ypac = pac.getPos().getY();
-		int cxpos = this.pos.getX();
-		int cypos =this.pos.getY();
-		if ((Math.abs(xpac-cxpos)< 4) && (Math.abs(ypac-cypos)<4)){
-			int cas = Math.abs(xpac-cxpos) + Math.abs(ypac-cypos);
-			if(cas<4) {
-				Path caminoPi2= PathFinder.findPath(this.pos.getX(),this.pos.getY(),pac.getPos().getX(),pac.getPos().getY());
-				System.out.print("Posicion actual:");
-				System.out.println("(" + caminoPi2.getStep(0).getX() + ","+ caminoPi2.getStep(0).getY() + ")");
-				this.setPos(new Position (caminoPi2.getStep(1).getX(), caminoPi2.getStep(1).getY())); 
-			}
 		}
-}
+
 
 	
 
@@ -112,7 +113,7 @@ public void estaDispercion(){
 
 private void moverDis(Path camino){
 	if (camino == null){
-		System.out.println("No hay camino posible");
+		//System.out.println("No hay camino posible");
 		}
 	else{
 					//System.out.print("Posicion actual:");

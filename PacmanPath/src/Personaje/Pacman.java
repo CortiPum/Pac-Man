@@ -94,13 +94,27 @@ public void setEstado(Mode estado){
 	this.estado=estado;
 }
 
+public void setDir (Direccion dir){
+	this.dir = dir;
+}
+
+public Direccion getDir (){
+	return (this.dir);
+}
+
+public int getContador(){
+	return contadorPasos;
+}
+
+public void setContador(int x){
+	this.contadorPasos = x;
+}
+
 public Path getcamino(){ 
 	return this.camino;
 }
 
-//metodo de movimiento para la primera entrega
 
-// este metodo creara un camino dada una pocision inicial (x,y) y una posicion final (x1,y1) a traves del metodo findPath
 private void crearPath(int x, int y, int x1, int y1){ 
 	
 	this.camino=PathFinder.findPath(x, y, x1 , y1);
@@ -183,14 +197,6 @@ public void comerPoder (MapaGeneral mapG, Position actual){
 	this.cambioEstado(true);
 }
 
-public void nuevoMover(){
-	
-}
-
-
-public void paint(Graphics g) {
-	
-}
 
 @Override
 public void draw (Graphics g){

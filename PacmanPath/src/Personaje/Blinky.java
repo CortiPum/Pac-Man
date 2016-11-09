@@ -67,10 +67,8 @@ public void estaDispercion(){
 					caminoD = PathFinder.findPath(this.pos.getX(), this.pos.getY(), 5, 21);
 					this.moverDis(caminoD);
 				}else{
-					//if ((this.pos.getX() != 21) &&(this.pos.getY() != 5)){ 
 						caminoA = PathFinder.findPath(this.pos.getX(), this.pos.getY(), 4 ,21 );
 						this.moverDis(caminoA);
-						//}
 				}
 }
 
