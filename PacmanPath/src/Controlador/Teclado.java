@@ -12,6 +12,7 @@ public class Teclado extends KeyAdapter{
 	public static boolean abajo;
 	public static boolean derecha;
 	public static boolean izquierda;
+	public static boolean pause;
 
 	public Teclado() {
 		teclas = new boolean[cantTeclas]; 
@@ -19,6 +20,7 @@ public class Teclado extends KeyAdapter{
 		
 		
 	public void refresh() {
+		pause = teclas[KeyEvent.VK_ESCAPE];
 		arriba = teclas[KeyEvent.VK_UP];
 		abajo = teclas[KeyEvent.VK_DOWN];
 		derecha = teclas[KeyEvent.VK_RIGHT];

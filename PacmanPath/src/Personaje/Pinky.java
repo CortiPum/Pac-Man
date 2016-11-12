@@ -5,6 +5,7 @@ import java.awt.Image;
 
 import Estados.*;
 import MapaBuscador.*;
+import Util.Animacion;
 import Util.CargaImagen;
 import Util.Direccion;
 import Util.Fantasma;
@@ -18,27 +19,75 @@ public class Pinky extends Fantasma{
 	
 public Pinky(){
 	this.ID=Id.PINKY;
-	this.iconos = new Image[8];
+	
 	this.inicializarImagen();
-	this.iconoActual = iconos[0];
+	this.iconoActual = 0;
+	this.imagenActual = iconos[0].getImagenIndex(0);
 	this.nombre= "Pinky";
 	this.modo=Mode.DISPERCION;
 	this.pos = new Position (14,12); 
 }
 	
+public void reset(){
+	this.iconoActual = 0;
+	this.imagenActual = iconos[0].getImagenIndex(0);
+	this.nombre= "Pinky";
+	this.modo=Mode.DISPERCION;
+	this.pos = new Position (14,12); 
+}
 //metodo mover se encuentra en fantasma
+
+public void imagenActual(Path camino){
+	if (camino.getStep(1).getX() > this.pos.getX()){
+		iconoActual= 0;
+		
+	}else{
+			if(camino.getStep(1).getX()<this.pos.getX()){
+				iconoActual = 3;
+				
+			}else{
+				if(camino.getStep(1).getY()>this.pos.getY()){
+					iconoActual =1;
+					
+				}else{
+					iconoActual =2;
+					
+				}
+			}
+	}
+}
 
 public void inicializarImagen(){
 CargaImagen car = new CargaImagen();
-	
-	this.iconos[0] = car.carga("ZImagenes/pink1.gif");
-	this.iconos[1] = car.carga("ZImagenes/pink2.gif");
-	this.iconos[2] = car.carga("ZImagenes/pink3.gif");
-	this.iconos[3] = car.carga("ZImagenes/pink4.gif");
-	this.iconos[4] = car.carga("ZImagenes/pink5.gif");
-	this.iconos[5] = car.carga("ZImagenes/pink6.gif");
-	this.iconos[6] = car.carga("ZImagenes/pink7.gif");
-	this.iconos[7] = car.carga("ZImagenes/pink8.gif");
+Image[] aux = new Image[2];
+Image[] aux2 = new Image[2];
+Image[] aux3 = new Image[2];
+Image[] aux4 = new Image[2];
+
+aux[0] = car.carga("ZImagenes/pink1.gif");
+aux[1] = car.carga("ZImagenes/pink2.gif");
+
+iconos[0]= new Animacion(aux);
+
+aux2[0] = car.carga("ZImagenes/pink3.gif");
+aux2[1] = car.carga("ZImagenes/pink4.gif");
+
+iconos[1] = new Animacion(aux2);
+
+aux3[0]= car.carga("ZImagenes/pink5.gif");
+aux3[1] = car.carga("ZImagenes/pink6.gif");
+
+iconos[2] = new Animacion(aux3);
+
+
+aux4[0] = car.carga("ZImagenes/pink7.gif");
+aux4[1] = car.carga("ZImagenes/pink8.gif");
+
+iconos[3]= new Animacion(aux4);
+}
+
+public Animacion[] getIconos(){
+	return (this.iconos);
 }
 
 public void estaPersecucion(Pacman pac, Fantasma blin){
@@ -116,6 +165,7 @@ private void moverDis(Path camino){
 	else{
 					//System.out.print("Posicion actual:");
 					//System.out.println("(" + camino.getStep(0).getX() + ","+ camino.getStep(0).getY() + ")");
+					this.imagenActual(camino);
 					this.setPos(new Position (camino.getStep(1).getX(), camino.getStep(1).getY()));
 }
 }
@@ -128,11 +178,15 @@ public void setPosInicial(){
 
 public void cambioEstado(boolean asus, Map mapaCol) {
 	 //el metodo de comer powerball devuelve un booleano, cqso contrario se pasara un false
-		if (asus==true) {
+		if (asus) {
 			this.modo= Mode.ASUSTADO;
+			//this.iconoActual = this.iconos[8];
 			this.caminoAsus(mapaCol);
 		}
-		if (asus==false) this.modo= Mode.PERSECUCION; //se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
+		if (!asus){
+			this.modo= Mode.DISPERCION; 
+			//this.iconoActual = this.iconos[0];//se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
+		}
 		
 	
 }
@@ -140,7 +194,11 @@ public void cambioEstado(boolean asus, Map mapaCol) {
 
 @Override
 public void draw(Graphics g) {
-	g.drawImage(this.iconoActual,this.pos.getY()*23+8, this.pos.getX()*23+30, null);
+	//esto en el refresh
+		imagenActual = iconos[iconoActual].getImagenActual();
+		iconos[iconoActual].refresh();
+		//
+	g.drawImage(this.imagenActual,this.pos.getY()*23+8, this.pos.getX()*23+30, null);
 	
 }
 

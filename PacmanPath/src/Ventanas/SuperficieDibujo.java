@@ -2,6 +2,7 @@ package Ventanas;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
@@ -10,41 +11,37 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JPanel;
 
+import Controlador.Mouse;
 import Controlador.Teclado;
+import EstadoJ.ArregloEstados;
 import Personaje.*;
 
 import MapaBuscador.Map;
 import MapaN.MapaGeneral;
 
 public class SuperficieDibujo extends Canvas{
-
-	private Pacman pacman;
-	private Blinky blinky;
-	private Pinky pinky;
-	private Inky inky;
-	private Clyde clyde;
+	
+	private ArregloEstados estadoJuego;
 	
 	private Teclado teclado;
 	
-	private Map map = new Map();
-	private MapaGeneral mapa = new MapaGeneral();
+	private Mouse mouse;
+	
+	
 	
 
 public SuperficieDibujo(){
 	teclado = new Teclado();
+	mouse = new Mouse();
+	this.addMouseListener(mouse);
 	this.addKeyListener(teclado);
 	this.setFocusable(true);
-	
-	blinky = new Blinky();
-    clyde = new Clyde();
-    inky = new Inky();
-    pinky = new Pinky();
-    pacman = new Pacman(23, 13);
+	this.estadoJuego = new ArregloEstados();
     this.setIgnoreRepaint(false);
     
-   
 }
-	
+
+
 public void draw(){
 	
 	BufferStrategy buffer = this.getBufferStrategy();
@@ -52,40 +49,23 @@ public void draw(){
 		this.createBufferStrategy(3);  //es cola de imagenes en espera, atiende siempre al primero
 		return;
 	}
+	
 	Graphics2D g = (Graphics2D)buffer.getDrawGraphics() ;
+	g.setColor(Color.black);
 	g.fillRect(0, 0, 900, 800);
-	mapa.draw(g);
-	pacman.draw(g);
-	blinky.draw(g);
-	pinky.draw(g);
-	inky.draw(g);
-	clyde.draw(g);
-	//blinky.mover(pacman, blinky);
-	//blinky.estaDispercion();
-	//inky.estaDispercion();
-	//clyde.estaDispercion();
-	//pinky.estaDispercion();
-	//blinky.cambioEstado(true, map);
+	
+	estadoJuego.draw(g);
+
 	Toolkit.getDefaultToolkit().sync(); //cordina el monitor con el dibujo (da compatibilidad, dibuja cuando refresca)
 	g.dispose();
 	buffer.show();
 }
 
 public void refresh(){
-	
-	if (pacman.puedeJugar()){
-	
-	//clyde.estaPersecucion(pacman, blinky);
-	//blinky.estaPersecucion(pacman, blinky);
-	//pinky.estaPersecucion(pacman, blinky);
-	//inky.estaPersecucion(pacman, blinky);
-	//blinky.estaDispercion();
-	//inky.estaDispercion();
-	//clyde.estaDispercion();
-	//pinky.estaDispercion();
+	estadoJuego.refresh();
 	teclado.refresh();
-	pacman.refresh(map, mapa,blinky, inky, clyde, pinky);
+
 	}
 }
-}
+
 

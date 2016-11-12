@@ -17,7 +17,7 @@ import Personaje.Pacman;
 
 public class Juego implements Runnable {
 	 
-	private boolean jugando;
+	public static boolean jugando;
 	private Thread thread;
 	private Ventana ventana;
     private SuperficieDibujo superficie;
@@ -54,12 +54,14 @@ public void run() {
 		superficie.refresh();
 		superficie.draw();
 		try {
-			thread.sleep(100);
+			thread.sleep(110);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	//this.stop;
+	System.exit(1);
 }
 
 public static void main (String[] args){

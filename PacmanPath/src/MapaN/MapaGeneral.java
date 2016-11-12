@@ -13,10 +13,11 @@ public class MapaGeneral {
 	
 	private Celda tablero[][]; 
 	protected Image[] iconos;
-	
+	private int contadorObj;
 
 	public MapaGeneral(){
 		Map mapa= new Map ();
+		contadorObj=0;
 		iconos = new Image[7];
 		inicializarImagen();
 		tablero = new Celda[mapa.getWidth()][mapa.getHeight()]; 
@@ -34,10 +35,12 @@ public class MapaGeneral {
 				
 				case 3: Bola ball = new Bola(i,j);
 						tablero[i][j] = new Celda (pos,ball);
+						contadorObj++;
 						break;
 						
 				case 4: PowerBall power = new PowerBall(i,j);
 						tablero[i][j] = new Celda (pos, power);
+						contadorObj++;
 						break;
 						
 				case 5: Tunel tun = new Tunel (i,j);
@@ -50,6 +53,48 @@ public class MapaGeneral {
 		}
 		
 	}
+	
+public void reset(){
+	Map mapa= new Map ();
+	contadorObj=0;
+	iconos = new Image[7];
+	inicializarImagen();
+	tablero = new Celda[mapa.getWidth()][mapa.getHeight()]; 
+	for (int i =0; i< mapa.getWidth();i++){ //i seran las filas
+		for (int j=0; j<mapa.getHeight();j++){ //j columnas
+			Position pos= new Position (i,j);
+			switch (mapa.getObjectMap(i, j)){
+			
+			case 0: Vacio empty = new Vacio(i,j);
+					tablero[i][j] = new Celda (pos, empty);
+					break;
+			case 1: Pared wall = new Pared(i,j);
+					tablero[i][j] = new Celda(pos, wall);				
+					break;
+			
+			case 3: Bola ball = new Bola(i,j);
+					tablero[i][j] = new Celda (pos,ball);
+					contadorObj++;
+					break;
+					
+			case 4: PowerBall power = new PowerBall(i,j);
+					tablero[i][j] = new Celda (pos, power);
+					contadorObj++;
+					break;
+					
+			case 5: Tunel tun = new Tunel (i,j);
+					tablero[i][j] = new Celda (pos, tun);
+					break;
+					
+					
+			}
+		}
+	}
+}
+
+public int objTotal(){
+	return (this.contadorObj);
+}
 	
 public void inicializarImagen(){  //carga las imagenes en un booleano de imagenes (llama a la clase carga imagen)
 	CargaImagen car = new CargaImagen();

@@ -9,12 +9,17 @@ import MapaBuscador.*;
 public abstract class Dinamico extends Personaje {
 
 	
-	protected Image[] iconos;
-	protected Image iconoActual;
+	protected Animacion[] iconos;
+	protected int iconoActual;
+	protected Image imagenActual;
+	
+	
 	
 	protected Position pos;
 	
-	
+	public Dinamico(){
+		iconos = new Animacion[4];
+	}
 	//Movimientos
 	
 	public Position getPos(){

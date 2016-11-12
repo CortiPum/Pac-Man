@@ -6,6 +6,7 @@ import java.awt.Image;
 import Estados.*;
 
 import MapaBuscador.*;
+import Util.Animacion;
 import Util.CargaImagen;
 import Util.Direccion;
 import Util.Fantasma;
@@ -18,35 +19,86 @@ public class Inky extends Fantasma {
 	
 public Inky(){
 	this.ID=Id.INKY;
-	this.iconos = new Image[8];
+	
 	this.inicializarImagen();
-	this.iconoActual = iconos[0];
+	this.iconoActual = 0;
+	this.imagenActual = iconos[0].getImagenIndex(0);
+	this.nombre="Inky";
+	this.modo=Mode.INACTIVO; //estara inactivo hasta que el pacman coma 30 puntos
+	this.pos = new Position (14,15); 
+}
+public void reset(){
+	this.iconoActual = 0;
+	this.imagenActual = iconos[0].getImagenIndex(0);
 	this.nombre="Inky";
 	this.modo=Mode.INACTIVO; //estara inactivo hasta que el pacman coma 30 puntos
 	this.pos = new Position (14,15); 
 }
 	
+
+public void imagenActual(Path camino){
+	if (camino.getStep(1).getX() > this.pos.getX()){
+		iconoActual= 0;
+		
+	}else{
+			if(camino.getStep(1).getX()<this.pos.getX()){
+				iconoActual = 3;
+				
+			}else{
+				if(camino.getStep(1).getY()>this.pos.getY()){
+					iconoActual =1;
+					
+				}else{
+					iconoActual =2;
+					
+				}
+			}
+	}
+}
+
 public void inicializarImagen(){
 	CargaImagen car = new CargaImagen();
-			
-	this.iconos[0] = car.carga("ZImagenes/skyblue1.gif");
-	this.iconos[1] = car.carga("ZImagenes/skyblue2.gif");
-	this.iconos[2] = car.carga("ZImagenes/skyblue3.gif");
-	this.iconos[3] = car.carga("ZImagenes/skyblue4.gif");
-	this.iconos[4] = car.carga("ZImagenes/skyblue5.gif");
-	this.iconos[5] = car.carga("ZImagenes/skyblue6.gif");
-	this.iconos[6] = car.carga("ZImagenes/skyblue7.gif");
-	this.iconos[7] = car.carga("ZImagenes/skyblue8.gif");
-		}
+	Image[] aux = new Image[2];
+	Image[] aux2 = new Image[2];
+	Image[] aux3 = new Image[2];
+	Image[] aux4 = new Image[2];
+	
+	aux[0] = car.carga("ZImagenes/skyblue1.gif");
+	aux[1] = car.carga("ZImagenes/skyblue2.gif");
 
+	iconos[0]= new Animacion(aux);
+
+	aux2[0] = car.carga("ZImagenes/skyblue3.gif");
+	aux2[1] = car.carga("ZImagenes/skyblue4.gif");
+
+	iconos[1] = new Animacion(aux2);
+
+	aux3[0]= car.carga("ZImagenes/skyblue5.gif");
+	aux3[1] = car.carga("ZImagenes/skyblue6.gif");
+
+	iconos[2] = new Animacion(aux3);
+
+
+	aux4[0] = car.carga("ZImagenes/skyblue7.gif");
+	aux4[1] = car.carga("ZImagenes/skyblue8.gif");
+
+	iconos[3]= new Animacion(aux4);
+	}
+
+
+public Animacion [] getIconos(){
+	return (this.iconos);
+}
 
 public void cambioEstado(boolean asus, Map mapaBuscador){ //el metodo de comer powerball devuelve un booleano, cqso contrario se pasara un false
-	if ((asus==true) && ((this.modo == Mode.PERSECUCION) || (this.modo == Mode.DISPERCION))){
+	if ((asus) && ((this.modo == Mode.PERSECUCION) || (this.modo == Mode.DISPERCION))){
 		this.caminoAsus(mapaBuscador);
+	//this.iconoActual=this.iconos[8];
 		this.modo= Mode.ASUSTADO;
 	}
 	if ((asus==false) && (this.modo == Mode.ASUSTADO)) {
-		this.modo= Mode.PERSECUCION; //se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
+		this.modo= Mode.DISPERCION;
+	//	this.iconoActual=this.iconos[0];//se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
 	}
 	//preguntar como pasa blinky a el estado Dispercion
 	}
@@ -134,6 +186,7 @@ private void moverDis(Path camino){
 	else{
 					//System.out.print("Posicion actual:");
 					//System.out.println("(" + camino.getStep(0).getX() + ","+ camino.getStep(0).getY() + ")");
+					this.imagenActual(camino);
 					this.setPos(new Position (camino.getStep(1).getX(), camino.getStep(1).getY()));
 }
 }
@@ -144,7 +197,11 @@ public void setPosInicial(){
 
 @Override
 public void draw(Graphics g) {
-	g.drawImage(iconoActual, this.pos.getY()*23+8, this.pos.getX()*23+30, null);
+	//esto en el refresh
+		imagenActual = iconos[iconoActual].getImagenActual();
+		iconos[iconoActual].refresh();
+		//
+	g.drawImage(imagenActual, this.pos.getY()*23+8, this.pos.getX()*23+30, null);
 }
 
 

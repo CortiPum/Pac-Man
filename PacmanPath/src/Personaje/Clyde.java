@@ -5,6 +5,7 @@ import java.awt.Image;
 
 import Estados.*;
 import MapaBuscador.*;
+import Util.Animacion;
 import Util.CargaImagen;
 import Util.Fantasma;
 import Util.Id;
@@ -15,27 +16,75 @@ public class Clyde extends Fantasma {
 	
 public Clyde(){
 	this.ID =Id.CLYDE;
-	this.iconos = new Image[8];
+	
 	this.inicializarImagen();
-	this.iconoActual= iconos[0];
+	this.imagenActual = iconos[0].getImagenIndex(0);
 	this.nombre ="Clyde";
 	this.modo=Mode.INACTIVO;  //esta inactivo hasta que el pacman coma 3/4 del mapa
 	this.pos = new Position (14,16); 
 }
-	
+
+public void reset(){
+	this.imagenActual = iconos[0].getImagenIndex(0);
+	this.nombre ="Clyde";
+	this.modo=Mode.INACTIVO;  //esta inactivo hasta que el pacman coma 3/4 del mapa
+	this.pos = new Position (14,16); 
+}
 
 public void inicializarImagen(){
 CargaImagen car = new CargaImagen();
-	
-	this.iconos[0] = car.carga("ZImagenes/orange1.gif");
-	this.iconos[1] = car.carga("ZImagenes/orange2.gif");
-	this.iconos[2] = car.carga("ZImagenes/orange3.gif");
-	this.iconos[3] = car.carga("ZImagenes/orange4.gif");
-	this.iconos[4] = car.carga("ZImagenes/orange5.gif");
-	this.iconos[5] = car.carga("ZImagenes/orange6.gif");
-	this.iconos[6] = car.carga("ZImagenes/orange7.gif");
-	this.iconos[7] = car.carga("ZImagenes/orange8.gif");
+
+Image[] aux = new Image[2];
+Image[] aux2 = new Image[2];
+Image[] aux3 = new Image[2];
+Image[] aux4 = new Image[2];
+
+aux[0] = car.carga("ZImagenes/orange1.gif");
+aux[1] = car.carga("ZImagenes/orange2.gif");
+
+iconos[0]= new Animacion(aux);
+
+aux2[0] = car.carga("ZImagenes/orange3.gif");
+aux2[1] = car.carga("ZImagenes/orange4.gif");
+
+iconos[1] = new Animacion(aux2);
+
+aux3[0]= car.carga("ZImagenes/orange5.gif");
+aux3[1] = car.carga("ZImagenes/orange6.gif");
+
+iconos[2] = new Animacion(aux3);
+
+
+aux4[0] = car.carga("ZImagenes/orange7.gif");
+aux4[1] = car.carga("ZImagenes/orange8.gif");
+
+iconos[3]= new Animacion(aux4);
 }
+
+public void imagenActual(Path camino){
+	if (camino.getStep(1).getX() > this.pos.getX()){
+		iconoActual= 0;
+		
+	}else{
+			if(camino.getStep(1).getX()<this.pos.getX()){
+				iconoActual = 3;
+				
+			}else{
+				if(camino.getStep(1).getY()>this.pos.getY()){
+					iconoActual =1;
+					
+				}else{
+					iconoActual =2;
+					
+				}
+			}
+	}
+}
+
+public Animacion [] getIconos(){
+return (this.iconos);
+}
+
 
 //mismo codigo de Blinky, va a entrar solo si esta a mas de 8 casilleros 
 public void estaPersecucion(Pacman pac, Fantasma blin){
@@ -83,6 +132,7 @@ private void moverDis(Path camino){
 	else{
 					//System.out.print("Posicion actual:");
 					//System.out.println("(" + camino.getStep(0).getX() + ","+ camino.getStep(0).getY() + ")");
+					this.imagenActual(camino);
 					this.setPos(new Position (camino.getStep(1).getX(), camino.getStep(1).getY()));
 }
 }
@@ -93,12 +143,14 @@ public void setPosInicial(){
 
 
 public void cambioEstado(boolean asus, Pacman pac, Map mapaCol) {
-	if ((asus==true) && ((this.modo == Mode.PERSECUCION) || (this.modo == Mode.DISPERCION))){
+	if ((asus) && ((this.modo == Mode.PERSECUCION) || (this.modo == Mode.DISPERCION))){
 		this.caminoAsus(mapaCol);
+		//this.iconoActual=this.iconos[8];
 		this.modo= Mode.ASUSTADO;
 		}	
 	if ((asus==false) &&(this.modo == Mode.ASUSTADO)) {
-		this.modo= Mode.PERSECUCION; //se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
+		this.modo= Mode.PERSECUCION;
+		//this.iconoActual=this.iconos[0];//se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
 	}
 	if (this.modo != Mode.ASUSTADO){
 		int xpac = pac.getPos().getX();
@@ -116,7 +168,12 @@ public void cambioEstado(boolean asus, Pacman pac, Map mapaCol) {
 
 @Override
 public void draw(Graphics g) {
-	g.drawImage(this.iconoActual, this.pos.getY()*23+8, this.pos.getX()*23+30,null);
+	//esto en el refresh
+	imagenActual = iconos[iconoActual].getImagenActual();
+	iconos[iconoActual].refresh();
+	//
+	
+	g.drawImage(this.imagenActual, this.pos.getY()*23+8, this.pos.getX()*23+30,null);
 	
 }
 

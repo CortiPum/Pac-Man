@@ -5,6 +5,7 @@ import java.awt.Image;
 import Estados.*;
 import MapaBuscador.*;
 import MapaN.MapaGeneral;
+import Util.Animacion;
 import Util.CargaImagen;
 import Util.Fantasma;
 import Util.Id;
@@ -15,27 +16,54 @@ public class Blinky extends Fantasma {
 	
 public Blinky(){
 	this.ID=Id.BLINKY;
-	this.iconos = new Image[7];
+
 	this.inicializarImagen();
-	this.iconoActual = iconos[0];
+	this.imagenActual=iconos[0].getImagenIndex(0);
 	this.nombre="Blinky"; 
 	this.modo= Mode.DISPERCION;
 	this.pos = new Position (11 , 13); 	
 }
 
 //mover esta en fantasma (controla que movimiento hara)
+public void reset(){
+	this.imagenActual=iconos[0].getImagenIndex(0);
+	this.modo= Mode.DISPERCION;
+	this.pos = new Position (11 , 13); 	
+}
 
 public void inicializarImagen(){
 CargaImagen car = new CargaImagen();
-	
-	this.iconos[0] = car.carga("ZImagenes/red1.gif");
-	this.iconos[1] = car.carga("ZImagenes/red2.gif");
-	this.iconos[2] = car.carga("ZImagenes/red3.gif");
-	this.iconos[3] = car.carga("ZImagenes/red4.gif");
-	this.iconos[4] = car.carga("ZImagenes/red5.gif");
-	this.iconos[5] = car.carga("ZImagenes/red6.gif");
-	this.iconos[6] = car.carga("ZImagenes/red7.gif");
-	//this.iconos[7] = car.carga("ZImagenes/red8.gif");
+
+Image[] aux = new Image[2];
+Image[] aux2 = new Image[2];
+Image[] aux3 = new Image[2];
+Image[] aux4 = new Image[2];
+
+aux[0] = car.carga("ZImagenes/red1.gif");
+aux[1] = car.carga("ZImagenes/red2.gif");
+
+iconos[0]= new Animacion(aux);
+
+aux2[0] = car.carga("ZImagenes/red3.gif");
+aux2[1] = car.carga("ZImagenes/red4.gif");
+
+iconos[1] = new Animacion(aux2);
+
+aux3[0]= car.carga("ZImagenes/red5.gif");
+aux3[1] = car.carga("ZImagenes/red6.gif");
+
+iconos[2] = new Animacion(aux3);
+
+
+aux4[0] = car.carga("ZImagenes/red7.gif");
+aux4[1] = car.carga("ZImagenes/red8.gif");
+
+iconos[3]= new Animacion(aux4);
+}
+
+
+public Animacion [] getIconos(){
+return (this.iconos);
 }
 
 public void estaPersecucion(Pacman pac, Fantasma blin){
@@ -72,6 +100,26 @@ public void estaDispercion(){
 				}
 }
 
+public void imagenActual(Path camino){
+	if (camino.getStep(1).getX() > this.pos.getX()){
+		iconoActual= 0;
+		
+	}else{
+			if(camino.getStep(1).getX()<this.pos.getX()){
+				iconoActual = 3;
+				
+			}else{
+				if(camino.getStep(1).getY()>this.pos.getY()){
+					iconoActual =1;
+					
+				}else{
+					iconoActual =2;
+					
+				}
+			}
+	}
+}
+
 private void moverDis(Path camino){
 	if (camino == null){
 		//System.out.println("No hay camino posible");
@@ -79,26 +127,36 @@ private void moverDis(Path camino){
 	else{
 					//System.out.print("Posicion actual:");
 					//System.out.println("(" + camino.getStep(0).getX() + ","+ camino.getStep(0).getY() + ")");
+					this.imagenActual(camino);
 					this.setPos(new Position (camino.getStep(1).getX(), camino.getStep(1).getY()));
 }
 }
 
+
 public void setPosInicial(){
-	this.pos = new Position (11,13); //Cuando muere Blinky se lo vuelve a ubicar en su posicion que sera dentro de la casa a la izquierda
+	this.pos = new Position (14,11); //Cuando muere Blinky se lo vuelve a ubicar en su posicion que sera dentro de la casa a la izquierda
 }
 
 public void cambioEstado(boolean asus, Map mapaCol) {//el metodo de comer powerball devuelve un booleano, cqso contrario se pasara un false
 		if (asus) {
 			this.modo= Mode.ASUSTADO;
+			//this.iconoActual=this.iconos[8];
 			this.caminoAsus(mapaCol);
 		}
-		if (!asus) this.modo= Mode.PERSECUCION; //se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
+		if (!asus){
+			//this.iconoActual=this.iconos[0];
+			this.modo= Mode.PERSECUCION; //se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
+		}
 
 		}
 
 @Override
 public void draw(Graphics g) {
-	g.drawImage(iconoActual, this.pos.getY()*23+8, this.pos.getX()*23+30, null);
+	//esto va en el refresh
+	imagenActual = iconos[iconoActual].getImagenActual();
+	iconos[iconoActual].refresh();
+	//
+	g.drawImage(imagenActual, this.pos.getY()*23+8, this.pos.getX()*23+30, null);
 }
 
 public void refresh(Pacman pac, Map mapaCol){

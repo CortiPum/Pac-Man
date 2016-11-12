@@ -1,5 +1,6 @@
 package Util;
 
+import java.io.File;
 import java.io.Serializable;
 
 public class Ranking implements Serializable{
@@ -8,7 +9,6 @@ public class Ranking implements Serializable{
 	private String[] usuarios;
 	private String[] tiempo;
 	private long puntaje;
-	
-	
+	private File file;
 
 }
