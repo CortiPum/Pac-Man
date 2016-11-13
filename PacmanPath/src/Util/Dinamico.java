@@ -18,7 +18,7 @@ public abstract class Dinamico extends Personaje {
 	protected Position pos;
 	
 	public Dinamico(){
-		iconos = new Animacion[4];
+		iconos = new Animacion[9];
 	}
 	//Movimientos
 	

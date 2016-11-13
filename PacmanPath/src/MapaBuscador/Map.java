@@ -143,16 +143,16 @@ public class Map {
 	
 	public Position getEsquinaRandom(){ //este metodo pedira un entero randon para fila (entre 0 y 29)
 		Random r = new Random();		//y un entero random para columna (entre 0 y 26)
-		int fil= r.nextInt(30);			//si el numero random para la fila no es 1 o 29, seguira pidiendo numeros
+		int fil= (int) (r.nextDouble() * 30);			//si el numero random para la fila no es 1 o 29, seguira pidiendo numeros
 		Random r2 = new Random();		//si el numero random para la columna no es 1 o 26 seguira pidiendo numeros
-		int col=r.nextInt(27);			//el metodo devuelve entonces una de las siguientes combinaciones:
+		int col=(int) (r2.nextDouble() * 27);			//el metodo devuelve entonces una de las siguientes combinaciones:
 		while ((fil != 29)&&(fil!=1)){	// (1,1) (1,26), (29,1),(29,26) que corresponden a las esquinas
-			fil = r.nextInt(30);
-			System.out.println(fil);
+			fil = (int) (r.nextDouble() * 30);
+			//System.out.println(fil);
 		}
 		while ((col != 26)&&(col != 1)){
-			col = r2.nextInt(col);
-			System.out.println(col);
+			col = (int) (r2.nextDouble() * 27);
+			//System.out.println(col);
 		}
 		Position esqRandom = new Position (fil, col);
 		return esqRandom;

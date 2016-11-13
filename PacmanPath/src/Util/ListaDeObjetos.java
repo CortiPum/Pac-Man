@@ -31,7 +31,7 @@ public class ListaDeObjetos {
 		for (int i = 0; i < obj.size(); i++){
 			if (obj.get(i) instanceof Fantasma){
 				Fantasma fantasma = (Fantasma) obj.get(i);
-				fantasma.refresh(pacman, fantasma);
+				//fantasma.refresh(pacman, fantasma);
 			}
 			if (obj.get(i) instanceof Pacman){
 				Pacman pacman = (Pacman)obj.get(i);

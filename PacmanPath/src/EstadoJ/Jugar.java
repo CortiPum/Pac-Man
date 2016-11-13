@@ -128,11 +128,14 @@ public void refresh() {
 			//blinky.estaPersecucion(pacman, blinky);
 			//pinky.estaPersecucion(pacman, blinky);
 			//inky.estaPersecucion(pacman, blinky);
-		
-			blinky.estaDispercion();
-			inky.estaDispercion();
-			clyde.estaDispercion();
-			pinky.estaDispercion();
+			blinky.refresh(pacman, map);
+			clyde.refresh(pacman, map, mapa);
+			inky.refresh(pacman, map);
+			pinky.refresh(pacman, map);
+			//blinky.estaDispercion();
+			//inky.estaDispercion();
+			//clyde.estaDispercion();
+			//pinky.estaDispercion();
 			pacman.refresh(map, mapa,blinky, inky, clyde, pinky);
 			tiempo.refresh();
 	

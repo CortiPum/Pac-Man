@@ -277,8 +277,23 @@ public void hayColision(Blinky blin, Inky ink, Clyde cly, Pinky pin, MapaGeneral
 	if (mapG.getCelda(this.pos).hayPowerBall()){
 		this.comerPoder(mapG, this.pos);
 	}
-	if ((this.pos.equals(blin.getPos())) || (this.pos.equals(ink.getPos()))|| (this.pos.equals(cly.getPos())) || (this.pos.equals(pin.getPos()))){
-		if (this.getEstado() == Mode.NORMAL){
+	if ((this.pos.equals(blin.getPos()))){
+		if (blin.getModo()!=Mode.ASUSTADO){
+			this.morir(ink, pin, cly, blin);
+		}
+	}
+	if(this.pos.equals(ink.getPos())){
+		if (ink.getModo()!=Mode.ASUSTADO){
+			this.morir(ink, pin, cly, blin);
+		}
+	}
+	if(this.pos.equals(pin.getPos())){
+		if (pin.getModo()!=Mode.ASUSTADO){
+			this.morir(ink, pin, cly, blin);
+		}
+	}
+	if(this.pos.equals(cly.getPos())){
+		if (cly.getModo()!=Mode.ASUSTADO){
 			this.morir(ink, pin, cly, blin);
 		}
 	}
@@ -286,19 +301,19 @@ public void hayColision(Blinky blin, Inky ink, Clyde cly, Pinky pin, MapaGeneral
 		
 		contadorPasos++;
 		int multiplicador = this.recorroArregloMuerte();
-		if (this.pos.equals(blin.getPos())){
+		if ((this.pos.equals(blin.getPos())) && (blin.getModo()==Mode.ASUSTADO)){
 			this.comerFantasma(blin, multiplicador+1);
 			this.muerteFantasma[0]= true;
 		}
-		if (this.pos.equals(pin.getPos())){
+		if ((this.pos.equals(pin.getPos()))&&(pin.getModo()==Mode.ASUSTADO)){
 			this.comerFantasma(pin,multiplicador+ 1);
 			this.muerteFantasma[1]= true;
 		}
-		if (this.pos.equals(ink.getPos())){
+		if ((this.pos.equals(ink.getPos()))&&(ink.getModo()==Mode.ASUSTADO)){
 			this.comerFantasma(ink,multiplicador+ 1);
 			this.muerteFantasma[2]= true;
 		}
-		if (this.pos.equals(cly.getPos())){
+		if ((this.pos.equals(cly.getPos()))&&(cly.getModo()==Mode.ASUSTADO)){
 			this.comerFantasma(cly,multiplicador+ 1);
 			this.muerteFantasma[3]= true;
 		}

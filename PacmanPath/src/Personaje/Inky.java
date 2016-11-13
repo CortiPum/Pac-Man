@@ -6,6 +6,7 @@ import java.awt.Image;
 import Estados.*;
 
 import MapaBuscador.*;
+import MapaN.MapaGeneral;
 import Util.Animacion;
 import Util.CargaImagen;
 import Util.Direccion;
@@ -15,11 +16,12 @@ import Util.Id;
 public class Inky extends Fantasma {
 
 	//heredan getters y setters de Fantasma
-
+	private boolean aux;
 	
 public Inky(){
 	this.ID=Id.INKY;
-	
+	this.aux=false;
+	this.asus=false;
 	this.inicializarImagen();
 	this.iconoActual = 0;
 	this.imagenActual = iconos[0].getImagenIndex(0);
@@ -28,6 +30,8 @@ public Inky(){
 	this.pos = new Position (14,15); 
 }
 public void reset(){
+	this.asus=false;
+	this.aux=false;
 	this.iconoActual = 0;
 	this.imagenActual = iconos[0].getImagenIndex(0);
 	this.nombre="Inky";
@@ -62,6 +66,7 @@ public void inicializarImagen(){
 	Image[] aux2 = new Image[2];
 	Image[] aux3 = new Image[2];
 	Image[] aux4 = new Image[2];
+	Image[] aux5 = new Image[1];
 	
 	aux[0] = car.carga("ZImagenes/skyblue1.gif");
 	aux[1] = car.carga("ZImagenes/skyblue2.gif");
@@ -83,6 +88,9 @@ public void inicializarImagen(){
 	aux4[1] = car.carga("ZImagenes/skyblue8.gif");
 
 	iconos[3]= new Animacion(aux4);
+	
+	aux5[0] = car.carga("ZImagenes/azul.gif");
+	iconos[4]= new Animacion(aux5);
 	}
 
 
@@ -93,19 +101,15 @@ public Animacion [] getIconos(){
 public void cambioEstado(boolean asus, Map mapaBuscador){ //el metodo de comer powerball devuelve un booleano, cqso contrario se pasara un false
 	if ((asus) && ((this.modo == Mode.PERSECUCION) || (this.modo == Mode.DISPERCION))){
 		this.caminoAsus(mapaBuscador);
-	//this.iconoActual=this.iconos[8];
 		this.modo= Mode.ASUSTADO;
 	}
 	if ((asus==false) && (this.modo == Mode.ASUSTADO)) {
 		this.modo= Mode.DISPERCION;
 	//	this.iconoActual=this.iconos[0];//se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
 	}
-	//preguntar como pasa blinky a el estado Dispercion
+	
 	}
 
-/**
- * copiar este de abajo
- */
 public void estaPersecucion(Pacman pac, Fantasma blin){
 	int ypaso=1; int xpaso=1;
 	Direccion dir = pac.getDir();
@@ -193,6 +197,7 @@ private void moverDis(Path camino){
 
 public void setPosInicial(){
 	this.pos = new Position (14,15); 
+	this.modo= Mode.DISPERCION;
 }
 
 @Override
@@ -204,5 +209,27 @@ public void draw(Graphics g) {
 	g.drawImage(imagenActual, this.pos.getY()*23+8, this.pos.getX()*23+30, null);
 }
 
-
+public void refresh(Pacman pac, Map map){
+	this.mover(pac, this);
+	if((pac.getPuntaje()>30)&&(aux==false)){
+		this.setModo(Mode.DISPERCION);
+		aux=true;
+	}
+	int contadorPasos=0;
+	if ((pac.getEstado() == Mode.ESTADOPODER)&&(this.asus==false)){
+		this.cambioEstado(true,map);
+		this.asus=true;
+	}
+	if (this.modo==Mode.ASUSTADO)
+		this.iconoActual=4;
+	if(pac.getEstado() == Mode.NORMAL){
+		this.asus=false;
+	}
+	if ((pac.getEstado() == Mode.NORMAL)&&(this.getModo()==Mode.ASUSTADO)){
+		this.cambioEstado(false,map);
+		contadorPasos = 0;
+		this.asus=false;
+	}
 }
+}
+

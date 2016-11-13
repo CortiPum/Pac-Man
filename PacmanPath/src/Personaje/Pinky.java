@@ -19,7 +19,7 @@ public class Pinky extends Fantasma{
 	
 public Pinky(){
 	this.ID=Id.PINKY;
-	
+	this.asus=false;
 	this.inicializarImagen();
 	this.iconoActual = 0;
 	this.imagenActual = iconos[0].getImagenIndex(0);
@@ -29,6 +29,7 @@ public Pinky(){
 }
 	
 public void reset(){
+	this.asus=false;
 	this.iconoActual = 0;
 	this.imagenActual = iconos[0].getImagenIndex(0);
 	this.nombre= "Pinky";
@@ -63,6 +64,7 @@ Image[] aux = new Image[2];
 Image[] aux2 = new Image[2];
 Image[] aux3 = new Image[2];
 Image[] aux4 = new Image[2];
+Image[] aux5 = new Image[1];
 
 aux[0] = car.carga("ZImagenes/pink1.gif");
 aux[1] = car.carga("ZImagenes/pink2.gif");
@@ -84,6 +86,10 @@ aux4[0] = car.carga("ZImagenes/pink7.gif");
 aux4[1] = car.carga("ZImagenes/pink8.gif");
 
 iconos[3]= new Animacion(aux4);
+
+aux5[0]= car.carga("ZImagenes/azul.gif");
+
+iconos[4] = new Animacion(aux5);
 }
 
 public Animacion[] getIconos(){
@@ -174,13 +180,13 @@ private void moverDis(Path camino){
 
 public void setPosInicial(){
 	this.pos = new Position (14,12); 
+	this.modo= Mode.DISPERCION;
 }
 
 public void cambioEstado(boolean asus, Map mapaCol) {
 	 //el metodo de comer powerball devuelve un booleano, cqso contrario se pasara un false
 		if (asus) {
 			this.modo= Mode.ASUSTADO;
-			//this.iconoActual = this.iconos[8];
 			this.caminoAsus(mapaCol);
 		}
 		if (!asus){
@@ -202,6 +208,24 @@ public void draw(Graphics g) {
 	
 }
 
+public void refresh(Pacman pac, Map map){
+	this.mover(pac, this);
+	int contadorPasos=0;
+	if ((pac.getEstado() == Mode.ESTADOPODER)&&(this.asus==false)){
+		this.cambioEstado(true, map);
+		this.asus=true;
+	}
+	if (this.modo==Mode.ASUSTADO)
+		this.iconoActual=4;
+	if(pac.getEstado() == Mode.NORMAL){
+		this.asus=false;
+	}
+	if ((pac.getEstado() == Mode.NORMAL)&&(this.getModo()==Mode.ASUSTADO)){
+		this.cambioEstado(false, map);
+		contadorPasos = 0;
+		this.asus=false;
+	}
+}
 
 }
 

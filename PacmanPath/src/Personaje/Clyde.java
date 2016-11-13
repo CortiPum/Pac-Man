@@ -5,6 +5,7 @@ import java.awt.Image;
 
 import Estados.*;
 import MapaBuscador.*;
+import MapaN.MapaGeneral;
 import Util.Animacion;
 import Util.CargaImagen;
 import Util.Fantasma;
@@ -12,11 +13,13 @@ import Util.Id;
 
 public class Clyde extends Fantasma {
 	
+	private boolean aux;
 	//heredan getters y setters de fantasma
 	
 public Clyde(){
 	this.ID =Id.CLYDE;
-	
+	this.aux=false;
+	this.asus=false;
 	this.inicializarImagen();
 	this.imagenActual = iconos[0].getImagenIndex(0);
 	this.nombre ="Clyde";
@@ -25,8 +28,9 @@ public Clyde(){
 }
 
 public void reset(){
+	this.aux=false;
+	this.asus=false;
 	this.imagenActual = iconos[0].getImagenIndex(0);
-	this.nombre ="Clyde";
 	this.modo=Mode.INACTIVO;  //esta inactivo hasta que el pacman coma 3/4 del mapa
 	this.pos = new Position (14,16); 
 }
@@ -38,6 +42,7 @@ Image[] aux = new Image[2];
 Image[] aux2 = new Image[2];
 Image[] aux3 = new Image[2];
 Image[] aux4 = new Image[2];
+Image[] aux5 = new Image[1];
 
 aux[0] = car.carga("ZImagenes/orange1.gif");
 aux[1] = car.carga("ZImagenes/orange2.gif");
@@ -59,6 +64,10 @@ aux4[0] = car.carga("ZImagenes/orange7.gif");
 aux4[1] = car.carga("ZImagenes/orange8.gif");
 
 iconos[3]= new Animacion(aux4);
+
+aux5[0]= car.carga("ZImagenes/azul.gif");
+
+iconos[4]= new Animacion(aux5);
 }
 
 public void imagenActual(Path camino){
@@ -139,6 +148,7 @@ private void moverDis(Path camino){
 
 public void setPosInicial(){
 	this.pos = new Position (14,16); 
+	this.modo= Mode.DISPERCION;
 }
 
 
@@ -177,8 +187,28 @@ public void draw(Graphics g) {
 	
 }
 
-
-
+public void refresh(Pacman pac, Map map, MapaGeneral mapCol){
+		this.mover(pac, this);
+		if((pac.getPuntaje()>(3*mapCol.getPuntajeTotal())/4)&&(aux==false)){
+			this.setModo(Mode.DISPERCION);
+			aux=true;
+		}
+		int contadorPasos=0;
+		if ((pac.getEstado() == Mode.ESTADOPODER)&&(this.asus==false)){
+			this.cambioEstado(true,pac, map);
+			this.asus=true;
+		}
+		if (this.modo==Mode.ASUSTADO)
+			this.iconoActual=4;
+		if(pac.getEstado() == Mode.NORMAL){
+			this.asus=false;
+		}
+		if ((pac.getEstado() == Mode.NORMAL)&&(this.getModo()==Mode.ASUSTADO)){
+			this.cambioEstado(false,pac, map);
+			contadorPasos = 0;
+			this.asus=false;
+		}
+}
 
 
 	
