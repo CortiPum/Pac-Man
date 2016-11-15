@@ -3,6 +3,8 @@ package EstadoJ;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import Util.Ranking;
+
 public class ArregloEstados implements EstadoJuego {
 
 	public static EstadoJuego[] estados;
@@ -19,6 +21,7 @@ public void inicializarEstado(){
 	estados[1] = Jugar.getJugar();
 	estados[2] = new Reglas();
 	estados[3] = new MenuPausa();
+	estados[4] = new Rank();
 	
 }
 

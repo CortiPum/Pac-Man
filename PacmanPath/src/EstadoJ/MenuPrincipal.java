@@ -1,13 +1,19 @@
 package EstadoJ;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import Controlador.Mouse;
 import Personaje.*;
@@ -16,9 +22,13 @@ import Util.CargaImagen;
 import Ventanas.Juego;
 
 
+
 public class MenuPrincipal implements EstadoJuego{
 
 	private Animacion[] imagenes;
+	
+	public String x;
+	public static int x1=1;
 	
 	public Rectangle playButton = new Rectangle (250, 250, 170, 50);
 	public Rectangle scoreButton = new Rectangle(250, 300, 170, 50);
@@ -34,6 +44,10 @@ public MenuPrincipal(){
 	font2 = new Font("arial", Font.BOLD, 50);
 	imagenes = new Animacion[5];
 	this.cargarAnimacion();
+	
+}
+
+public void config(){
 	
 }
 
@@ -72,6 +86,42 @@ public void cargarAnimacion(){
 	aux5[1] = car.carga("ZImagenes/pacman_der_cerrado.gif");
 	
 	imagenes[4] = new Animacion(aux5);
+	
+}
+
+private void drawFrame() {
+	
+	final JFrame frame = new JFrame();
+	JPanel panel = new JPanel();
+	JButton button = new JButton("Choose");
+	String[] ar = new String[4];
+	ar[0]= "1";
+	ar[1]= "5";
+	ar[2]= "10";
+	ar[3]= "15";
+	final JComboBox combo = new JComboBox(ar);
+	
+	frame.setSize(300, 90);
+	frame.setVisible(true);
+	
+	panel.setBackground(Color.BLACK);
+	panel.add(button, BorderLayout.EAST);
+	panel.add(combo, BorderLayout.SOUTH);
+	
+	frame.add(panel);
+	
+	frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+	
+	button.addActionListener(new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			x = (String)combo.getSelectedItem();
+			x1= Integer.parseInt(x);
+			//System.out.println(x);
+			frame.setVisible(false);
+		}
+		
+	});
 	
 }
 
@@ -121,23 +171,31 @@ public void refresh() {
 	imagenes[2].refresh();
 	imagenes[3].refresh();
 	imagenes[4].refresh();
+	
 	if(Mouse.clickIzquierdo){
+		Mouse.refresh();
 		if (playButton.contains(Mouse.getPointer())){
 			ArregloEstados.cambiarEstado(1);
-		}
-		if (scoreButton.contains(Mouse.getPointer())){
-			
-		}
-		if (helpButton.contains(Mouse.getPointer())){
-			ArregloEstados.cambiarEstado(2);
-		}
-		if(quitButton.contains(Mouse.getPointer())){
-			Juego.jugando=false;
-		}
-		if(configButton.contains(Mouse.getPointer())){
-			
+		}else{
+			if (scoreButton.contains(Mouse.getPointer())){
+				ArregloEstados.cambiarEstado(4);
+			}else{
+				if (helpButton.contains(Mouse.getPointer())){
+					ArregloEstados.cambiarEstado(2);
+				}else{
+					if(quitButton.contains(Mouse.getPointer())){
+						Juego.jugando=false;
+					}else{
+						if(configButton.contains(Mouse.getPointer())){
+							drawFrame();
+						}
+					}
+				}
+			}
+		
+			}
 		}
 	}
 }
 
-}
+

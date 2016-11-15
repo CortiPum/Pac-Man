@@ -36,14 +36,20 @@ public class Pacman extends Dinamico {
 	private int contadorMuerteFantasma;
 	private boolean[] muerteFantasma;
 	private int cantObjComidos;
+	private long tiem;
+	private long delay;
+	private boolean auxiliarTiempo;
+	
 	
 	
 public Pacman(int x, int y){
 	super();
+	this.auxiliarTiempo=false;
+	this.tiem = System.currentTimeMillis();
 	this.ID=Id.PACMAN;
 	this.cantObjComidos=0;
 	this.contadorPasos=0;
-	this.muerteFantasma = new boolean[4];
+	this.muerteFantasma = new boolean[5];
 	this.inicializarMuerteFantasma();
 	this.inicializarImagenes();
 	this.puntaje=0;
@@ -55,6 +61,9 @@ public Pacman(int x, int y){
 }
 
 public void reset(){
+	this.tiem = System.currentTimeMillis();
+	this.auxiliarTiempo=false;
+	
 	this.cantObjComidos=0;
 	this.contadorPasos=0;
 	this.puntaje=0;
@@ -80,6 +89,7 @@ private void inicializarImagenes(){
 	Image[] aux2 = new Image[2];
 	Image[] aux3 = new Image[2];
 	Image[] aux4 = new Image[2];
+	Image[] aux5 = new Image[10];
 	
 	aux[0] = car.carga("ZImagenes/pacman_aba_cerrado.gif");
 	aux[1] = car.carga("ZImagenes/pacman_abajo_abierto.gif");
@@ -103,6 +113,19 @@ private void inicializarImagenes(){
 	aux4[1] = car.carga("ZImagenes/pacman_izq_abierto.gif");
 	
 	iconos[3]= new Animacion(aux4);
+	
+	aux5[0] = car.carga("ZImagenes/muerte1.png");
+	aux5[1] = car.carga("ZImagenes/muerte2.png");
+	aux5[2] = car.carga("ZImagenes/muerte3.png");
+	aux5[3] = car.carga("ZImagenes/muerte4.png");
+	aux5[4] = car.carga("ZImagenes/muerte5.png");
+	aux5[5] = car.carga("ZImagenes/muerte6.png");
+	aux5[6] = car.carga("ZImagenes/muerte7.png");
+	aux5[7] = car.carga("ZImagenes/muerte8.png");
+	aux5[8] = car.carga("ZImagenes/muerte9.png");
+	aux5[9] = car.carga("ZImagenes/muerte10.png");
+	
+	iconos[4] = new Animacion(aux5);
 }
 
 public Image getImg(){
@@ -170,6 +193,8 @@ public void comer (Position actual, MapaGeneral mapa){
 //entrara solo si colisiona con un fantasma y no esta en el estado poder.
 public void morir (Inky ink, Pinky pin, Clyde cly, Blinky blin){
 	this.setVidas(this.vidas-1);
+	
+	//this.delay=System.currentTimeMillis();
 	this.dir = Direccion.Este;
 	Position pos = new Position (23,14); 
 	this.setPos(pos); //posicion donde comienza
@@ -199,7 +224,7 @@ public void transport (Position pos){
 	}
 
 public void comerFantasma(Fantasma fan, int x){ //reveer (x es el multiplicador)
-	this.setPuntaje(this.puntaje+(x*400));
+	this.setPuntaje(this.puntaje+(x*200));
 	fan.setPosInicial();
 }
 
@@ -338,29 +363,42 @@ public void draw (Graphics g){
 
 public void refresh(Map mapa, MapaGeneral mapG, Blinky blin, Inky ink, Clyde cly, Pinky pin) {
 	
-	
-	iconos[iconoActual].refresh();
-	this.hayColision(blin, ink, cly, pin, mapG);
-	
-	if (mapG.getCelda(this.pos).hayTunel()){
-		Tunel tun = new Tunel(this.pos.getX(), this.pos.getY());
-		tun.teletransporte(this, this.pos);	
+	if(!this.auxiliarTiempo){
+		this.tiem = System.currentTimeMillis();
+		this.auxiliarTiempo=true;
 	}
-	this.mover(mapa);
-	this.hayColision(blin, ink, cly, pin, mapG);
+		
 	
-	if (contadorPasos == 81){
-		this.inicializarMuerteFantasma();
-		this.cambioEstado(false);
-		contadorPasos=0;
+/*	if(System.currentTimeMillis()-this.delay < 1000){
+		iconoActual=4;
+		iconos[iconoActual].refresh();
+		
+	}else{
+	*/	
+		iconos[iconoActual].refresh();
+		this.hayColision(blin, ink, cly, pin, mapG);
+	
+		if (mapG.getCelda(this.pos).hayTunel()){
+			Tunel tun = new Tunel(this.pos.getX(), this.pos.getY());
+			tun.teletransporte(this, this.pos);	
+		}
+		this.mover(mapa);
+		this.hayColision(blin, ink, cly, pin, mapG);
+	
+		if (contadorPasos == 81){
+			this.inicializarMuerteFantasma();
+			this.cambioEstado(false);
+			contadorPasos=0;
+		}
+	
+		imagenActual = iconos[iconoActual].getImagenActual();	
 	}
-	
-	imagenActual = iconos[iconoActual].getImagenActual();
-	
-	
-	
+
+
+public void jugadorGano(MapaGeneral mapa){
+	if(this.getCantObjetosComidos() == mapa.objTotal()){
+		
 	}
 }
-
-
+}
 

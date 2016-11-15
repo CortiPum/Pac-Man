@@ -17,6 +17,7 @@ public class Inky extends Fantasma {
 
 	//heredan getters y setters de Fantasma
 	private boolean aux;
+	private long tiem;
 	
 public Inky(){
 	this.ID=Id.INKY;
@@ -104,7 +105,7 @@ public void cambioEstado(boolean asus, Map mapaBuscador){ //el metodo de comer p
 		this.modo= Mode.ASUSTADO;
 	}
 	if ((asus==false) && (this.modo == Mode.ASUSTADO)) {
-		this.modo= Mode.DISPERCION;
+		this.modo= Mode.PERSECUCION;
 	//	this.iconoActual=this.iconos[0];//se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
 	}
 	
@@ -197,7 +198,8 @@ private void moverDis(Path camino){
 
 public void setPosInicial(){
 	this.pos = new Position (14,15); 
-	this.modo= Mode.DISPERCION;
+	if (this.modo == Mode.ASUSTADO)
+		this.modo = Mode.PERSECUCION;
 }
 
 @Override
@@ -213,6 +215,7 @@ public void refresh(Pacman pac, Map map){
 	this.mover(pac, this);
 	if((pac.getPuntaje()>30)&&(aux==false)){
 		this.setModo(Mode.DISPERCION);
+		this.tiem= System.currentTimeMillis();
 		aux=true;
 	}
 	int contadorPasos=0;
@@ -230,6 +233,31 @@ public void refresh(Pacman pac, Map map){
 		contadorPasos = 0;
 		this.asus=false;
 	}
+	this.controlaEstado();
 }
+
+public void controlaEstado(){
+	if ((System.currentTimeMillis()-this.tiem >=7000)&& (System.currentTimeMillis()-this.tiem <8000) && (this.modo !=Mode.ASUSTADO)){
+		this.setModo(Mode.PERSECUCION);
+	}
+	if ((System.currentTimeMillis()-this.tiem >= 34000) &&(System.currentTimeMillis()-this.tiem<35000)&&(this.modo != Mode.ASUSTADO)){
+		this.setModo(Mode.PERSECUCION);
+	}
+	if ((System.currentTimeMillis()-this.tiem >= 59000) &&(System.currentTimeMillis()-this.tiem<60000)&&(this.modo != Mode.ASUSTADO)){
+		this.setModo(Mode.PERSECUCION);
+	}
+	if ((System.currentTimeMillis()-this.tiem >= 84000)&&(this.modo != Mode.ASUSTADO)){
+		this.setModo(Mode.PERSECUCION);
+	}
+	if ((System.currentTimeMillis()-this.tiem >= 27000) &&(System.currentTimeMillis()-this.tiem<28000)&&(this.modo != Mode.ASUSTADO)){
+		this.setModo(Mode.DISPERCION);
+	}
+	if ((System.currentTimeMillis()-this.tiem >= 54000) &&(System.currentTimeMillis()-this.tiem<55000)&&(this.modo != Mode.ASUSTADO)){
+		this.setModo(Mode.DISPERCION);
+	}
+	if ((System.currentTimeMillis()-this.tiem >= 79000) &&(System.currentTimeMillis()-this.tiem<80000)&&(this.modo != Mode.ASUSTADO)){
+		this.setModo(Mode.DISPERCION);
+	}
+}	
 }
 

@@ -20,6 +20,7 @@ public void mouseClicked(MouseEvent e){
 	clickIzquierdo = true;
 }
 
+
 public static void refresh() {
 	if (clickIzquierdo) {		
 		clickIzquierdo = !clickIzquierdo;

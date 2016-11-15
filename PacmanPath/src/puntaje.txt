@@ -1,0 +1,3 @@
+Pamplinas,2420,0:55
+Corti,640,0:15
+CortiSuper,470,0:13

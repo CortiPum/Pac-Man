@@ -13,6 +13,7 @@ import Personaje.Clyde;
 import Personaje.Inky;
 import Personaje.Pacman;
 import Personaje.Pinky;
+import Util.Ranking;
 import Util.Tiempo;
 
 public class Jugar implements EstadoJuego {
@@ -26,9 +27,12 @@ public class Jugar implements EstadoJuego {
 	private Map map;
 	private MapaGeneral mapa;
 	private static Jugar jugar = new Jugar();
+	public static long tiem;
+	private boolean aux;
 	
 public Jugar(){
 	
+	aux = true;
 	tiempo = new Tiempo(300000);
 	blinky = new Blinky();
     clyde = new Clyde();
@@ -37,18 +41,21 @@ public Jugar(){
     pacman = new Pacman(23, 13);
     map = new Map();
     mapa = new MapaGeneral();
+    tiem = System.currentTimeMillis();
     
   
 }
 
 public void restart(){
-	tiempo.reset();
+	aux=true;
+	tiempo = new Tiempo(300000);
 	blinky.reset();
 	clyde.reset();
 	inky.reset();
 	pinky.reset();
 	pacman.reset();
     mapa.reset();
+    tiem = System.currentTimeMillis();
 }
 
 @Override
@@ -120,26 +127,25 @@ public static Jugar getJugar(){
 
 @Override
 public void refresh() {
+	
 	if ((Teclado.pause))
 		ArregloEstados.cambiarEstado(3);
 	else{
 		if ((pacman.puedeJugar()) && (pacman.getCantObjetosComidos() != mapa.objTotal()) && ((tiempo.tiempoCero())) ){
-			//clyde.estaPersecucion(pacman, blinky);
-			//blinky.estaPersecucion(pacman, blinky);
-			//pinky.estaPersecucion(pacman, blinky);
-			//inky.estaPersecucion(pacman, blinky);
 			blinky.refresh(pacman, map);
 			clyde.refresh(pacman, map, mapa);
 			inky.refresh(pacman, map);
 			pinky.refresh(pacman, map);
-			//blinky.estaDispercion();
-			//inky.estaDispercion();
-			//clyde.estaDispercion();
-			//pinky.estaDispercion();
 			pacman.refresh(map, mapa,blinky, inky, clyde, pinky);
 			tiempo.refresh();
-	
-}}
-	
-}
+		}else{
+			if ( aux ){
+				Ranking.getRanking().guardarPuntaje(pacman.getPuntaje(), tiempo.getTiempo());
+				aux=false;
+			}
+			//ArregloEstados.cambiarEstado(0);
+			
+			}
+	}
+	}
 }

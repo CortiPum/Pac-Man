@@ -49,6 +49,11 @@ public class Tiempo {
 			return ((minute >= 0)&& (second>=0));
 		}
 		
+		public String getTiempo(){
+			String min = Long.toString(4-this.minute);
+			String sec = Long.toString(60-this.second);
+			return (min+":"+sec);
+		}
 		
 		public void draw(Graphics2D g) {
 			g.setColor(Color.WHITE);

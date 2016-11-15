@@ -2,6 +2,8 @@ package Personaje;
 
 import java.awt.Graphics;
 import java.awt.Image;
+
+import EstadoJ.Jugar;
 import Estados.*;
 import MapaBuscador.*;
 import MapaN.MapaGeneral;
@@ -9,9 +11,12 @@ import Util.Animacion;
 import Util.CargaImagen;
 import Util.Fantasma;
 import Util.Id;
+import Ventanas.Juego;
 
 public class Blinky extends Fantasma { 
 
+	private long tiem;
+	private boolean auxiliarTiempo;
 	//hereda setters y getters de fantasma
 	
 	
@@ -19,16 +24,20 @@ public class Blinky extends Fantasma {
 public Blinky(){
 	this.ID=Id.BLINKY;
 	this.asus=false;
+	this.auxiliarTiempo=false;
 	this.inicializarImagen();
 	this.imagenActual=iconos[0].getImagenIndex(0);
 	this.nombre="Blinky"; 
 	this.modo= Mode.DISPERCION;
-	this.pos = new Position (11 , 13); 	
+	this.pos = new Position (11 , 13);
+	this.tiem = System.currentTimeMillis();
 }
 
 //mover esta en fantasma (controla que movimiento hara)
 public void reset(){
+	this.auxiliarTiempo=false;
 	this.asus=false;
+	this.tiem = System.currentTimeMillis();
 	this.imagenActual=iconos[0].getImagenIndex(0);
 	this.modo= Mode.DISPERCION;
 	this.pos = new Position (11 , 13); 	
@@ -142,7 +151,8 @@ private void moverDis(Path camino){
 
 
 public void setPosInicial(){
-	this.modo=Mode.DISPERCION;
+	if (this.modo == Mode.ASUSTADO)
+		this.modo = Mode.PERSECUCION;
 	this.pos = new Position (14,11); //Cuando muere Blinky se lo vuelve a ubicar en su posicion que sera dentro de la casa a la izquierda
 }
 
@@ -153,7 +163,7 @@ public void cambioEstado(boolean asus, Map mapaCol) {//el metodo de comer powerb
 		}
 		if (!asus){
 			//this.iconoActual=this.iconos[0];
-			this.modo= Mode.DISPERCION; //se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
+			this.modo= Mode.PERSECUCION; //se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
 		}
 
 		}
@@ -168,6 +178,11 @@ public void draw(Graphics g) {
 }
 
 public void refresh(Pacman pac, Map map){
+	if(this.auxiliarTiempo==false){
+		this.tiem=System.currentTimeMillis();
+		this.auxiliarTiempo=true;
+	}
+	
 	this.mover(pac, this);
 	int contadorPasos=0;
 	if ((pac.getEstado() == Mode.ESTADOPODER)&&(this.asus==false)){
@@ -184,16 +199,34 @@ public void refresh(Pacman pac, Map map){
 		contadorPasos = 0;
 		this.asus=false;
 	}
-/*	if ((System.currentTimeMillis() == 7000)||(System.currentTimeMillis()==34000)||(System.currentTimeMillis()==59000)||(System.currentTimeMillis()>84000)){ //arreglar
-		this.setModo(Mode.PERSECUCION);
-	}
-	if ((System.currentTimeMillis() == 27000)||(System.currentTimeMillis()==54000)||(System.currentTimeMillis()==79000)){
-		this.setModo(Mode.DISPERCION);
-		
-	}*/
-}
-
+	
+	this.controlaEstado();
 	
 }
 
+
+public void controlaEstado(){
+	if ((System.currentTimeMillis()-this.tiem >=7000)&& (System.currentTimeMillis()-this.tiem <8000) && (this.modo !=Mode.ASUSTADO)){
+		this.setModo(Mode.PERSECUCION);
+	}
+	if ((System.currentTimeMillis()-this.tiem >= 34000) &&(System.currentTimeMillis()-this.tiem<35000)&&(this.modo != Mode.ASUSTADO)){
+		this.setModo(Mode.PERSECUCION);
+	}
+	if ((System.currentTimeMillis()-this.tiem >= 59000) &&(System.currentTimeMillis()-this.tiem<60000)&&(this.modo != Mode.ASUSTADO)){
+		this.setModo(Mode.PERSECUCION);
+	}
+	if ((System.currentTimeMillis()-this.tiem >= 84000)&&(this.modo != Mode.ASUSTADO)){
+		this.setModo(Mode.PERSECUCION);
+	}
+	if ((System.currentTimeMillis()-this.tiem >= 27000) &&(System.currentTimeMillis()-this.tiem<28000)&&(this.modo != Mode.ASUSTADO)){
+		this.setModo(Mode.DISPERCION);
+	}
+	if ((System.currentTimeMillis()-this.tiem >= 54000) &&(System.currentTimeMillis()-this.tiem<55000)&&(this.modo != Mode.ASUSTADO)){
+		this.setModo(Mode.DISPERCION);
+	}
+	if ((System.currentTimeMillis()-this.tiem >= 79000) &&(System.currentTimeMillis()-this.tiem<80000)&&(this.modo != Mode.ASUSTADO)){
+		this.setModo(Mode.DISPERCION);
+	}
+}	
+}
 

@@ -14,11 +14,15 @@ import Util.Id;
 
 public class Pinky extends Fantasma{
 	
+	private long tiem;
+	private boolean auxiliarTiempo;
 	//heredan getters y setters de fantasma
 
 	
 public Pinky(){
 	this.ID=Id.PINKY;
+	this.tiem=System.currentTimeMillis();
+	this.auxiliarTiempo=false;
 	this.asus=false;
 	this.inicializarImagen();
 	this.iconoActual = 0;
@@ -30,6 +34,8 @@ public Pinky(){
 	
 public void reset(){
 	this.asus=false;
+	this.auxiliarTiempo=false;
+	this.tiem=System.currentTimeMillis();
 	this.iconoActual = 0;
 	this.imagenActual = iconos[0].getImagenIndex(0);
 	this.nombre= "Pinky";
@@ -180,7 +186,8 @@ private void moverDis(Path camino){
 
 public void setPosInicial(){
 	this.pos = new Position (14,12); 
-	this.modo= Mode.DISPERCION;
+	if (this.modo == Mode.ASUSTADO)
+		this.modo = Mode.PERSECUCION;
 }
 
 public void cambioEstado(boolean asus, Map mapaCol) {
@@ -190,7 +197,7 @@ public void cambioEstado(boolean asus, Map mapaCol) {
 			this.caminoAsus(mapaCol);
 		}
 		if (!asus){
-			this.modo= Mode.DISPERCION; 
+			this.modo= Mode.PERSECUCION; 
 			//this.iconoActual = this.iconos[0];//se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
 		}
 		
@@ -209,6 +216,10 @@ public void draw(Graphics g) {
 }
 
 public void refresh(Pacman pac, Map map){
+	if(this.auxiliarTiempo==false){
+		this.tiem=System.currentTimeMillis();
+		this.auxiliarTiempo=true;
+	}
 	this.mover(pac, this);
 	int contadorPasos=0;
 	if ((pac.getEstado() == Mode.ESTADOPODER)&&(this.asus==false)){
@@ -225,10 +236,27 @@ public void refresh(Pacman pac, Map map){
 		contadorPasos = 0;
 		this.asus=false;
 	}
-}
+	this.controlaEstado();
 
 }
 
+
+public void controlaEstado(){
+	if ((System.currentTimeMillis()-this.tiem >=7000)&& (System.currentTimeMillis()-this.tiem <8000) && (this.modo !=Mode.ASUSTADO)){
+		this.setModo(Mode.PERSECUCION);
+	}
+	if ((System.currentTimeMillis()-this.tiem >= 34000) &&(System.currentTimeMillis()-this.tiem<35000)&&(this.modo != Mode.ASUSTADO)){
+		this.setModo(Mode.PERSECUCION);
+	}
+	if ((System.currentTimeMillis()-this.tiem >= 59000) &&(System.currentTimeMillis()-this.tiem<60000)&&(this.modo != Mode.ASUSTADO)){
+		this.setModo(Mode.PERSECUCION);
+	}
+	if ((System.currentTimeMillis()-this.tiem >= 84000)&&(this.modo != Mode.ASUSTADO)){
+		this.setModo(Mode.PERSECUCION);
+	}
+
+}
+}
 /* el fantasma va a tomar el arreglo de pasos que tiene el pacman,
  *  de ahi tomara el 4to lugar para crear un camino desde la
  *   posicion del fantasma hacia ese cuarto lugar del arreglo de

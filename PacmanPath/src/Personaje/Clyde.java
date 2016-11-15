@@ -148,11 +148,13 @@ private void moverDis(Path camino){
 
 public void setPosInicial(){
 	this.pos = new Position (14,16); 
-	this.modo= Mode.DISPERCION;
+	//this.modo= Mode.DISPERCION;
+	if (this.modo == Mode.ASUSTADO)
+		this.modo = Mode.PERSECUCION;
 }
 
 
-public void cambioEstado(boolean asus, Pacman pac, Map mapaCol) {
+public void cambioEstado(boolean asus, Map mapaCol) {
 	if ((asus) && ((this.modo == Mode.PERSECUCION) || (this.modo == Mode.DISPERCION))){
 		this.caminoAsus(mapaCol);
 		//this.iconoActual=this.iconos[8];
@@ -161,16 +163,6 @@ public void cambioEstado(boolean asus, Pacman pac, Map mapaCol) {
 	if ((asus==false) &&(this.modo == Mode.ASUSTADO)) {
 		this.modo= Mode.PERSECUCION;
 		//this.iconoActual=this.iconos[0];//se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
-	}
-	if (this.modo != Mode.ASUSTADO){
-		int xpac = pac.getPos().getX();
-		int ypac = pac.getPos().getY();
-		int cxpos = this.pos.getX();
-		int cypos =this.pos.getY();
-		if ((Math.abs(xpac-cxpos)< 8) && (Math.abs(ypac-cypos)<8)){
-			int cas = Math.abs(xpac-cxpos) + Math.abs(ypac-cypos);
-			if(cas<8) this.modo = Mode.DISPERCION;
-		}
 	}
 	}
 
@@ -195,7 +187,7 @@ public void refresh(Pacman pac, Map map, MapaGeneral mapCol){
 		}
 		int contadorPasos=0;
 		if ((pac.getEstado() == Mode.ESTADOPODER)&&(this.asus==false)){
-			this.cambioEstado(true,pac, map);
+			this.cambioEstado(true, map);
 			this.asus=true;
 		}
 		if (this.modo==Mode.ASUSTADO)
@@ -204,12 +196,25 @@ public void refresh(Pacman pac, Map map, MapaGeneral mapCol){
 			this.asus=false;
 		}
 		if ((pac.getEstado() == Mode.NORMAL)&&(this.getModo()==Mode.ASUSTADO)){
-			this.cambioEstado(false,pac, map);
+			this.cambioEstado(false, map);
 			contadorPasos = 0;
 			this.asus=false;
 		}
+		this.controlaEstado(pac);
 }
 
-
+public void controlaEstado(Pacman pac){
+	if ((this.modo != Mode.ASUSTADO)&&(this.modo != Mode.INACTIVO)){
+		int xpac = pac.getPos().getX();
+		int ypac = pac.getPos().getY();
+		int cxpos = this.pos.getX();
+		int cypos =this.pos.getY();
+		if ((Math.abs(xpac-cxpos)< 8) && (Math.abs(ypac-cypos)<8)){
+			int cas = Math.abs(xpac-cxpos) + Math.abs(ypac-cypos);
+			if(cas<8) this.modo = Mode.DISPERCION;
+		}else
+			this.modo = Mode.PERSECUCION;
+}
+}
 	
 }
