@@ -24,7 +24,6 @@ public void inicializarImagen(){
 	this.imagen = car.carga("ZImagenes/wall.gif");
 }
 
-
 @Override
 public void draw(Graphics g) {
 	g.drawImage(this.imagen,this.pos.getX()*23+8, this.pos.getY()*23+30, null);	

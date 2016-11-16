@@ -1,3 +1,9 @@
+Corti,3050,0:40
+Corti,2900,1:5
 Pamplinas,2420,0:55
+Corti,2230,0:38
+Corti,2140,0:36
 Corti,640,0:15
+Corti,560,0:15
 CortiSuper,470,0:13
+Corti,340,0:12

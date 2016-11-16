@@ -14,32 +14,32 @@ public class Teclado extends KeyAdapter{
 	public static boolean izquierda;
 	public static boolean pause;
 
-	public Teclado() {
-		teclas = new boolean[cantTeclas]; 
-	}
+public Teclado() {
+	teclas = new boolean[cantTeclas]; 
+}
 		
 		
-	public void refresh() {
-		pause = teclas[KeyEvent.VK_ESCAPE];
-		arriba = teclas[KeyEvent.VK_UP];
-		abajo = teclas[KeyEvent.VK_DOWN];
-		derecha = teclas[KeyEvent.VK_RIGHT];
-		izquierda = teclas[KeyEvent.VK_LEFT];
-	}
+public void refresh() {
+	pause = teclas[KeyEvent.VK_ESCAPE];
+	arriba = teclas[KeyEvent.VK_UP];
+	abajo = teclas[KeyEvent.VK_DOWN];
+	derecha = teclas[KeyEvent.VK_RIGHT];
+	izquierda = teclas[KeyEvent.VK_LEFT];
+}
 		
 		
-	@Override
-	public void keyPressed(KeyEvent e) {
-		teclas[e.getKeyCode()] = true;
-		e.consume();
-	}
+@Override
+public void keyPressed(KeyEvent e) {
+	teclas[e.getKeyCode()] = true;
+	e.consume();
+}
 
 	
-	@Override
-	public void keyReleased(KeyEvent e) {
-		teclas[e.getKeyCode()] = false;
-		e.consume();
-	}
+@Override
+public void keyReleased(KeyEvent e) {
+	teclas[e.getKeyCode()] = false;
+	e.consume();
+}
 
 
 }

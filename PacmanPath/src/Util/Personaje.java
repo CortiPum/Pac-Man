@@ -6,13 +6,11 @@ public abstract class Personaje {
 
 	protected Id ID;
 	
+public Id getID(){
+	return this.ID;
+	}
 	
-	
-	public Id getID(){
-			return this.ID;
-		}
-	
-	public abstract void draw(Graphics g);
+public abstract void draw(Graphics g);
 	
 }
 	

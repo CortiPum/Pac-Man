@@ -1,19 +1,5 @@
 package Ventanas;
-
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.io.IOException;
-import java.net.URL;
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import MapaBuscador.*;
-import MapaN.MapaGeneral;
-import Personaje.*;
-import Personaje.Pacman;
-
 
 public class Juego implements Runnable {
 	 
@@ -22,8 +8,7 @@ public class Juego implements Runnable {
 	private Ventana ventana;
     private SuperficieDibujo superficie;
     public static long time;
-    
-    //private TestPacman testPacman;
+ 
  
  public Juego(){   
    superficie = new SuperficieDibujo();
@@ -37,10 +22,9 @@ public class Juego implements Runnable {
 	}catch(Exception e){
 		e.printStackTrace();
 	}
-	}
+}
  
 public void start(){
-
 	thread = new Thread(this);
 	jugando = true;
 	thread.start();
@@ -56,7 +40,6 @@ public void run() {
 		try {
 			thread.sleep(125);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

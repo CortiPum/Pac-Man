@@ -2,34 +2,19 @@ package Ventanas;
 
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
-
-import javax.swing.JPanel;
-
 import Controlador.Mouse;
 import Controlador.Teclado;
 import EstadoJ.ArregloEstados;
-import Personaje.*;
-
-import MapaBuscador.Map;
-import MapaN.MapaGeneral;
 
 public class SuperficieDibujo extends Canvas{
 	
 	private ArregloEstados estadoJuego;
-	
 	private Teclado teclado;
-	
 	private Mouse mouse;
 	
-	
-	
-
 public SuperficieDibujo(){
 	teclado = new Teclado();
 	mouse = new Mouse();

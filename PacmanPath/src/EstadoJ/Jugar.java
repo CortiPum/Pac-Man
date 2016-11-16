@@ -2,9 +2,9 @@ package EstadoJ;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import Controlador.Mouse;
 import Controlador.Teclado;
 import MapaBuscador.Map;
 import MapaN.MapaGeneral;
@@ -42,11 +42,9 @@ public Jugar(){
     map = new Map();
     mapa = new MapaGeneral();
     tiem = System.currentTimeMillis();
-    
-  
 }
 
-public void restart(){
+public void restart(){  //el juego se resetea en caso de terminar la partida (pulsando el boton exit) o cuando se hace un reset desde la pausa
 	aux=true;
 	tiempo = new Tiempo(300000);
 	blinky.reset();
@@ -79,26 +77,22 @@ public void draw (Graphics2D g){
 	g.setColor(Color.WHITE);
 	g.setFont(new Font("Tahoma",Font.BOLD,30));
 	
-	//tiempo
-
-	
 	//dibuja el puntaje actual del pacman
 	Integer pun = pacman.getPuntaje();
 	String puntos = pun.toString();
 	g.setColor(Color.WHITE);
 	g.drawString(puntos, 23,23);
-	//
-		
+	//dibuja el mapa
 	mapa.draw(g);
-	
-	
-	
+	//dibuja los personajes
 	pacman.draw(g);
 	blinky.draw(g);
 	pinky.draw(g);
 	inky.draw(g);
 	clyde.draw(g);
 	
+	
+	//dibuja mensajes en pantalla en caso de ganar o perder.
 	g.setColor(Color.WHITE);
 	g.setFont(new Font("Tahoma",Font.BOLD,20));
 	if ((pacman.getVidas() == 0)|| (!(tiempo.tiempoCero()))){
@@ -111,8 +105,7 @@ public void draw (Graphics2D g){
 		g.drawString(ganaste,12*23, 19*23 );
 	}
 	
-	//tiempo
-	
+	//dibuja el tiempo
 	if(!(tiempo.tiempoCero())){
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Bold", Font.BOLD, 30));
@@ -121,13 +114,14 @@ public void draw (Graphics2D g){
 		tiempo.draw(g);
 	}
 }
+
 public static Jugar getJugar(){
 	return jugar;
 }
 
 @Override
 public void refresh() {
-	
+	Mouse.refresh();
 	if ((Teclado.pause))
 		ArregloEstados.cambiarEstado(3);
 	else{
@@ -143,9 +137,13 @@ public void refresh() {
 				Ranking.getRanking().guardarPuntaje(pacman.getPuntaje(), tiempo.getTiempo());
 				aux=false;
 			}
-			//ArregloEstados.cambiarEstado(0);
-			
+			ArregloEstados.cambiarEstado(0);
+			this.restart();
 			}
 	}
 	}
 }
+
+/*
+ * Este estado de juego es el juego principal.
+ */

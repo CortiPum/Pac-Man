@@ -2,11 +2,8 @@ package Personaje;
 
 import java.awt.Graphics;
 import java.awt.Image;
-
 import Estados.*;
-
 import MapaBuscador.*;
-import MapaN.MapaGeneral;
 import Util.Animacion;
 import Util.CargaImagen;
 import Util.Direccion;
@@ -44,18 +41,14 @@ public void reset(){
 public void imagenActual(Path camino){
 	if (camino.getStep(1).getX() > this.pos.getX()){
 		iconoActual= 0;
-		
 	}else{
 			if(camino.getStep(1).getX()<this.pos.getX()){
 				iconoActual = 3;
-				
 			}else{
 				if(camino.getStep(1).getY()>this.pos.getY()){
 					iconoActual =1;
-					
 				}else{
 					iconoActual =2;
-					
 				}
 			}
 	}
@@ -106,7 +99,7 @@ public void cambioEstado(boolean asus, Map mapaBuscador){ //el metodo de comer p
 	}
 	if ((asus==false) && (this.modo == Mode.ASUSTADO)) {
 		this.modo= Mode.PERSECUCION;
-	//	this.iconoActual=this.iconos[0];//se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
+	//se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
 	}
 	
 	}
@@ -154,16 +147,11 @@ public void estaPersecucion(Pacman pac, Fantasma blin){
 				this.moverDis(cam2); 
 			}	
 	}
-
-
-
 public void estaDispercion(){
 	Path caminoA = null;
 	Path caminoB = null;
 	Path caminoC = null;
-	Path caminoD = null;
-		
-		
+	Path caminoD = null;	
 		if (((this.pos.getX() >= 23) && (this.pos.getX() <27) && (this.pos.getY() >= 21)) ){
 			caminoB = PathFinder.findPath(this.pos.getX(), this.pos.getY(), 27, 26);
 			this.moverDis(caminoB);
@@ -177,7 +165,6 @@ public void estaDispercion(){
 					caminoD = PathFinder.findPath(this.pos.getX(), this.pos.getY(), 23, 20);
 					this.moverDis(caminoD);
 				}else { 
-					
 						caminoA = PathFinder.findPath(this.pos.getX(), this.pos.getY(), 23 ,21 );
 						this.moverDis(caminoA);
 						
@@ -186,14 +173,12 @@ public void estaDispercion(){
 
 private void moverDis(Path camino){
 	if (camino == null){
-		//System.out.println("No hay camino posible");
+
 		}
 	else{
-					//System.out.print("Posicion actual:");
-					//System.out.println("(" + camino.getStep(0).getX() + ","+ camino.getStep(0).getY() + ")");
-					this.imagenActual(camino);
-					this.setPos(new Position (camino.getStep(1).getX(), camino.getStep(1).getY()));
-}
+		this.imagenActual(camino);
+		this.setPos(new Position (camino.getStep(1).getX(), camino.getStep(1).getY()));
+	}
 }
 
 public void setPosInicial(){
@@ -204,10 +189,8 @@ public void setPosInicial(){
 
 @Override
 public void draw(Graphics g) {
-	//esto en el refresh
-		imagenActual = iconos[iconoActual].getImagenActual();
-		iconos[iconoActual].refresh();
-		//
+	imagenActual = iconos[iconoActual].getImagenActual();
+	iconos[iconoActual].refresh();
 	g.drawImage(imagenActual, this.pos.getY()*23+8, this.pos.getX()*23+30, null);
 }
 
@@ -218,7 +201,6 @@ public void refresh(Pacman pac, Map map){
 		this.tiem= System.currentTimeMillis();
 		aux=true;
 	}
-	int contadorPasos=0;
 	if ((pac.getEstado() == Mode.ESTADOPODER)&&(this.asus==false)){
 		this.cambioEstado(true,map);
 		this.asus=true;
@@ -230,7 +212,6 @@ public void refresh(Pacman pac, Map map){
 	}
 	if ((pac.getEstado() == Mode.NORMAL)&&(this.getModo()==Mode.ASUSTADO)){
 		this.cambioEstado(false,map);
-		contadorPasos = 0;
 		this.asus=false;
 	}
 	this.controlaEstado();

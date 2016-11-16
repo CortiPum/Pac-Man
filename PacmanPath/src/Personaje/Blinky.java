@@ -2,16 +2,12 @@ package Personaje;
 
 import java.awt.Graphics;
 import java.awt.Image;
-
-import EstadoJ.Jugar;
 import Estados.*;
 import MapaBuscador.*;
-import MapaN.MapaGeneral;
 import Util.Animacion;
 import Util.CargaImagen;
 import Util.Fantasma;
 import Util.Id;
-import Ventanas.Juego;
 
 public class Blinky extends Fantasma { 
 
@@ -34,6 +30,7 @@ public Blinky(){
 }
 
 //mover esta en fantasma (controla que movimiento hara)
+
 public void reset(){
 	this.auxiliarTiempo=false;
 	this.asus=false;
@@ -44,43 +41,43 @@ public void reset(){
 }
 
 public void inicializarImagen(){
-CargaImagen car = new CargaImagen();
+	CargaImagen car = new CargaImagen();
 
-Image[] aux = new Image[2];
-Image[] aux2 = new Image[2];
-Image[] aux3 = new Image[2];
-Image[] aux4 = new Image[2];
-Image[] aux5 = new Image[1];
+	Image[] aux = new Image[2];
+	Image[] aux2 = new Image[2];
+	Image[] aux3 = new Image[2];	
+	Image[] aux4 = new Image[2];
+	Image[] aux5 = new Image[1];
 
-aux[0] = car.carga("ZImagenes/red1.gif");
-aux[1] = car.carga("ZImagenes/red2.gif");
+	aux[0] = car.carga("ZImagenes/red1.gif");
+	aux[1] = car.carga("ZImagenes/red2.gif");
 
-iconos[0]= new Animacion(aux);
+	iconos[0]= new Animacion(aux);
 
-aux2[0] = car.carga("ZImagenes/red3.gif");
-aux2[1] = car.carga("ZImagenes/red4.gif");
+	aux2[0] = car.carga("ZImagenes/red3.gif");
+	aux2[1] = car.carga("ZImagenes/red4.gif");
 
-iconos[1] = new Animacion(aux2);
+	iconos[1] = new Animacion(aux2);
 
-aux3[0]= car.carga("ZImagenes/red5.gif");
-aux3[1] = car.carga("ZImagenes/red6.gif");
+	aux3[0]= car.carga("ZImagenes/red5.gif");
+	aux3[1] = car.carga("ZImagenes/red6.gif");
 
-iconos[2] = new Animacion(aux3);
+	iconos[2] = new Animacion(aux3);
 
 
-aux4[0] = car.carga("ZImagenes/red7.gif");
-aux4[1] = car.carga("ZImagenes/red8.gif");
+	aux4[0] = car.carga("ZImagenes/red7.gif");
+	aux4[1] = car.carga("ZImagenes/red8.gif");
 
-iconos[3]= new Animacion(aux4);
+	iconos[3]= new Animacion(aux4);
 
-aux5[0] = car.carga("ZImagenes/azul.gif");
+	aux5[0] = car.carga("ZImagenes/azul.gif");
 
-iconos[4]= new Animacion(aux5);
+	iconos[4]= new Animacion(aux5);
 }
 
 
 public Animacion [] getIconos(){
-return (this.iconos);
+	return (this.iconos);
 }
 
 public void estaPersecucion(Pacman pac, Fantasma blin){
@@ -92,7 +89,6 @@ public void estaPersecucion(Pacman pac, Fantasma blin){
 	this.moverDis(caminoB);
 
 }
-
 
 public void estaDispercion(){
 	Path caminoA = null;
@@ -139,13 +135,11 @@ public void imagenActual(Path camino){
 
 private void moverDis(Path camino){
 	if (camino == null){
-		//System.out.println("No hay camino posible");
+
 		}
 	else{
-					//System.out.print("Posicion actual:");
-					//System.out.println("(" + camino.getStep(0).getX() + ","+ camino.getStep(0).getY() + ")");
-					this.imagenActual(camino);
-					this.setPos(new Position (camino.getStep(1).getX(), camino.getStep(1).getY()));
+		this.imagenActual(camino);
+		this.setPos(new Position (camino.getStep(1).getX(), camino.getStep(1).getY()));
 }
 }
 
@@ -157,23 +151,19 @@ public void setPosInicial(){
 }
 
 public void cambioEstado(boolean asus, Map mapaCol) {//el metodo de comer powerball devuelve un booleano, cqso contrario se pasara un false
-		if (asus) {
-			this.modo= Mode.ASUSTADO;
-			this.caminoAsus(mapaCol);
-		}
-		if (!asus){
-			//this.iconoActual=this.iconos[0];
-			this.modo= Mode.PERSECUCION; //se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
-		}
-
-		}
+	if (asus) {
+		this.modo= Mode.ASUSTADO;
+		this.caminoAsus(mapaCol);
+	}
+	if (!asus){
+		this.modo= Mode.PERSECUCION; //se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
+	}
+}
 
 @Override
 public void draw(Graphics g) {
-	//esto va en el refresh
 	imagenActual = iconos[iconoActual].getImagenActual();
 	iconos[iconoActual].refresh();
-	//
 	g.drawImage(imagenActual, this.pos.getY()*23+8, this.pos.getX()*23+30, null);
 }
 
@@ -184,7 +174,6 @@ public void refresh(Pacman pac, Map map){
 	}
 	
 	this.mover(pac, this);
-	int contadorPasos=0;
 	if ((pac.getEstado() == Mode.ESTADOPODER)&&(this.asus==false)){
 		this.cambioEstado(true, map);
 		this.asus=true;
@@ -196,7 +185,6 @@ public void refresh(Pacman pac, Map map){
 	}
 	if ((pac.getEstado() == Mode.NORMAL)&&(this.getModo()==Mode.ASUSTADO)){
 		this.cambioEstado(false, map);
-		contadorPasos = 0;
 		this.asus=false;
 	}
 	

@@ -27,8 +27,7 @@ public void inicializarImagen(){
 @Override
 public void draw(Graphics g) {
 	g.drawImage(this.imagen, this.pos.getX()*23+8, this.pos.getY()*23+30, null);
-	}
-
+}
 	
 }
 /*para dibujar la imagen, agarra la posicion actual del objeto, la multiplica por 23

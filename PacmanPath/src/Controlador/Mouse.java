@@ -32,3 +32,9 @@ public static Point getPointer(){
 }
 
 }
+
+
+/*
+*Esta clase sirve para manejar los eventos de teclado. Se fija cuando hace click (la variable se llama click izquierdo, pero 
+*en realidad pone en true ese booleano cuando sucede algun evento de Mouseclicked (sea click derecho o izquierdo)
+*/

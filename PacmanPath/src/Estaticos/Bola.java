@@ -12,8 +12,6 @@ public class Bola extends Estatico{
 	//hereda Position pos
 	//hereda el metodo getId de Personaje
 	
-	
-	
 public Bola(int x, int y){
 	this.ID=Id.BOLA;
 	this.pos = new Position (y,x);

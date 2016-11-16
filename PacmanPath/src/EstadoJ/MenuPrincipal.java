@@ -3,20 +3,16 @@ package EstadoJ;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 import Controlador.Mouse;
-import Personaje.*;
 import Util.Animacion;
 import Util.CargaImagen;
 import Ventanas.Juego;
@@ -30,14 +26,14 @@ public class MenuPrincipal implements EstadoJuego{
 	public String x;
 	public static int x1=1;
 	
-	public Rectangle playButton = new Rectangle (250, 250, 170, 50);
-	public Rectangle scoreButton = new Rectangle(250, 300, 170, 50);
-	public Rectangle helpButton= new Rectangle (250, 350, 170, 50);
-	public Rectangle configButton= new Rectangle(250, 400, 170, 50);
-	public Rectangle quitButton = new Rectangle (250, 450, 170, 50) ;
+	private Rectangle playButton = new Rectangle (250, 250, 180, 50);
+	private Rectangle scoreButton = new Rectangle(250, 300, 180, 50);
+	private Rectangle helpButton= new Rectangle (250, 350, 180, 50);
+	private Rectangle configButton= new Rectangle(250, 400, 180, 50);
+	private Rectangle quitButton = new Rectangle (250, 450, 180, 50) ;
 	
-	public Font font;
-	public Font font2;
+	private Font font;
+	private Font font2;
 	
 public MenuPrincipal(){
 	font = new Font("arial",Font.ROMAN_BASELINE, 25);
@@ -91,7 +87,7 @@ public void cargarAnimacion(){
 
 private void drawFrame() {
 	
-	final JFrame frame = new JFrame();
+	final JFrame frame = new JFrame("Selector de usuarios a mostrar en el ranking");
 	JPanel panel = new JPanel();
 	JButton button = new JButton("Choose");
 	String[] ar = new String[4];
@@ -117,7 +113,6 @@ private void drawFrame() {
 		public void actionPerformed(ActionEvent e) {
 			x = (String)combo.getSelectedItem();
 			x1= Integer.parseInt(x);
-			//System.out.println(x);
 			frame.setVisible(false);
 		}
 		
@@ -161,7 +156,7 @@ public void draw(Graphics2D g) {
 	g.draw(quitButton);
 	
 	g.setColor(Color.WHITE);
-	g.drawString("Hecho por :", 100, 650);
+	g.drawString("Hecho por :", 60, 690);
 }
 
 @Override
@@ -198,4 +193,9 @@ public void refresh() {
 	}
 }
 
-
+/*
+ * Menu principal del juego, es el estado inicial. De este estado, dependiendo de la accion
+ * se podra pasar al estado juego, al reglas, ranking. Tambien se podra salir del juego y en
+ * el boton configuracion aparecera una ventana con un selector para mostrar cuantos usuarios deben
+ * mostrarse en el ranking
+ */

@@ -1,9 +1,7 @@
 package EstadoJ;
 
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import Util.Ranking;
 
 public class ArregloEstados implements EstadoJuego {
 
@@ -42,7 +40,6 @@ public static void cambiarEstado(int i){
 @Override
 public void refresh() {
 	estadoActual.refresh();
-	
 }
 
 @Override
@@ -50,3 +47,8 @@ public void draw(Graphics2D g) {
 	estadoActual.draw(g);
 }
 }
+
+/*
+ * es un arreglo que dentro tiene los 5 estados posibles del juego
+ * el de jugar, el de la pausa, el del menu principal, el de reglas y el del ranking
+ */

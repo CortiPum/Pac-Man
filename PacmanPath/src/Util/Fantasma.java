@@ -51,31 +51,23 @@ public abstract void estaDispercion();
 
 public void caminoAsus(Map mapaBuscador){
 	Position esqRan = mapaBuscador.getEsquinaRandom();
-	//System.out.println(esqRan.getX());
-	//System.out.println(esqRan.getY());
 	this.caminoAsus= PathFinder.findPath(this.pos.getX(),this.pos.getY(), esqRan.getX(), esqRan.getY());
 }
 
 public void estaAsustado(){
 	if (this.caminoAsus == null){
-		//System.out.println("No hay camino posible");
-	
+
 		}else{
 	if (this.caminoAsus.getSteps().isEmpty()){
-		//System.out.println("Quedo Vacio");
+		
 	}
 	else {
-					//System.out.print("Posicion actual:");
-					//System.out.println("(" + this.caminoAsus.getStep(0).getX() + ","+ this.caminoAsus.getStep(0).getY() + ")");
-					this.setPos(new Position (caminoAsus.getStep(0).getX(), caminoAsus.getStep(0).getY()));
-					this.caminoAsus.removeStep(0);
+		this.setPos(new Position (caminoAsus.getStep(0).getX(), caminoAsus.getStep(0).getY()));
+		this.caminoAsus.removeStep(0);
+	}
 }
+
 }
 
 //hereda getter y setter de dinamico (getPos)
-/*
-public void refresh(Pacman pac, Fantasma fantasma){
-	this.mover(pac, fantasma);
 }
-	*/
-}}

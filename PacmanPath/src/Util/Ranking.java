@@ -6,19 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
+
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -69,9 +64,6 @@ public void agregar(String nombre, Integer puntos, String tiempo){
 public void rank(){
 	File archivo = new File ("src/puntaje.txt");
 	Writer writer = null;
-	
-	
-	
 	String str = "";
 	
 	try{
@@ -81,7 +73,6 @@ public void rank(){
 				if(userPos[i].getPuntos()!=0)
 					str = str+userPos[i].getNombre()+","+userPos[i].getPuntos()+","+userPos[i].getTiempo()+'\n';
 			}
-			//System.out.println(str);
 			writer.write(str);
 			writer.close();
 		}else{
@@ -117,7 +108,6 @@ public void leer(){
   			i++;
   			
           }     	
-          
           bufferedReader.close();         
       }
       catch(FileNotFoundException ex) {
@@ -165,85 +155,7 @@ public void guardarPuntaje(int puntos, String tiempo){
 			rank();
 		}
 	});
-	/*while ((userName.getText().compareTo("")==0)||(userName.getText().length()<2)){
-		btn.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// pone el ultimo score con el nombre indicado
-				agregar(userName.getText(), puntajeActual, tiempoActual);
-				frame.setVisible(false);
-				rank();
-			}
-		});
-	}*/
 }
 }
 
 
-/*
-
-public void useFileWriter( ) {
-	
-    String fileName = "src/puntuacion.txt";
-	
-    String content = "";
-    
-    for(int i=0;i< puntos.length;i++){
-    	content = content + nombre[i]+","+puntos[i]+"\n";
-	}
-  
-	 Writer writer = null;
-		
-	try {
-		writer = new FileWriter(fileName);
-		writer.write(content);
-		
-	} catch (IOException e) {
-		System.err.println("Error writing the file : ");
-		e.printStackTrace();
-	} finally {
-		
-	if (writer != null) {
-		try {
-			writer.close();
-		}catch (IOException e) {
-			System.err.println("Error closing the file : ");
-			e.printStackTrace();
-			}
-		}
-	}
-}
-
-
-	
-public void leerUsuario(String nombre, int puntos, String tiempo){
-	ObjectOutputStream salida = null;
-	
-	
-	try{
-		salida = new ObjectOutputStream ( new FileOutputStream ("C:/Users/corti/Desktop/ranking.dat"));
-		salida.writeObject("Ranking");
-		Usuario user = new Usuario (nombre, puntos, tiempo);
-		//rank.add(user);
-		//rank.sort(puntos);
-		salida.writeObject(user);
-	}catch(IOException e){
-		e.printStackTrace();
-		
-	}
-	
-}
-
-public void leerDesde () throws ClassNotFoundException{
-	ObjectInputStream entrada = null;
-	try{
-		
-		entrada = new ObjectInputStream( new FileInputStream("C:/Users/corti/Desktop/ranking.dat"));
-		String texto = (String) entrada.readObject();
-		Usuario user = (Usuario) entrada.readObject();
-		
-	}catch (IOException e){
-		e.printStackTrace();
-	}
-}
-}*/

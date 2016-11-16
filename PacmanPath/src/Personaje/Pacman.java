@@ -12,16 +12,6 @@ import Util.Id;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Point;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.net.URL;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-
 import Controlador.Teclado;
 import Estados.*;
 import Estaticos.Tunel;
@@ -33,19 +23,15 @@ public class Pacman extends Dinamico {
 	private Direccion dir;  
 	private Mode estado;
 	private int contadorPasos;
-	private int contadorMuerteFantasma;
 	private boolean[] muerteFantasma;
 	private int cantObjComidos;
-	private long tiem;
-	private long delay;
-	private boolean auxiliarTiempo;
+	
 	
 	
 	
 public Pacman(int x, int y){
 	super();
-	this.auxiliarTiempo=false;
-	this.tiem = System.currentTimeMillis();
+	
 	this.ID=Id.PACMAN;
 	this.cantObjComidos=0;
 	this.contadorPasos=0;
@@ -61,9 +47,6 @@ public Pacman(int x, int y){
 }
 
 public void reset(){
-	this.tiem = System.currentTimeMillis();
-	this.auxiliarTiempo=false;
-	
 	this.cantObjComidos=0;
 	this.contadorPasos=0;
 	this.puntaje=0;
@@ -186,15 +169,12 @@ public void setContador(int x){
 public void comer (Position actual, MapaGeneral mapa){
 	this.puntaje= this.puntaje+10;
 	this.cantObjComidos++;
-	//System.out.println("Puntaje actual:"+this.puntaje);
 	mapa.getCelda(actual).generoVacio();
 }
 
 //entrara solo si colisiona con un fantasma y no esta en el estado poder.
 public void morir (Inky ink, Pinky pin, Clyde cly, Blinky blin){
 	this.setVidas(this.vidas-1);
-	
-	//this.delay=System.currentTimeMillis();
 	this.dir = Direccion.Este;
 	Position pos = new Position (23,14); 
 	this.setPos(pos); //posicion donde comienza
@@ -223,7 +203,7 @@ public void transport (Position pos){
 
 	}
 
-public void comerFantasma(Fantasma fan, int x){ //reveer (x es el multiplicador)
+public void comerFantasma(Fantasma fan, int x){
 	this.setPuntaje(this.puntaje+(x*200));
 	fan.setPosInicial();
 }
@@ -265,34 +245,29 @@ public void mover(Map mapa){
 	
 		case Oeste :
 			if (mapa.canMove(this.pos.getX(), this.pos.getY()+1)){
-				//imagenActual = iconos[2].getImagenActual();
 				iconoActual =2;
 				this.pos.setPositionY(pos.getY()+1);
 			}
 			break;
 		case Este : 
 			if(mapa.canMove(this.pos.getX(), this.pos.getY()-1)){
-				//imagenActual = iconos[3].getImagenActual();
 				iconoActual =3;
 				this.pos.setPositionY(pos.getY()-1);
 			}
 			break;
 		case Sur : 
 			if (mapa.canMove(this.pos.getX()+1, this.pos.getY())) {
-				//imagenActual = iconos[0].getImagenActual();
 				iconoActual=0;
 				this.pos.setPositionX(pos.getX() + 1 );
 			}
 			break;
 		case Norte: 
 			if (mapa.canMove(this.pos.getX()-1, this.pos.getY())){
-				//imagenActual =iconos[1].getImagenActual();
 				iconoActual=1;
 				this.pos.setPositionX(pos.getX()-1);
 			}
 			break;
 	}
-	//iconos[iconoActual].refresh();
 }
 
 public void hayColision(Blinky blin, Inky ink, Clyde cly, Pinky pin, MapaGeneral mapG){
@@ -363,18 +338,6 @@ public void draw (Graphics g){
 
 public void refresh(Map mapa, MapaGeneral mapG, Blinky blin, Inky ink, Clyde cly, Pinky pin) {
 	
-	if(!this.auxiliarTiempo){
-		this.tiem = System.currentTimeMillis();
-		this.auxiliarTiempo=true;
-	}
-		
-	
-/*	if(System.currentTimeMillis()-this.delay < 1000){
-		iconoActual=4;
-		iconos[iconoActual].refresh();
-		
-	}else{
-	*/	
 		iconos[iconoActual].refresh();
 		this.hayColision(blin, ink, cly, pin, mapG);
 	
