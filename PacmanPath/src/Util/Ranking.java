@@ -20,7 +20,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
+/** Esta clase modela el ranking.
+* @author Cortizas Tomás ; Peraza Orlando.
+* @version 2.0
+*/
 public class Ranking implements Serializable{
 	
 	private BufferedReader buffer;
@@ -31,7 +34,10 @@ public class Ranking implements Serializable{
 	private int puntajeActual;
 	private String tiempoActual;
 	private static Ranking ranking = new Ranking();
-	
+
+/**
+ * Crea el ranking.
+ */
 public Ranking(){
 	userPos = new Usuario[21];
 	archivo = new File ("src/puntaje.txt");
@@ -41,16 +47,30 @@ public Ranking(){
 	}
 	
 	}
-
+ 
+/**
+ * 
+ * @return Devuelve el arreglo de usuarios con altos puntajes.
+ */
 public Usuario[] getUserPos(){
 	this.leer();
 	return userPos;
 }
 
+/**
+ * 
+ * @return Retorna el ranking.
+ */
 public static Ranking getRanking(){
 	return ranking;
 }
 
+/**
+ * Agrega un usuario al ranking.
+ * @param nombre
+ * @param puntos
+ * @param tiempo
+ */
 public void agregar(String nombre, Integer puntos, String tiempo){
 	this.leer();
 	if(puntos > userPos[userPos.length-1].getPuntos()){
@@ -61,6 +81,9 @@ public void agregar(String nombre, Integer puntos, String tiempo){
 
 }
 
+/**
+ * Escribe en el archivo de rankings.
+ */
 public void rank(){
 	File archivo = new File ("src/puntaje.txt");
 	Writer writer = null;
@@ -86,7 +109,9 @@ public void rank(){
 }
 
 
-
+/**
+ * Lee desde el archivo ranking.
+ */
 public void leer(){
 	
 	  String fileName = "src/puntaje.txt";
@@ -118,7 +143,11 @@ public void leer(){
       }
 }
 
-
+/**
+ * Genera una ventana de dialogo en la cual se va a igresar en nombre del jugador, pera que se guarde su puntaje en el archivo de ranking.
+ * @param puntos
+ * @param tiempo
+ */
 public void guardarPuntaje(int puntos, String tiempo){
 	frame = new JFrame();
 	JPanel newPanel = new JPanel();
@@ -146,7 +175,9 @@ public void guardarPuntaje(int puntos, String tiempo){
 	puntajeActual = puntos;
 	tiempoActual = tiempo;
 	btn.addActionListener(new ActionListener() {
-		
+		/**
+		 * Una vez ingresado el nombre en el textField, en base a dicho evento se almacena en el archivo dicho puntaje. 
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// pone el ultimo score con el nombre indicado

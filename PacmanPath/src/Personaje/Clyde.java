@@ -8,15 +8,21 @@ import MapaN.MapaGeneral;
 import Util.Animacion;
 import Util.CargaImagen;
 import Util.Fantasma;
-import Util.Id;
+import Util.Identificador;
+/** Esta clase modela un fantasma Clyde.
+* @author Cortizas Tomás ; Peraza Orlando.
+* @version 2.0
+*/
 
 public class Clyde extends Fantasma {
 	
 	private boolean aux;
 	//heredan getters y setters de fantasma
-	
+/**
+ * Genera un fantasma Clyde. 	
+ */	
 public Clyde(){
-	this.ID =Id.CLYDE;
+	this.ID =Identificador.CLYDE;
 	this.aux=false;
 	this.asus=false;
 	this.inicializarImagen();
@@ -25,7 +31,9 @@ public Clyde(){
 	this.modo=Mode.INACTIVO;  //esta inactivo hasta que el pacman coma 3/4 del mapa
 	this.pos = new Position (14,16); 
 }
-
+/**
+ * Resetea las instancias del fantasma.
+ */
 public void reset(){
 	this.aux=false;
 	this.asus=false;
@@ -33,7 +41,9 @@ public void reset(){
 	this.modo=Mode.INACTIVO;  //esta inactivo hasta que el pacman coma 3/4 del mapa
 	this.pos = new Position (14,16); 
 }
-
+/**
+ * Carga las imagenes cque conforman las animaciones de dicho fantasma.
+ */
 public void inicializarImagen(){
 	CargaImagen car = new CargaImagen();
 
@@ -68,7 +78,10 @@ public void inicializarImagen(){
 
 	iconos[4]= new Animacion(aux5);
 }
-
+/**
+ * Este método configura la animación que debe hacer dependiendo la dirección del movimiento.
+ * @param camino
+ */
 public void imagenActual(Path camino){
 	if (camino.getStep(1).getX() > this.pos.getX()){
 		iconoActual= 0;
@@ -88,12 +101,17 @@ public void imagenActual(Path camino){
 			}
 	}
 }
-
+/**
+ * 
+ * @return Devuelve el arreglo que contiene las animaciones.
+ */
 public Animacion [] getIconos(){
 return (this.iconos);
 }
 
-
+/**
+ * Método que representa el moviemiento cuando el fantasma se encuentra en modo persecución.
+ */
 //mismo codigo de Blinky, va a entrar solo si esta a mas de 8 casilleros 
 public void estaPersecucion(Pacman pac, Fantasma blin){
 		int xpac = pac.getPos().getX();
@@ -105,7 +123,9 @@ public void estaPersecucion(Pacman pac, Fantasma blin){
 
 	}			
 	
-
+/**
+ * Método que representa el moviemiento cuando el fantasma se encuentra en modo disperción.
+ */
 public void estaDispercion(){
 	Path caminoA = null;
 	Path caminoB = null;
@@ -130,7 +150,10 @@ public void estaDispercion(){
 						}
 }
 
-
+/**
+ * Hace un paso en el camino recibido.
+ * @param camino
+ */
 private void moverDis(Path camino){
 	if (camino == null){
 
@@ -140,14 +163,20 @@ private void moverDis(Path camino){
 		this.setPos(new Position (camino.getStep(1).getX(), camino.getStep(1).getY()));
 	}
 }
-
+/**
+ * Setea la posición inicial. En el caso de que muera.
+ */
 public void setPosInicial(){
 	this.pos = new Position (14,16); 
 	if (this.modo == Mode.ASUSTADO)
 		this.modo = Mode.PERSECUCION;
 }
 
-
+/**
+ * Cambia a persecución en caso de que se pase un false y a asustado en caso de que se pase un true.
+ * @param asus
+ * @param mapaCol
+ */
 public void cambioEstado(boolean asus, Map mapaCol) {
 	if ((asus) && ((this.modo == Mode.PERSECUCION) || (this.modo == Mode.DISPERCION))){
 		this.caminoAsus(mapaCol);
@@ -160,15 +189,23 @@ public void cambioEstado(boolean asus, Map mapaCol) {
 }
 
 
-
+/**
+ * Dibuja el fantasma.
+ */
 @Override
 public void draw(Graphics g) {
 	imagenActual = iconos[iconoActual].getImagenActual();
 	iconos[iconoActual].refresh();
 	g.drawImage(this.imagenActual, this.pos.getY()*23+8, this.pos.getX()*23+30,null);
 }
-
+/**
+ * Controla el fantasma.
+ * @param pac
+ * @param map
+ * @param mapCol
+ */
 public void refresh(Pacman pac, Map map, MapaGeneral mapCol){
+	if(System.currentTimeMillis()-pac.getTiem()>1000){
 		this.mover(pac, this);
 		if((pac.getPuntaje()>(3*mapCol.getPuntajeTotal())/4)&&(aux==false)){
 			this.setModo(Mode.DISPERCION);
@@ -188,8 +225,12 @@ public void refresh(Pacman pac, Map map, MapaGeneral mapCol){
 			this.asus=false;
 		}
 		this.controlaEstado(pac);
+	}
 }
-
+/**
+ * Controla el estado dependiendo del tiempo.
+ * @param pac
+ */
 public void controlaEstado(Pacman pac){
 	if ((this.modo != Mode.ASUSTADO)&&(this.modo != Mode.INACTIVO)){
 		int xpac = pac.getPos().getX();

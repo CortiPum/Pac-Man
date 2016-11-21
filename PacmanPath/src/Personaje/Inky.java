@@ -8,16 +8,21 @@ import Util.Animacion;
 import Util.CargaImagen;
 import Util.Direccion;
 import Util.Fantasma;
-import Util.Id;
-
+import Util.Identificador;
+/** Esta clase modela un fantasma Inky.
+* @author Cortizas Tomás ; Peraza Orlando.
+* @version 2.0
+*/
 public class Inky extends Fantasma {
 
 	//heredan getters y setters de Fantasma
 	private boolean aux;
 	private long tiem;
-	
+/**
+ * Genera un fantasma Inky. 	
+ */		
 public Inky(){
-	this.ID=Id.INKY;
+	this.ID=Identificador.INKY;
 	this.aux=false;
 	this.asus=false;
 	this.inicializarImagen();
@@ -27,6 +32,9 @@ public Inky(){
 	this.modo=Mode.INACTIVO; //estara inactivo hasta que el pacman coma 30 puntos
 	this.pos = new Position (14,15); 
 }
+/**
+ * Resetea las instancias del fantasma.
+ */
 public void reset(){
 	this.asus=false;
 	this.aux=false;
@@ -37,7 +45,10 @@ public void reset(){
 	this.pos = new Position (14,15); 
 }
 	
-
+/**
+ * Este método configura la animación que debe hacer dependiendo la dirección del movimiento.
+ * @param camino
+ */
 public void imagenActual(Path camino){
 	if (camino.getStep(1).getX() > this.pos.getX()){
 		iconoActual= 0;
@@ -53,7 +64,9 @@ public void imagenActual(Path camino){
 			}
 	}
 }
-
+/**
+ * Carga las imagenes cque conforman las animaciones de dicho fantasma.
+ */
 public void inicializarImagen(){
 	CargaImagen car = new CargaImagen();
 	Image[] aux = new Image[2];
@@ -87,11 +100,18 @@ public void inicializarImagen(){
 	iconos[4]= new Animacion(aux5);
 	}
 
-
+/**
+ * 
+ * @return Devuelve el arreglo que contiene las animaciones.
+ */
 public Animacion [] getIconos(){
 	return (this.iconos);
 }
-
+/**
+ * Cambia a persecución en caso de que se pase un false y a asustado en caso de que se pase un true.
+ * @param asus
+ * @param mapaCol
+ */
 public void cambioEstado(boolean asus, Map mapaBuscador){ //el metodo de comer powerball devuelve un booleano, cqso contrario se pasara un false
 	if ((asus) && ((this.modo == Mode.PERSECUCION) || (this.modo == Mode.DISPERCION))){
 		this.caminoAsus(mapaBuscador);
@@ -104,6 +124,9 @@ public void cambioEstado(boolean asus, Map mapaBuscador){ //el metodo de comer p
 	
 	}
 
+/**
+ * Método que representa el moviemiento cuando el fantasma se encuentra en modo persecución.
+ */
 public void estaPersecucion(Pacman pac, Fantasma blin){
 	int ypaso=1; int xpaso=1;
 	Direccion dir = pac.getDir();
@@ -147,6 +170,10 @@ public void estaPersecucion(Pacman pac, Fantasma blin){
 				this.moverDis(cam2); 
 			}	
 	}
+
+/**
+ * Método que representa el moviemiento cuando el fantasma se encuentra en modo disperción.
+ */
 public void estaDispercion(){
 	Path caminoA = null;
 	Path caminoB = null;
@@ -170,7 +197,10 @@ public void estaDispercion(){
 						
 				}
 	}
-
+/**
+ * Hace un paso en el camino recibido.
+ * @param camino
+ */
 private void moverDis(Path camino){
 	if (camino == null){
 
@@ -181,20 +211,31 @@ private void moverDis(Path camino){
 	}
 }
 
+/**
+ * Setea la posición inicial. En el caso de que muera.
+ */
 public void setPosInicial(){
 	this.pos = new Position (14,15); 
 	if (this.modo == Mode.ASUSTADO)
 		this.modo = Mode.PERSECUCION;
 }
-
+/**
+ * Dibuja el fantasma.
+ */
 @Override
 public void draw(Graphics g) {
 	imagenActual = iconos[iconoActual].getImagenActual();
 	iconos[iconoActual].refresh();
 	g.drawImage(imagenActual, this.pos.getY()*23+8, this.pos.getX()*23+30, null);
 }
-
+/**
+ * Controla el fantasma.
+ * @param pac
+ * @param map
+ * @param mapCol
+ */
 public void refresh(Pacman pac, Map map){
+	if(System.currentTimeMillis()-pac.getTiem()>1000){
 	this.mover(pac, this);
 	if((pac.getPuntaje()>30)&&(aux==false)){
 		this.setModo(Mode.DISPERCION);
@@ -215,8 +256,12 @@ public void refresh(Pacman pac, Map map){
 		this.asus=false;
 	}
 	this.controlaEstado();
+	}
 }
-
+/**
+ * Controla el estado dependiendo del tiempo.
+ * @param pac
+ */
 public void controlaEstado(){
 	if ((System.currentTimeMillis()-this.tiem >=7000)&& (System.currentTimeMillis()-this.tiem <8000) && (this.modo !=Mode.ASUSTADO)){
 		this.setModo(Mode.PERSECUCION);

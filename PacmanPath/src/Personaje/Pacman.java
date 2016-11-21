@@ -8,14 +8,18 @@ import Util.CargaImagen;
 import Util.Dinamico;
 import Util.Direccion;
 import Util.Fantasma;
-import Util.Id;
+import Util.Identificador;
 
 import java.awt.Graphics;
 import java.awt.Image;
 import Controlador.Teclado;
 import Estados.*;
 import Estaticos.Tunel;
-
+/**
+ * Esta clase modela al pacman.
+ * @author Cortizas Tomás ; Peraza Orlando.
+ * @version 2.0
+ */
 public class Pacman extends Dinamico {
 	
 	private int puntaje;
@@ -26,13 +30,19 @@ public class Pacman extends Dinamico {
 	private boolean[] muerteFantasma;
 	private int cantObjComidos;
 	
+	private long tiem;
 	
 	
+/**
+ * Genera al pacman.
+ * @param x
+ * @param y
+ */
 	
 public Pacman(int x, int y){
 	super();
-	
-	this.ID=Id.PACMAN;
+	this.tiem=0;
+	this.ID=Identificador.PACMAN;
 	this.cantObjComidos=0;
 	this.contadorPasos=0;
 	this.muerteFantasma = new boolean[5];
@@ -45,10 +55,13 @@ public Pacman(int x, int y){
 	this.pos = new Position (x, y); //valores iniciales.
 	
 }
-
+/**
+ * Resetea los valores del pacman.
+ */
 public void reset(){
 	this.cantObjComidos=0;
 	this.contadorPasos=0;
+	this.tiem=0;
 	this.puntaje=0;
 	this.dir = Direccion.Este; 
 	this.estado = Mode.NORMAL; //setea modo.
@@ -56,16 +69,23 @@ public void reset(){
 	this.inicializarMuerteFantasma();
 	this.pos= new Position (23,14);
 }
-
+/**
+ * Este método se utiliza para inicilizar un arreglo, que luego se va a usar para multiplicar los puntos del pacman cuando come un fantasma.
+ */
 public void inicializarMuerteFantasma(){
 	for (int i =0; i<4;i++)
 		this.muerteFantasma[i]=false;
 }
-
+/**
+ * Retorna un arreglo de animación.
+ * @return
+ */
 public Animacion[] getIconos(){
 	return (this.iconos);
 }
-
+/**
+ * Inicializa los arreglos de imagenes del pacman, los que luego se van a utilizar para las animaciones.
+ */
 private void inicializarImagenes(){
 	CargaImagen car = new CargaImagen();
 	Image[] aux = new Image[2];
@@ -110,72 +130,127 @@ private void inicializarImagenes(){
 	
 	iconos[4] = new Animacion(aux5);
 }
-
+/**
+ * 
+ * @return Devuelve la imagen en particular.
+ */
 public Image getImg(){
 	return (iconos[2].getImagenIndex(1));
 }
 //getters y setters
+/**
+ * 
+ * @return Devuelve los puntos actuales.
+ */
 public int getPuntaje() {
 	return puntaje;
 }
 
+
+/**
+ * 
+ * @return Devuelve la cantidad de puntos que lleva acumulados.
+ */
 public int getCantObjetosComidos(){
 	return (this.cantObjComidos);
 }
-
+/**
+ * Setea una cantidad de puntos dados.
+ * @param puntaje
+ */
 public void setPuntaje(int puntaje) {
 	this.puntaje = puntaje;
 }
 
-
+/**
+ * 
+ * @return Retorna la cantidad de vidas.
+ */
 public int getVidas() {
 	return vidas;
 }
 
-
+/**
+ * Setea una cantidad de vidas.
+ * @param vidas
+ */
 public void setVidas(int vidas) {
 	this.vidas = vidas;
 }
 
 
 //hereda el metodo getId de Personaje
-
+/**
+ * 
+ * @return REtorna el estado actual.
+ */
 public Mode getEstado(){
 	return this.estado;
 }
-
+ /**
+  * Setea un estado.
+  * @param estado
+  */
 public void setEstado(Mode estado){
 	this.estado=estado;
 }
 
+/**
+ * Setea una dirección.
+ * @param dir
+ */
 public void setDir (Direccion dir){
 	this.dir = dir;
 }
 
+/**
+ * 
+ * @return Retorna una dirección.
+ */
 public Direccion getDir (){
 	return (this.dir);
 }
 
+/**
+ * 
+ * @return Retorna un contador de pasos.
+ */
 public int getContador(){
 	return contadorPasos;
 }
-
+/**
+ * Setea un valor entero al contador de pasos.
+ * @param x
+ */
 public void setContador(int x){
 	this.contadorPasos = x;
 }
 
-//el siguiente metodo solo sucede cuando el pacman entra a una celda donde hay una bolita
-//Lo que hace es sumarle 10 puntos y poner el mapa de objetos un vacio en esa ubicaciÃ³n
+/**
+ * El siguiente método solo sucede cuando el pacman entra a una celda donde hay una bolita.
+ *Lo que hace es sumarle 10 puntos y poner el mapa de objetos un vacio en esa ubicación.
+ * @param actual
+ * @param mapa
+ */
+
 public void comer (Position actual, MapaGeneral mapa){
 	this.puntaje= this.puntaje+10;
 	this.cantObjComidos++;
 	mapa.getCelda(actual).generoVacio();
 }
 
-//entrara solo si colisiona con un fantasma y no esta en el estado poder.
+/**
+ * Entrará solo si colisiona con un fantasma y no esta en el estado poder. 
+ * Muere y comienza de nuevo con una vida menos.
+ * @param ink
+ * @param pin
+ * @param cly
+ * @param blin
+ */
 public void morir (Inky ink, Pinky pin, Clyde cly, Blinky blin){
 	this.setVidas(this.vidas-1);
 	this.dir = Direccion.Este;
+	this.tiem = System.currentTimeMillis();
 	Position pos = new Position (23,14); 
 	this.setPos(pos); //posicion donde comienza
 	ink.setPosInicial();
@@ -186,13 +261,19 @@ public void morir (Inky ink, Pinky pin, Clyde cly, Blinky blin){
 	
 }
 
-//si sus vidas es mayor a 0 puede jugar
+/**
+ * Sirve para evaluar si puede jugar de acuerdo a su cantidad de vidas. Si es mayor a 0 puede jugar.
+ * @return Retorna true si puede jugar, false sino puede jugar.
+ */
 public boolean puedeJugar(){
 	if (this.getVidas() > 0) return true;
 	else return false;
 }
 
-//este metodo es llamado por un metodo en la clase Tunel, dependiendo a que tunel entro, saldra por el siguiente
+/**
+ * Este método es llamado por un método en la clase Tunel, dependiendo a que tunel entro, saldra por el siguiente
+ * @param pos
+ */
 public void transport (Position pos){
 	Position pos1 = new Position(14,0);
 	Position pos2 = new Position(14,27);
@@ -202,12 +283,19 @@ public void transport (Position pos){
 			this.setPos(pos1);
 
 	}
-
+/**
+ * Come un fantasma y dependiendo de cuantos lleve comidos en ese momento va a multiplicar sus puntos.
+ * @param fan
+ * @param x
+ */
 public void comerFantasma(Fantasma fan, int x){
 	this.setPuntaje(this.puntaje+(x*200));
 	fan.setPosInicial();
 }
-
+/**
+ * Cambia de estado de acuerdo si come una bola de poder.
+ * @param poder
+ */
 public void cambioEstado (boolean poder){
 	if (poder == true) {
 		this.estado= Mode.ESTADOPODER;
@@ -216,6 +304,11 @@ public void cambioEstado (boolean poder){
 		this.estado = Mode.NORMAL;
 	}
 }
+/**
+ * Método para comer una bola de poder y sumar dicho puntaje. 
+ * @param mapG
+ * @param actual
+ */
 public void comerPoder (MapaGeneral mapG, Position actual){
 	this.puntaje = this.puntaje+50;
 	this.contadorPasos=0;
@@ -223,7 +316,10 @@ public void comerPoder (MapaGeneral mapG, Position actual){
 	mapG.getCelda(actual).generoVacio();
 	this.cambioEstado(true);
 }
-
+/**
+ * Método que va a hacer que se mueva de acuerdo a la tecla con la que se le de la dirección.
+ * @param mapa
+ */
 public void mover(Map mapa){
 	if ((Teclado.abajo) &&(mapa.canMove(this.pos.getX()+1, this.pos.getY()))){
 		this.dir = Direccion.Sur;
@@ -269,7 +365,14 @@ public void mover(Map mapa){
 			break;
 	}
 }
-
+/**
+ * Controla las colisiones. Controla que hacer de acuerdo con lo que choque.
+ * @param blin
+ * @param ink
+ * @param cly
+ * @param pin
+ * @param mapG
+ */
 public void hayColision(Blinky blin, Inky ink, Clyde cly, Pinky pin, MapaGeneral mapG){
 	if(mapG.getCelda(this.pos).hayBola()){
 		this.comer(this.pos, mapG);
@@ -320,7 +423,10 @@ public void hayColision(Blinky blin, Inky ink, Clyde cly, Pinky pin, MapaGeneral
 		}
 
 }
-
+/**
+ * Sirve para controlar el multiplicador de puntos cuando se comen fantasmas.
+ * @return 
+ */
 public int recorroArregloMuerte(){
 	int cont=0;
 	for (int i=0; i<this.muerteFantasma.length;i++){
@@ -330,14 +436,27 @@ public int recorroArregloMuerte(){
 	return cont;
 }
 
+/**
+ * Dibuja el pacman.
+ */
 @Override
 public void draw (Graphics g){
 	
 	g.drawImage(imagenActual ,  8+23*this.getPos().getY(),30+ this.getPos().getX()*23, null);
 }
 
+/**
+ * Controla el movimiento, la animación, las colisiones y los estados.
+ * @param mapa
+ * @param mapG
+ * @param blin
+ * @param ink
+ * @param cly
+ * @param pin
+ */
 public void refresh(Map mapa, MapaGeneral mapG, Blinky blin, Inky ink, Clyde cly, Pinky pin) {
-	
+	if(System.currentTimeMillis()-this.tiem >1000){
+		
 		iconos[iconoActual].refresh();
 		this.hayColision(blin, ink, cly, pin, mapG);
 	
@@ -356,12 +475,14 @@ public void refresh(Map mapa, MapaGeneral mapG, Blinky blin, Inky ink, Clyde cly
 	
 		imagenActual = iconos[iconoActual].getImagenActual();	
 	}
-
-
-public void jugadorGano(MapaGeneral mapa){
-	if(this.getCantObjetosComidos() == mapa.objTotal()){
-		
 	}
+/**
+ * M{etodo utilizado para controlar un pequeño stop de 1 segundo, producido cuando muere el pacman.
+ * @return
+ */
+public long getTiem(){
+	return this.tiem;
 }
+
 }
 

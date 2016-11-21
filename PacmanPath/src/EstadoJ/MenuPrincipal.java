@@ -1,4 +1,4 @@
-package EstadoJ;
+ package EstadoJ;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,7 +17,14 @@ import Util.Animacion;
 import Util.CargaImagen;
 import Ventanas.Juego;
 
-
+/**
+ * Esta clase modela el menu principal del juego, es el estado inicial. De este estado, dependiendo de la accion
+ * se podra pasar al estado juego, al reglas, ranking. Tambien se podra salir del juego y en
+ * el boton configuracion aparecera una ventana con un selector para mostrar cuantos usuarios deben
+ * mostrarse en el ranking.
+ * @author Cortizas Tomás ; Peraza Orlando.
+ * @version 2.0
+ */
 
 public class MenuPrincipal implements EstadoJuego{
 
@@ -34,7 +41,9 @@ public class MenuPrincipal implements EstadoJuego{
 	
 	private Font font;
 	private Font font2;
-	
+/**
+ * Crea dos fuentes y carga las aniumaciones.
+ */
 public MenuPrincipal(){
 	font = new Font("arial",Font.ROMAN_BASELINE, 25);
 	font2 = new Font("arial", Font.BOLD, 50);
@@ -43,10 +52,9 @@ public MenuPrincipal(){
 	
 }
 
-public void config(){
-	
-}
-
+/**
+ * Carga las animaciones.
+ */
 public void cargarAnimacion(){
 	CargaImagen car = new CargaImagen();
 	Image[] aux = new Image[2];
@@ -84,7 +92,9 @@ public void cargarAnimacion(){
 	imagenes[4] = new Animacion(aux5);
 	
 }
-
+/**
+ * Dibuja la ventana de selección de cantidad de usuarios a mostrar en el ranking.
+ */
 private void drawFrame() {
 	
 	final JFrame frame = new JFrame("Selector de usuarios a mostrar en el ranking");
@@ -119,7 +129,9 @@ private void drawFrame() {
 	});
 	
 }
-
+/**
+ * Dibuja el menu principal.
+ */
 @Override
 public void draw(Graphics2D g) {
 	g.fillRect(0, 0, 800, 900);	
@@ -156,9 +168,12 @@ public void draw(Graphics2D g) {
 	g.draw(quitButton);
 	
 	g.setColor(Color.WHITE);
-	g.drawString("Hecho por :", 60, 690);
+	g.drawString("Hecho por : Cortizas Tomás ; Peraza Orlando.", 60, 690);
 }
 
+/**
+ * Método reacciona de acuerdo a los eventos y además actualiza las animaciones.
+ */
 @Override
 public void refresh() {
 	imagenes[0].refresh();
@@ -193,9 +208,4 @@ public void refresh() {
 	}
 }
 
-/*
- * Menu principal del juego, es el estado inicial. De este estado, dependiendo de la accion
- * se podra pasar al estado juego, al reglas, ranking. Tambien se podra salir del juego y en
- * el boton configuracion aparecera una ventana con un selector para mostrar cuantos usuarios deben
- * mostrarse en el ranking
- */
+

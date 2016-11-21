@@ -9,17 +9,24 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import Estaticos.*;
+
+/** Esta clase modela el mapa del juego.
+* @author Cortizas Tomás ; Peraza Orlando.
+* @version 2.0
+*/
+
 public class MapaGeneral {
 	
 	private Celda tablero[][]; 
 	protected Image[] iconos;
 	private int contadorObj;
-
+/**
+ * Genera un mapa general dependiendo el contenido de la clase map.
+ */
 	public MapaGeneral(){
 		Map mapa= new Map ();
 		contadorObj=0;
 		iconos = new Image[7];
-		inicializarImagen();
 		tablero = new Celda[mapa.getWidth()][mapa.getHeight()]; 
 		for (int i =0; i< mapa.getWidth();i++){ //i seran las filas
 			for (int j=0; j<mapa.getHeight();j++){ //j columnas
@@ -54,11 +61,13 @@ public class MapaGeneral {
 		
 	}
 	
+/**
+ * Resetea el mapa, generando todo de nuevo.
+ */
 public void reset(){
 	Map mapa= new Map ();
 	contadorObj=0;
 	iconos = new Image[7];
-	inicializarImagen();
 	tablero = new Celda[mapa.getWidth()][mapa.getHeight()]; 
 	for (int i =0; i< mapa.getWidth();i++){ //i seran las filas
 		for (int j=0; j<mapa.getHeight();j++){ //j columnas
@@ -91,37 +100,42 @@ public void reset(){
 		}
 	}
 }
-
+/**
+ * 
+ * @return Retorna la cantidad de bolas y PowerPellets.
+ */
 public int objTotal(){
 	return (this.contadorObj);
 }
 	
-public void inicializarImagen(){  //carga las imagenes en un booleano de imagenes (llama a la clase carga imagen)
-	CargaImagen car = new CargaImagen();
-		
-	this.iconos[0] = car.carga("ZImagenes/wall.gif");
-	this.iconos[1] = car.carga("ZImagenes/pacdot.gif");
-	this.iconos[2] = car.carga("ZImagenes/black.gif");
-	this.iconos[3] = car.carga("ZImagenes/powerpellet.gif");
-	this.iconos[4] = car.carga("ZImagenes/azul.gif");
-}
-	
-
+/**
+ * @return Retorna la matriz.
+ */
 public Celda[][] getTablero() {
 	return tablero;
 }
-
+/**
+ * Setea una matriz.
+ * @param tablero
+ */
 public void setTablero(Celda[][] tablero) {
 	this.tablero = tablero;
 }
-	
+/**
+ * 	
+ * @param pos
+ * @return Dada una posición devuelve la celda que hace referencia a esa posición en el mapaGeneral.
+ */
 public Celda getCelda(Position pos){
 	int x = pos.getX();
 	int y = pos.getY();
 	return tablero[x][y];
 }
-	
-public int getPuntajeTotal(){ //devuelve la cantidad de puntos que puede ganar un jugador en el mapa.
+/**
+ * 	
+ * @return Devuelve la cantidad de puntos que puede ganar un jugador en el mapa. En base a esta cantidad se calculan porcentajes, los cuales se utilizan para la entrada de algunos fantasmas al juego.
+ */
+public int getPuntajeTotal(){ 
 	Map mapa = new Map();
 	int total=0;
 	for (int i =0; i< mapa.getHeight();i++){
@@ -134,8 +148,11 @@ public int getPuntajeTotal(){ //devuelve la cantidad de puntos que puede ganar u
 		}
 		return total;
 }	
-	
-public void draw (Graphics g){ //ver abajo
+/**
+ * A través de este método son llamados los distintos métodos draw de los distintos objetos que extiendan de Personaje. Dado que cada celda tenemos un objeto de tipo personaje.
+ * @param g
+ */
+public void draw (Graphics g){ 
 	Map map = new Map();
 	for (int x = 0; x < map.getWidth(); x++){
     	for (int y = 0; y < map.getHeight(); y++){

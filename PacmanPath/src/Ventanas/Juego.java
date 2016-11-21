@@ -1,6 +1,10 @@
 package Ventanas;
 import java.awt.Graphics;
 
+/** Esta clase modela el juego.
+* @author Cortizas Tomás ; Peraza Orlando.
+* @version 2.0
+*/
 public class Juego implements Runnable {
 	 
 	public static boolean jugando;
@@ -9,12 +13,17 @@ public class Juego implements Runnable {
     private SuperficieDibujo superficie;
     public static long time;
  
- 
+ /**
+  * Crea la superficie dibujo y la ventana.
+  */
  public Juego(){   
    superficie = new SuperficieDibujo();
    ventana = new Ventana("Pac-Man", superficie);
   }
-   
+  
+ /**
+  * Método para cuando termina la ejecución del juego.
+  */
  public void stop(){
 	try{
 		thread.join();
@@ -24,12 +33,18 @@ public class Juego implements Runnable {
 	}
 }
  
+/**
+ * Se encarga de iniciar.
+ */
 public void start(){
 	thread = new Thread(this);
 	jugando = true;
 	thread.start();
 }
    
+/**
+ * Se sobrescribe el método run, que se ponga a correr el juego.
+ */
 @Override
 public void run() {
 	Graphics g = ventana.getGraphics();
@@ -47,6 +62,10 @@ public void run() {
 	System.exit(1);
 }
 
+/**
+ * Main del juego.
+ * @param args
+ */
 public static void main (String[] args){
     Juego jue = new Juego();
     jue.start();

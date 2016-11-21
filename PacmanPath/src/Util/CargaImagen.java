@@ -5,9 +5,18 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+/** Esta clase se utiliza para externalizar la carga de imagenes.
+* @author Cortizas Tomás ; Peraza Orlando.
+* @version 2.0
+*/
 
 public class CargaImagen {
 
+/**
+ * Este método carga la imagen.
+ * @param nombreImg
+ * @return Retorna una imagen.
+ */
 public Image carga(String nombreImg){
 	
 	String imgFileName = nombreImg;

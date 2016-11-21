@@ -1,6 +1,11 @@
 package MapaBuscador;
 import java.util.Random;
-
+/**
+ * Esta clase modela los mapas del juego.
+ * //El mapa agregado va a servir para instanciar el Mapa general con objetos.
+ * @author Cortizas Tomás ; Peraza Orlando.
+ * @version 2.0
+ */
 public class Map {	
 
 	private int mapWidth=31; //se refiere a las filas
@@ -8,7 +13,7 @@ public class Map {
 	public final int CELL_SIZE=1;
 	private byte NewMapObject[][] =
 	{  //0 1 2 3 4 5 6 7 8 9 101112131415161718192021222324252627
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, //0   //Este mapa me va a servir para instanciar el Mapra general con objetos, no fue dado por la catedra.
+		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, //0   
 		{1,3,3,3,3,3,3,3,3,3,3,3,3,1,1,3,3,3,3,3,3,3,3,3,3,3,3,1}, //1  //1 pared (colision)
 		{1,3,1,1,1,1,3,1,1,1,1,1,3,1,1,3,1,1,1,1,1,3,1,1,1,1,3,1}, //2  //0 vacio (no colision)
 		{1,4,1,0,0,1,3,1,0,0,0,1,3,1,1,3,1,0,0,0,1,3,1,0,0,1,4,1}, //3  //3 bola (no colision
@@ -40,7 +45,9 @@ public class Map {
 		{1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1}, //29
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, //30
 		};
-	
+	/**
+	 * Unicamente para encontrar caminos.
+	 */
 	private byte collideMap[][]=
 {   //0 1 2 3 4 5 6 7 8 9 101112131415161718192021222324252627 y  x
 	 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, //0
@@ -57,7 +64,7 @@ public class Map {
 	 {1,1,1,1,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,1,1,1,1}, //11
 	 {1,1,1,1,1,1,0,1,1,0,1,1,1,0,0,1,1,1,0,1,1,0,1,1,1,1,1,1}, //12
 	 {1,1,1,1,1,1,0,1,1,0,1,0,0,0,0,0,0,1,0,1,1,0,1,1,1,1,1,1}, //13
-	 {0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0}, //14  //unicamente para encontrar caminos
+	 {0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0}, //14  
 	 {1,1,1,1,1,1,0,1,1,0,1,0,0,0,0,0,0,1,0,1,1,0,1,1,1,1,1,1}, //15
 	 {1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1}, //16
 	 {1,1,1,1,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,1,1,1,1}, //17
@@ -88,8 +95,11 @@ public class Map {
 	public byte[][] getCollidableMap() {
 		return collideMap;
 	}
-	
-	public boolean addCollidable(int x, int y, byte t) {   //Cambia un 0 por un t(0 o 1) en el mapa
+	/**
+	 * Cambia un 0 por un t(0 o 1) en el mapa.
+	 * 
+	 */
+	public boolean addCollidable(int x, int y, byte t) {   
 		if(x < 0 || y < 0 || x >= mapWidth || y >= mapHeight)
 			return false;
 		if(collideMap[x][y] > 0)
@@ -97,18 +107,22 @@ public class Map {
 		collideMap[x][y] = t;
 		return true;
 	}
-	
-	public byte getCollidable(int x, int y) { //Devuelve si en la posiciï¿½n (x,y) hay un 1 o un 0
+	/**
+	 * Devuelve si en la posición (x,y) hay un 1 o un 0.
+	 */
+	public byte getCollidable(int x, int y) { 
 		if(x < 0 || y < 0 || x >= mapWidth || y >= mapHeight)
 			return -1;
 		return collideMap[x][y];
 	}
 	
-	public int findDistance(Position start, Position end) { //Preguntar
+	public int findDistance(Position start, Position end) { 
 		return (int)Math.sqrt(Math.pow(Math.abs(start.getX()-end.getX()), 2) + Math.pow(Math.abs(start.getY()-end.getY()), 2));
 	}
-	
-	public boolean isEmpty(int x, int y) {  //devuelve true si en la posiciï¿½n (x,y)hay un 0 (si esta vacio)
+	/**
+	 *Devuelve true si en la posión (x,y)hay un 0 (si esta vacio).
+	 */
+	public boolean isEmpty(int x, int y) {  
 		if(x < 0 || y < 0 || x >= mapWidth || y >= mapHeight)
 			return false;
 		
@@ -117,8 +131,10 @@ public class Map {
 		
 		return true;
 	}
-	
-	public boolean canMove(int x, int y) { //devuelve true si puede moverse
+	/**
+	 * Devuelve true si puede moverse.
+	 */
+	public boolean canMove(int x, int y) { 
 		if(x < 0 || y < 0 || x >= mapWidth || y >= mapHeight)
 			return false;
 		if(getCollidable(x, y) != 0)
@@ -132,20 +148,29 @@ public class Map {
 	}
 
 	//agregado por nosotros
-	
-	public byte getObjectMap(int x, int y) { //devuelve si en la posicion x, y, hay un 1 o un 0
+	/**
+	 * Devuelve si en la posición x, y, hay un 1 o un 0.
+	 */
+	public byte getObjectMap(int x, int y) { 
 		if(x < 0 || y < 0 || x >= mapWidth || y >= mapHeight)
 			return -1;
 		return NewMapObject[x][y];
 	}
 	
 	//agregado por nosotros
-	
-	public Position getEsquinaRandom(){ //este metodo pedira un entero randon para fila (entre 0 y 29)
-		Random r = new Random();		//y un entero random para columna (entre 0 y 26)
-		int fil= (int) (r.nextDouble() * 30);			//si el numero random para la fila no es 1 o 29, seguira pidiendo numeros
-		Random r2 = new Random();		//si el numero random para la columna no es 1 o 26 seguira pidiendo numeros
-		int col=(int) (r2.nextDouble() * 27);			//el metodo devuelve entonces una de las siguientes combinaciones:
+	/**
+	 *Este método pedirá un entero random para fila (entre 0 y 29) y un entero random para columna (entre 0 y 26).
+	 *Si el numero random para la fila no es 1 o 29, seguira pidiendo numeros.
+	 *Si el numero random para la columna no es 1 o 26 seguira pidiendo numeros.
+	 *El metodo devuelve entonces una de las siguientes combinaciones:
+	 *(1,1) (1,26), (29,1),(29,26) que corresponden a las esquinas.
+	 *
+	 */
+	public Position getEsquinaRandom(){ 
+		Random r = new Random();		
+		int fil= (int) (r.nextDouble() * 30);			
+		Random r2 = new Random();		
+		int col=(int) (r2.nextDouble() * 27);			
 		while ((fil != 29)&&(fil!=1)){	// (1,1) (1,26), (29,1),(29,26) que corresponden a las esquinas
 			fil = (int) (r.nextDouble() * 30);
 			//System.out.println(fil);

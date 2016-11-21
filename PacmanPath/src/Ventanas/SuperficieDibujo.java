@@ -8,13 +8,18 @@ import java.awt.image.BufferStrategy;
 import Controlador.Mouse;
 import Controlador.Teclado;
 import EstadoJ.ArregloEstados;
-
+/** Esta clase modela la superficie donde se va a dibujar todo.
+* @author Cortizas Tomás ; Peraza Orlando.
+* @version 2.0
+*/
 public class SuperficieDibujo extends Canvas{
 	
 	private ArregloEstados estadoJuego;
 	private Teclado teclado;
 	private Mouse mouse;
-	
+/**
+ * Crea la superficie.
+ */
 public SuperficieDibujo(){
 	teclado = new Teclado();
 	mouse = new Mouse();
@@ -26,7 +31,9 @@ public SuperficieDibujo(){
     
 }
 
-
+/**
+ * Dibuja los distintos estados del juego.
+ */
 public void draw(){
 	
 	BufferStrategy buffer = this.getBufferStrategy();
@@ -46,6 +53,9 @@ public void draw(){
 	buffer.show();
 }
 
+/**
+ * Actualiza el estado actual en el que se encuentra el juego.
+ */
 public void refresh(){
 	estadoJuego.refresh();
 	teclado.refresh();

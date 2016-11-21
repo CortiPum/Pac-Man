@@ -7,8 +7,11 @@ import MapaBuscador.*;
 import Util.Animacion;
 import Util.CargaImagen;
 import Util.Fantasma;
-import Util.Id;
-
+import Util.Identificador;
+/** Esta clase modela un fantasma Blinky.
+* @author Cortizas Tomás ; Peraza Orlando.
+* @version 2.0
+*/
 public class Blinky extends Fantasma { 
 
 	private long tiem;
@@ -16,9 +19,11 @@ public class Blinky extends Fantasma {
 	//hereda setters y getters de fantasma
 	
 	
-	
+/**
+ * Genera un fantasma Blinky. 	
+ */
 public Blinky(){
-	this.ID=Id.BLINKY;
+	this.ID=Identificador.BLINKY;
 	this.asus=false;
 	this.auxiliarTiempo=false;
 	this.inicializarImagen();
@@ -30,7 +35,9 @@ public Blinky(){
 }
 
 //mover esta en fantasma (controla que movimiento hara)
-
+/**
+ * Resetea las instancias del fantasma.
+ */
 public void reset(){
 	this.auxiliarTiempo=false;
 	this.asus=false;
@@ -39,7 +46,9 @@ public void reset(){
 	this.modo= Mode.DISPERCION;
 	this.pos = new Position (11 , 13); 	
 }
-
+/**
+ * Carga las imagenes cque conforman las animaciones de dicho fantasma.
+ */
 public void inicializarImagen(){
 	CargaImagen car = new CargaImagen();
 
@@ -75,11 +84,17 @@ public void inicializarImagen(){
 	iconos[4]= new Animacion(aux5);
 }
 
-
+/**
+ * 
+ * @return Devuelve el arreglo que contiene las animaciones.
+ */
 public Animacion [] getIconos(){
 	return (this.iconos);
 }
 
+/**
+ * Método que representa el moviemiento cuando el fantasma se encuentra en modo persecución.
+ */
 public void estaPersecucion(Pacman pac, Fantasma blin){
 	int xpac = pac.getPos().getX();
 	int ypac =pac.getPos().getY();
@@ -89,7 +104,9 @@ public void estaPersecucion(Pacman pac, Fantasma blin){
 	this.moverDis(caminoB);
 
 }
-
+/**
+ * Método que representa el moviemiento cuando el fantasma se encuentra en modo disperción.
+ */
 public void estaDispercion(){
 	Path caminoA = null;
 	Path caminoB = null;
@@ -112,7 +129,10 @@ public void estaDispercion(){
 						this.moverDis(caminoA);
 				}
 }
-
+/**
+ * Este método configura la animación que debe hacer dependiendo la dirección del movimiento.
+ * @param camino
+ */
 public void imagenActual(Path camino){
 	if (camino.getStep(1).getX() > this.pos.getX()){
 		iconoActual= 0;
@@ -132,7 +152,10 @@ public void imagenActual(Path camino){
 			}
 	}
 }
-
+/**
+ * Hace un paso en el camino recibido.
+ * @param camino
+ */
 private void moverDis(Path camino){
 	if (camino == null){
 
@@ -143,13 +166,19 @@ private void moverDis(Path camino){
 }
 }
 
-
+/**
+ * Setea la posición inicial. En el caso de que muera.
+ */
 public void setPosInicial(){
 	if (this.modo == Mode.ASUSTADO)
 		this.modo = Mode.PERSECUCION;
 	this.pos = new Position (14,11); //Cuando muere Blinky se lo vuelve a ubicar en su posicion que sera dentro de la casa a la izquierda
 }
-
+/**
+ * Cambia a persecución en caso de que se pase un false y a asustado en caso de que se pase un true.
+ * @param asus
+ * @param mapaCol
+ */
 public void cambioEstado(boolean asus, Map mapaCol) {//el metodo de comer powerball devuelve un booleano, cqso contrario se pasara un false
 	if (asus) {
 		this.modo= Mode.ASUSTADO;
@@ -159,22 +188,29 @@ public void cambioEstado(boolean asus, Map mapaCol) {//el metodo de comer powerb
 		this.modo= Mode.PERSECUCION; //se pasa false cuando se acaba el estado poder y vuelve a ponerlo en Persecucion
 	}
 }
-
+/**
+ * Dibuja al fantasma.
+ */
 @Override
 public void draw(Graphics g) {
 	imagenActual = iconos[iconoActual].getImagenActual();
 	iconos[iconoActual].refresh();
 	g.drawImage(imagenActual, this.pos.getY()*23+8, this.pos.getX()*23+30, null);
 }
-
+/**
+ * Controla el fantasma.
+ * @param pac
+ * @param map
+ */
 public void refresh(Pacman pac, Map map){
+	if(System.currentTimeMillis()-pac.getTiem()>1000){
 	if(this.auxiliarTiempo==false){
 		this.tiem=System.currentTimeMillis();
 		this.auxiliarTiempo=true;
 	}
 	
 	this.mover(pac, this);
-	if ((pac.getEstado() == Mode.ESTADOPODER)&&(this.asus==false)){
+	if ((pac.getEstado() == Mode.ESTADOPODER)&&(!this.asus)){
 		this.cambioEstado(true, map);
 		this.asus=true;
 	}
@@ -189,10 +225,12 @@ public void refresh(Pacman pac, Map map){
 	}
 	
 	this.controlaEstado();
-	
+	}
 }
 
-
+/**
+ * Dependiendo el tiempo controla el estado.
+ */
 public void controlaEstado(){
 	if ((System.currentTimeMillis()-this.tiem >=7000)&& (System.currentTimeMillis()-this.tiem <8000) && (this.modo !=Mode.ASUSTADO)){
 		this.setModo(Mode.PERSECUCION);

@@ -1,7 +1,11 @@
 package MapaBuscador;
 import java.util.ArrayList;
 import java.util.Collections;
-
+/**
+ * Esta clase modela una búsqueda de camino.
+ * @author Cortizas Tomás ; Peraza Orlando.
+ * @version 2.0
+ */
 public class PathFinder {
 	private ArrayList<Node> closed;
 	private SortedList open = new SortedList();

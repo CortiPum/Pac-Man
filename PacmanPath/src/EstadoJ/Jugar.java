@@ -16,6 +16,12 @@ import Personaje.Pinky;
 import Util.Ranking;
 import Util.Tiempo;
 
+/**
+ * Esta clase modela el  estado del juego "Jugar".
+ * @author Cortizas Tomás ; Peraza Orlando.
+ * @version 2.0
+ */
+
 public class Jugar implements EstadoJuego {
 
 	private Tiempo tiempo;
@@ -43,8 +49,10 @@ public Jugar(){
     mapa = new MapaGeneral();
     tiem = System.currentTimeMillis();
 }
-
-public void restart(){  //el juego se resetea en caso de terminar la partida (pulsando el boton exit) o cuando se hace un reset desde la pausa
+/**
+ * El juego se resetea en caso de terminar la partida (pulsando el boton exit) o cuando se hace un reset desde la pausa.
+ */
+public void restart(){  
 	aux=true;
 	tiempo = new Tiempo(300000);
 	blinky.reset();
@@ -56,9 +64,12 @@ public void restart(){  //el juego se resetea en caso de terminar la partida (pu
     tiem = System.currentTimeMillis();
 }
 
+/**
+ * Dibuja cuantas vidas le quedan al pacman.
+ */
 @Override
 public void draw (Graphics2D g){
-	//dibuja cuantas vidas le quedan al pacman
+	
 	if (pacman.getVidas()==3){
 		g.drawImage(pacman.getImg(),580, 0, null);
 		g.drawImage(pacman.getImg(),603, 0, null);
@@ -118,7 +129,9 @@ public void draw (Graphics2D g){
 public static Jugar getJugar(){
 	return jugar;
 }
-
+/**
+ * Actualiza el estado del juego de acuerdo a lo que suceda.
+ */
 @Override
 public void refresh() {
 	Mouse.refresh();
@@ -144,6 +157,3 @@ public void refresh() {
 	}
 }
 
-/*
- * Este estado de juego es el juego principal.
- */

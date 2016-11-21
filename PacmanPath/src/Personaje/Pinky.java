@@ -9,18 +9,23 @@ import Util.Animacion;
 import Util.CargaImagen;
 import Util.Direccion;
 import Util.Fantasma;
-import Util.Id;
+import Util.Identificador;
 
-
+/** Esta clase modela un fantasma Pinky.
+* @author Cortizas Tomás ; Peraza Orlando.
+* @version 2.0
+*/
 public class Pinky extends Fantasma{
 	
 	private long tiem;
 	private boolean auxiliarTiempo;
 	//heredan getters y setters de fantasma
 
-	
+/**
+ * Genera un fantasma Pinky. 	
+ */
 public Pinky(){
-	this.ID=Id.PINKY;
+	this.ID=Identificador.PINKY;
 	this.tiem=System.currentTimeMillis();
 	this.auxiliarTiempo=false;
 	this.asus=false;
@@ -31,7 +36,10 @@ public Pinky(){
 	this.modo=Mode.DISPERCION;
 	this.pos = new Position (14,12); 
 }
-	
+
+/**
+ * Resetea las instancias del fantasma.
+ */
 public void reset(){
 	this.asus=false;
 	this.auxiliarTiempo=false;
@@ -44,6 +52,10 @@ public void reset(){
 }
 //metodo mover se encuentra en fantasma
 
+/**
+ * Este método configura la animación que debe hacer dependiendo la dirección del movimiento.
+ * @param camino
+ */
 public void imagenActual(Path camino){
 	if (camino.getStep(1).getX() > this.pos.getX()){
 		iconoActual= 0;
@@ -64,6 +76,9 @@ public void imagenActual(Path camino){
 	}
 }
 
+/**
+ * Carga las imagenes cque conforman las animaciones de dicho fantasma.
+ */
 public void inicializarImagen(){
 	CargaImagen car = new CargaImagen();
 	Image[] aux = new Image[2];
@@ -97,11 +112,17 @@ public void inicializarImagen(){
 
 	iconos[4] = new Animacion(aux5);
 }
-
+/**
+ * 
+ * @return Devuelve el arreglo que contiene las animaciones.
+ */
 public Animacion[] getIconos(){
 	return (this.iconos);
 }
 
+/**
+ * Método que representa el moviemiento cuando el fantasma se encuentra en modo persecución.
+ */
 public void estaPersecucion(Pacman pac, Fantasma blin){
 	// Se mueve a al cuarto paso prï¿½ximo del recorrido del Pacman.
 	int ypaso=1; int xpaso=1;
@@ -143,7 +164,9 @@ public void estaPersecucion(Pacman pac, Fantasma blin){
 		}
 
 
-	
+/**
+ * Método que representa el moviemiento cuando el fantasma se encuentra en modo disperción.
+ */
 
 public void estaDispercion(){
 	Path caminoA = null;
@@ -169,7 +192,10 @@ public void estaDispercion(){
 						this.moverDis(caminoA);
 						}
 }
-
+/**
+ * Hace un paso en el camino recibido.
+ * @param camino
+ */
 private void moverDis(Path camino){
 	if (camino == null){
 			
@@ -181,13 +207,19 @@ private void moverDis(Path camino){
 }
 
 
-
+/**
+ * Setea la posición inicial. En el caso de que muera.
+ */
 public void setPosInicial(){
 	this.pos = new Position (14,12); 
 	if (this.modo == Mode.ASUSTADO)
 		this.modo = Mode.PERSECUCION;
 }
-
+/**
+ * Cambia a persecución en caso de que se pase un false y a asustado en caso de que se pase un true.
+ * @param asus
+ * @param mapaCol
+ */
 public void cambioEstado(boolean asus, Map mapaCol) {
 	 //el metodo de comer powerball devuelve un booleano, cqso contrario se pasara un false
 		if (asus) {
@@ -202,6 +234,9 @@ public void cambioEstado(boolean asus, Map mapaCol) {
 	
 }
 
+/**
+ * Dibuja el fantasma.
+ */
 
 @Override
 public void draw(Graphics g) {
@@ -210,8 +245,14 @@ public void draw(Graphics g) {
 	g.drawImage(this.imagenActual,this.pos.getY()*23+8, this.pos.getX()*23+30, null);
 	
 }
-
+/**
+ * Controla el fantasma.
+ * @param pac
+ * @param map
+ * @param mapCol
+ */
 public void refresh(Pacman pac, Map map){
+	if(System.currentTimeMillis()-pac.getTiem()>1000){
 	if(this.auxiliarTiempo==false){
 		this.tiem=System.currentTimeMillis();
 		this.auxiliarTiempo=true;
@@ -231,10 +272,13 @@ public void refresh(Pacman pac, Map map){
 		this.asus=false;
 	}
 	this.controlaEstado();
-
+	}
 }
 
-
+/**
+ * Controla el estado dependiendo del tiempo.
+ * @param pac
+ */
 public void controlaEstado(){
 	if ((System.currentTimeMillis()-this.tiem >=7000)&& (System.currentTimeMillis()-this.tiem <8000) && (this.modo !=Mode.ASUSTADO)){
 		this.setModo(Mode.PERSECUCION);
@@ -251,6 +295,7 @@ public void controlaEstado(){
 
 }
 }
+//Comentario viejo.
 /* el fantasma va a tomar el arreglo de pasos que tiene el pacman,
  *  de ahi tomara el 4to lugar para crear un camino desde la
  *   posicion del fantasma hacia ese cuarto lugar del arreglo de

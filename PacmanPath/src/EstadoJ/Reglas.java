@@ -8,7 +8,12 @@ import java.awt.Rectangle;
 import Controlador.Mouse;
 import Util.Animacion;
 import Util.CargaImagen;
-
+/**
+ *Esta clase modela el menu de las reglas del juego. Además, al igual
+ *que el menu principal tiene una animación y un botón para volver al menu principal.
+ * @author Cortizas Tomás ; Peraza Orlando.
+ * @version 2.0
+ */
 public class Reglas implements EstadoJuego {
 
 	private Rectangle back= new Rectangle( 25, 50, 100, 50);
@@ -19,7 +24,9 @@ public Reglas(){
 	imagenes = new Animacion[5];
 	this.cargarAnimacion();
 }
-
+/**
+ * Dibuja en pantalla las reglas del juego.
+ */
 @Override
 public void draw(Graphics2D g) {
 	g.setColor(Color.black);
@@ -66,7 +73,10 @@ public void draw(Graphics2D g) {
 	g.drawImage(imagenes[3].getImagenActual(), x-40, 550, 30,30, null);
 	g.drawImage(imagenes[4].getImagenActual(), x, 550, 30,30, null);
 }
-		
+
+/**
+ * Dibuja una animación en pantalla.
+ */
 public void cargarAnimacion(){
 	CargaImagen car = new CargaImagen();
 	Image[] aux = new Image[2];
@@ -103,7 +113,9 @@ public void cargarAnimacion(){
 	imagenes[4] = new Animacion(aux5);
 		
 }
-	
+/**
+ * Si se hace click en "back" vuelve al menu principal.	
+ */
 @Override
 public void refresh() {
 	x= x+15;
@@ -120,9 +132,6 @@ public void refresh() {
 		}
 	}
 	
-}
+} 
 
 }
-/*Este estado muestra por pantalla unos String con las reglas del juego. Además, al igual
-*que el menu principal tiene una animacion y un boton para volver al menu principal
-*/

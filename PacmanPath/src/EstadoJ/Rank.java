@@ -8,17 +8,26 @@ import java.awt.Rectangle;
 import Controlador.Mouse;
 import Util.Ranking;
 import Util.Usuario;
-
+/**
+*Esta clase modela el ranking de los usuarios.
+*Tiene un boton back, para volver al menu principal.
+*@author Cortizas Tomás ; Peraza Orlando.
+*@version 2.0
+*/
 public class Rank implements EstadoJuego {
 
 	private Rectangle back = new Rectangle ( 25, 50, 100, 50);
 	private Usuario[] users;
 	
-	
+/**
+ * Este método según cual sea la posición que se seleccione, es la dimensión que se le va a asignar al arreglo que va a mostrar el ranking.	
+ */
 public Rank(){
 	users = Ranking.getRanking().getUserPos();	
 }
-
+/**
+ * Dibuja el menu.
+ */
 @Override
 public void draw(Graphics2D g) {
 	g.setColor(Color.black);
@@ -40,7 +49,9 @@ public void draw(Graphics2D g) {
 	}
 	
 }
-
+/**
+ * Si se hace click sobre el botón "back" no dirigirá al menu principal.
+ */
 @Override
 public void refresh() {
 	
@@ -54,6 +65,3 @@ public void refresh() {
 
 }
 
-/*
-*Mostrara en pantalla el ranking de usuarios. Ademas tiene un boton back, para volver al menu principal
-*/
