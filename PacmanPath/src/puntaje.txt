@@ -3,11 +3,13 @@ Corti,2900,1:5
 corti,2850,0:50
 Corti,2600,0:45
 Pamplinas,2420,0:55
+Corti,2340,0:53
 Corti,2230,0:38
 Corti,2140,0:36
 Corti,1350,0:33
 Corti,640,0:15
 Lalo,570,0:19
 Corti,560,0:15
+lalelolalololalaolaolaolaoal,490,0:15
 CortiSuper,470,0:13
 Corti,340,0:12

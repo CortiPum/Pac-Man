@@ -2,6 +2,7 @@ package Util;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -20,6 +21,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import Excepciones.ExcepcionDeArchivo;
 /** Esta clase modela el ranking.
 * @author Cortizas Tomás ; Peraza Orlando.
 * @version 2.0
@@ -81,6 +84,7 @@ public void agregar(String nombre, Integer puntos, String tiempo){
 
 }
 
+
 /**
  * Escribe en el archivo de rankings.
  */
@@ -105,6 +109,7 @@ public void rank(){
 		
 	}catch(IOException e){
 		e.printStackTrace();
+		
 	}
 }
 
@@ -181,6 +186,18 @@ public void guardarPuntaje(int puntos, String tiempo){
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// pone el ultimo score con el nombre indicado
+			if(userName.getText().length()>20)
+				try {
+					throw new ExcepcionDeArchivo(userName.getText().length());
+				} catch (ExcepcionDeArchivo e1) {
+					JFrame ventana = new JFrame();
+					ventana.setSize(new Dimension (150, 200));
+					ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					ventana.setResizable(false);
+					ventana.setVisible(true);
+					ventana.setTitle("Error");
+					e1.printStackTrace();
+				} 
 			agregar(userName.getText(), puntajeActual, tiempoActual);
 			frame.setVisible(false);
 			rank();
