@@ -25,7 +25,7 @@ import javax.swing.JTextField;
 import Excepciones.ExcepcionDeArchivo;
 
 
-/** Esta clase modela el ranking.
+/**Esta clase modela el ranking.
 * @author Cortizas Tomás ; Peraza Orlando.
 * @version 2.0
 */
