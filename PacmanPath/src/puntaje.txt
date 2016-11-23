@@ -12,10 +12,10 @@ addddddssssssssssssssssssssssssddddddddddddd,780,0:16
 Corti,640,0:15
 lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll,630,0:18
 Lalo,570,0:19
+iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii,570,0:23
 Corti,560,0:15
 lalelolalololalaolaolaolaoal,490,0:15
 CortiSuper,470,0:13
 Corti,340,0:12
 iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii,300,0:12
 iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii,290,0:13
-iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii,290,0:13

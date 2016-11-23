@@ -22,7 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import Excepciones.ExcepcionDeArchivo;
+import Excepciones.ExcepcionDeNombre;
 
 
 /**Esta clase modela el ranking.
@@ -153,6 +153,7 @@ public void leer(){
 
 /**
  * Genera una ventana de dialogo en la cual se va a igresar en nombre del jugador, pera que se guarde su puntaje en el archivo de ranking.
+ *Con excepciones para un nombre con longitud mayor a 20 e igual a 0.
  * @param puntos
  * @param tiempo
  */
@@ -191,8 +192,8 @@ public void guardarPuntaje(int puntos, String tiempo){
 			// pone el ultimo score con el nombre indicado
 			if(userName.getText().length()>20)
 				try {
-					throw new ExcepcionDeArchivo(userName.getText().length());
-				} catch (ExcepcionDeArchivo e1) {
+					throw new ExcepcionDeNombre(userName.getText().length());
+				} catch (ExcepcionDeNombre e1) {
 					//newPanel.add(label, BorderLayout.NORTH);
 					JFrame ventana = new JFrame();
 					ventana.setSize(new Dimension (200, 175));
@@ -204,6 +205,22 @@ public void guardarPuntaje(int puntos, String tiempo){
 					ventana.setTitle("Error");
 					//e1.printStackTrace();
 				} 
+			if(userName.getText().length()==0)
+				try {
+					throw new ExcepcionDeNombre(userName.getText().length());
+				} catch (ExcepcionDeNombre e1) {
+					//newPanel.add(label, BorderLayout.NORTH);
+					JFrame ventana = new JFrame();
+					ventana.setSize(new Dimension (200, 175));
+					JLabel labelError = new JLabel("No ingreso ningun nombre!");
+					ventana.add(labelError, BorderLayout.CENTER);
+					//ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					ventana.setResizable(false);
+					ventana.setVisible(true);
+					ventana.setTitle("Error");
+					//e1.printStackTrace();
+				} 
+				
 			agregar(userName.getText(), puntajeActual, tiempoActual);
 			frame.setVisible(false);
 			rank();

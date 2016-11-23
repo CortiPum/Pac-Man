@@ -10,14 +10,14 @@ import javax.swing.JPanel;
  * @author Cortizas Tomás ; Peraza Orlando.
  *
  */
-public class ExcepcionDeArchivo extends Exception {
+public class ExcepcionDeNombre extends Exception {
 	public static final long serialVersionUID = 700L;
 	private int longitud;
 	public int getLongitud(){
 		return longitud;
 	}
 	
-	public ExcepcionDeArchivo(int num){
+	public ExcepcionDeNombre(int num){
 		longitud= num;
 	}
 }
