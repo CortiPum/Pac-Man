@@ -11,7 +11,7 @@ import javax.swing.JPanel;
  *
  */
 public class ExcepcionDeArchivo extends Exception {
-
+	public static final long serialVersionUID = 700L;
 	private int longitud;
 	public int getLongitud(){
 		return longitud;

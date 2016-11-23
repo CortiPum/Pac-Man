@@ -23,11 +23,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import Excepciones.ExcepcionDeArchivo;
+
+
 /** Esta clase modela el ranking.
 * @author Cortizas Tomás ; Peraza Orlando.
 * @version 2.0
 */
-public class Ranking implements Serializable{
+public class Ranking implements Serializable {
+
 	
 	private BufferedReader buffer;
 	private File archivo;
@@ -157,7 +160,7 @@ public void guardarPuntaje(int puntos, String tiempo){
 	frame = new JFrame();
 	JPanel newPanel = new JPanel();
 	
-	JLabel label = new JLabel("Enter username:");
+	JLabel label = new JLabel("Nombre:");
 	label.setForeground(Color.WHITE);
 	
 	userName = new JTextField(20);
@@ -190,13 +193,16 @@ public void guardarPuntaje(int puntos, String tiempo){
 				try {
 					throw new ExcepcionDeArchivo(userName.getText().length());
 				} catch (ExcepcionDeArchivo e1) {
+					//newPanel.add(label, BorderLayout.NORTH);
 					JFrame ventana = new JFrame();
-					ventana.setSize(new Dimension (150, 200));
-					ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					ventana.setSize(new Dimension (200, 175));
+					JLabel labelError = new JLabel("Su nombre es demasiado largo!");
+					ventana.add(labelError, BorderLayout.CENTER);
+					//ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					ventana.setResizable(false);
 					ventana.setVisible(true);
 					ventana.setTitle("Error");
-					e1.printStackTrace();
+					//e1.printStackTrace();
 				} 
 			agregar(userName.getText(), puntajeActual, tiempoActual);
 			frame.setVisible(false);

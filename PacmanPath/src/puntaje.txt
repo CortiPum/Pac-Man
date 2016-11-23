@@ -7,9 +7,15 @@ Corti,2340,0:53
 Corti,2230,0:38
 Corti,2140,0:36
 Corti,1350,0:33
+iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii,1330,0:30
+addddddssssssssssssssssssssssssddddddddddddd,780,0:16
 Corti,640,0:15
+lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll,630,0:18
 Lalo,570,0:19
 Corti,560,0:15
 lalelolalololalaolaolaolaoal,490,0:15
 CortiSuper,470,0:13
 Corti,340,0:12
+iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii,300,0:12
+iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii,290,0:13
+iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii,290,0:13
